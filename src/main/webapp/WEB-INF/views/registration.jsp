@@ -7,6 +7,7 @@
 --%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <html>
 <head>
@@ -15,6 +16,7 @@
 <body>
 <c:url var="addAction" value="/registration"/>
 <form:form action="${addAction}" commandName="user">
+
 
     <form:label path="firstName">Enter your First Name</form:label>
     <form:input id="firstName" name="firstName" path="firstName" />
@@ -47,6 +49,8 @@
     <br>
 
     <form:input type="hidden" id="enabled" value="1" name="enabled" path="enabled"/>
+
+
     <input type="submit" value="Submit" />
 </form:form>
 </body>

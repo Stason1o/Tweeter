@@ -10,12 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -27,7 +30,7 @@ import javax.validation.Valid;
  * Created by sbogdanschi on 25/04/2017.
  */
 @Controller
-public class HelloWorldController {
+public class UserController {
 
     @Autowired
     private UserService userService;
@@ -105,9 +108,44 @@ public class HelloWorldController {
     }
 
 
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+    public String displayProfilePage(ModelMap modelMap){
+        System.out.println("/profile GET");
+        modelMap.addAttribute("loggedUser", getPrincipal());
+        modelMap.addAttribute("user", userService.findByUserName(getPrincipal()));
+        return "profile";
+    }
+
+    @RequestMapping(value = "/edit/{id}")
+    public String editUserDetails(@PathVariable("id")int id, ModelMap modelMap){
+        System.out.println("edit");
+        modelMap.addAttribute("loggedUser", getPrincipal());
+        modelMap.addAttribute("user", userService.findById(id));
+        return "profile";
+    }
+
+    @RequestMapping(value = "/delete/{id}")
+    public String deleteUser(@PathVariable("id")int id){
+        userService.removeUser(id);
+        return "redirect:/login";
+    }
+
+    @RequestMapping(value = "/profile", method = RequestMethod.POST)
+    public String saveUser(@ModelAttribute("user") User user, BindingResult result, Errors errors, ModelMap modelMap) {
+        System.out.println("/profile POST");
+//        userInputValidator.validate(user, errors);
+//        if (result.hasErrors()) {
+//            return "profile";
+//        }
+
+        System.out.println("in saveUser : " + user);
+        userService.updateUser(user);
+        securityService.autoLogin(user.getUsername(), user.getPassword());
+        return "redirect:/profile";
+    }
+
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String displayRegistrationPage(ModelMap modelMap){
-//        messageSource.getMessage("test.test", null, Locale.US);
         modelMap.addAttribute("user", new User());
         return "registration";
     }
@@ -123,7 +161,6 @@ public class HelloWorldController {
         return "redirect:/welcome";
     }
 
-
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String displayMainPage(ModelMap modelMap){
         modelMap.addAttribute("tweet", new Tweet());
@@ -135,5 +172,17 @@ public class HelloWorldController {
     public String executeAddTweet(@ModelAttribute("tweet") Tweet tweet, ModelMap modelMap){
         tweetService.saveTweet(tweet);
         return "redirect:/main";
+    }
+
+    private String getPrincipal() {
+        String userName;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            userName = ((UserDetails) principal).getUsername();
+        } else {
+            userName = principal.toString();
+        }
+        return userName;
     }
 }

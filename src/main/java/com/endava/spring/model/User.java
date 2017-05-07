@@ -1,5 +1,7 @@
 package com.endava.spring.model;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -9,8 +11,8 @@ import java.util.Set;
 /**
  * Created by sbogdanschi on 25/04/2017.
  */
-
 @Entity
+@DynamicUpdate
 @Table(name = "users")
 public class User {
 
@@ -44,7 +46,7 @@ public class User {
             orphanRemoval = true)
     private List<Tweet> tweets = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "id_user"),
             inverseJoinColumns = @JoinColumn(name = "id_role"))
     private Set<Role> roles = new HashSet<>(0);
@@ -127,5 +129,21 @@ public class User {
 
     public void setTweets(List<Tweet> tweets) {
         this.tweets = tweets;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("User{");
+        sb.append("id=").append(id);
+        sb.append(", username='").append(username).append('\'');
+        sb.append(", password='").append(password).append('\'');
+        sb.append(", email='").append(email).append('\'');
+        sb.append(", firstName='").append(firstName).append('\'');
+        sb.append(", lastName='").append(lastName).append('\'');
+        sb.append(", enabled=").append(enabled);
+        sb.append(", tweets=").append(tweets);
+        sb.append(", roles=").append(roles);
+        sb.append('}');
+        return sb.toString();
     }
 }

@@ -2,14 +2,11 @@ package com.endava.spring.dao.impl;
 
 import com.endava.spring.dao.UserDao;
 import com.endava.spring.model.User;
-import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,5 +44,24 @@ public class UserDaoImpl implements UserDao {
                 .createQuery("from User where email = :email")
                 .setString("email", email)
                 .uniqueResult();
+    }
+
+    @Override
+    public void removeUser(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        User user = (User)session.load(User.class, id);
+        if(user != null)
+            session.delete(user);
+    }
+
+    @Override
+    public void updateUser(User user) {
+        System.out.println("in update user DAO: " + user);
+        sessionFactory.getCurrentSession().update(user);
+    }
+
+    @Override
+    public User findById(int id) {
+        return (User)sessionFactory.getCurrentSession().get(User.class, id);
     }
 }
