@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: sbogdanschi
@@ -12,8 +13,12 @@
     <title>Follow friends</title>
 </head>
 <body>
-<c:forEach var="user" items="${listUsers}" >
-    <p>${user.firstName}   ${user.lastName}</p>
-</c:forEach>
+<c:url var="addAction" value="/registration"/>
+<form:form action="${addAction}" commandName="listUsers">
+
+    <c:forEach var="user" items="${listUsers}" >
+        <p>${user.firstName}   ${user.lastName} <input type="submit" value="Follow" /></p>
+    </c:forEach>
+</form:form>
 </body>
 </html>

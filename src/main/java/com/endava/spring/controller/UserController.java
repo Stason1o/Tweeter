@@ -2,11 +2,9 @@ package com.endava.spring.controller;
 
 import com.endava.spring.model.User;
 import com.endava.spring.service.SecurityService;
-import com.endava.spring.service.TweetService;
 import com.endava.spring.service.UserService;
 import com.endava.spring.validator.RegistrationInputValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,9 +33,6 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private TweetService tweetService;
-
-    @Autowired
     private SecurityService securityService;
 
     @Autowired
@@ -47,56 +42,6 @@ public class UserController {
 //    public void initWebBinder(WebDataBinder webDataBinder) {
 //        webDataBinder.setValidator(userInputValidator);
 //    }
-
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String helloWorld(ModelMap modelMap){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            modelMap.addAttribute("username", authentication.getName());
-        }
-
-        //int num = userService
-        //User user = tweetService.listTweets().get(0).getUser();
-        //modelMap.addAttribute("listAll", tweetService.listTweets());
-        //modelMap.addAttribute("one", tweetService.listTweets().get(0).getUser());
-        return "index";
-    }
-
-    @RequestMapping(value = "/welcome", method = RequestMethod.GET)
-    public String displayWelcomePage(ModelMap modelMap){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            modelMap.addAttribute("username", authentication.getName());
-        }
-        return "welcome";
-    }
-
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String executeLogout(HttpServletRequest request, HttpServletResponse response){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-        return "redirect:/login";
-    }
-
-    @RequestMapping(value = "/admin", method = RequestMethod.GET)
-    public String displayAdminPage(ModelMap modelMap){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            modelMap.addAttribute("username", authentication.getName());
-        }
-        return "admin";
-    }
-
-    @RequestMapping(value = "/moderator", method = RequestMethod.GET)
-    public String displayModeratorPage(ModelMap modelMap){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            modelMap.addAttribute("username", authentication.getName());
-        }
-        return "moderator";
-    }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String displayLoginPage(ModelMap modelMap){
@@ -111,6 +56,14 @@ public class UserController {
         return "successPage";
     }
 
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String executeLogout(HttpServletRequest request, HttpServletResponse response){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/login";
+    }
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String displayProfilePage(ModelMap modelMap){
@@ -169,6 +122,11 @@ public class UserController {
     public String displayFollowPage(ModelMap modelMap){
         modelMap.addAttribute("listUsers", userService.listUsers());
         return "follow";
+    }
+
+    @RequestMapping(value = "/followFriends", method = RequestMethod.POST)
+    public String followFriend(@ModelAttribute("user") User user, ModelMap modelMap){
+        return "redirect:/follow";
     }
 
     private String getPrincipal() {
