@@ -17,13 +17,9 @@ public interface UserService {
 
     User findByEmail(String email);
 
-<<<<<<< HEAD
-    User findUserById(int id);
-=======
     void removeUser(int id);
 
     void updateUser(User user);
 
     User findById(int id);
->>>>>>> aaaffcbebb3d8bb54901ab765a21e65cd1172da6
 }

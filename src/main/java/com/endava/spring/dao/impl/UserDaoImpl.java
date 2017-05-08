@@ -89,10 +89,4 @@ public class UserDaoImpl implements UserDao {
         return user;
     }
 
-    @Override
-    public User findUserById(int id) {
-        String query = "from User where id=" + id;
-        User user = (User) sessionFactory.getCurrentSession().createQuery(query).list();
-        return user;
-    }
 }

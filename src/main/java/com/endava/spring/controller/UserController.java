@@ -1,6 +1,5 @@
 package com.endava.spring.controller;
 
-import com.endava.spring.model.Tweet;
 import com.endava.spring.model.User;
 import com.endava.spring.service.SecurityService;
 import com.endava.spring.service.TweetService;
@@ -166,18 +165,18 @@ public class UserController {
         return "redirect:/welcome";
     }
 
-    @RequestMapping(value = "/main", method = RequestMethod.GET)
-    public String displayMainPage(ModelMap modelMap){
-        modelMap.addAttribute("tweet", new Tweet());
-        modelMap.addAttribute("listTweets", tweetService.listTweets());
-        return "main";
-    }
-
-    @RequestMapping(value = "/main", method = RequestMethod.POST)
-    public String executeAddTweet(@ModelAttribute("tweet") Tweet tweet){
-        tweetService.saveTweet(tweet);
-        return "redirect:/main";
-    }
+//    @RequestMapping(value = "/main", method = RequestMethod.GET)
+//    public String displayMainPage(ModelMap modelMap){
+//        modelMap.addAttribute("tweet", new Tweet());
+//        modelMap.addAttribute("listTweets", tweetService.listTweets());
+//        return "main";
+//    }
+//
+//    @RequestMapping(value = "/main", method = RequestMethod.POST)
+//    public String executeAddTweet(@ModelAttribute("tweet") Tweet tweet){
+//        tweetService.saveTweet(tweet);
+//        return "redirect:/main";
+//    }
 
     @RequestMapping(value = "/followFriends",  method = RequestMethod.GET)
     public String displayFollowPage(ModelMap modelMap){
