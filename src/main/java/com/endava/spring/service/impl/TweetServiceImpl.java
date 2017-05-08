@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,7 +23,9 @@ public class TweetServiceImpl implements TweetService {
     private TweetDao tweetDao;
 
     @Override
-    public void saveTweet(Tweet tweet) {
+    public void saveTweet(Tweet tweet, User user) {
+        tweet.setDate(new Date());
+        tweet.setUser(user);
         tweetDao.saveTweet(tweet);
     }
 

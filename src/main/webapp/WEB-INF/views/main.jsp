@@ -16,11 +16,30 @@
 
 <jsp:useBean id="now" class="java.util.Date" />
 
-<c:url var="addAction" value="/main"/>
+<%--<c:url var="addAction" value="/main"/>
 <form:form action="${addAction}" commandName="tweet">
     <form:label path="content">Enter tweet content</form:label>
     <form:input id="content" name="content" path="content" /><br>
-    <form:input type="hidden" id="date" value="${now}" name="date" path="date"/>
+
+    <form:label path="user">Enter UserId</form:label>
+    <form:input type="hidden" id="user" value="${loggedUser.idl}" name="user" path="user" /><br>
+
+    <form:label path="date">Date</form:label>
+    <form:input id="date" value="${now}" name="date" path="date"/>
+    &lt;%&ndash;<form:input type="hidden" id="date" value="${now}" name="date" path="date"/>&ndash;%&gt;
+    <input type="submit" value="Submit" />
+</form:form>--%>
+
+<form:form method="post" modelAttribute="tweet">
+    <form:label path="content">Enter tweet content</form:label>
+    <form:input path="content" /><br>
+
+   <%-- <form:label path="user">Enter UserId</form:label>
+    <form:input path="user" value="${loggedUser.id}" /><br>--%>
+
+    <%--<form:label path="date">Date</form:label>
+    <form:input path="date" value="${now}"/>--%>
+
     <input type="submit" value="Submit" />
 </form:form>
 
@@ -31,5 +50,7 @@
         at ${listTweets.date}</p> </div>
     <div><p>${listTweets.content}</p></div>
 </c:forEach>
+
+<%--User : ${loggedUser.id}--%>
 </body>
 </html>

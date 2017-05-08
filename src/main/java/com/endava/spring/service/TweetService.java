@@ -10,7 +10,7 @@ import java.util.List;
  * Created by sbogdanschi on 4/05/2017.
  */
 public interface TweetService {
-    void saveTweet(Tweet tweet);
+    void saveTweet(Tweet tweet, User user);
 
     List<Tweet> listTweets();
 
