@@ -6,6 +6,7 @@ import com.endava.spring.service.SecurityService;
 import com.endava.spring.service.TweetService;
 import com.endava.spring.service.UserService;
 import com.endava.spring.validator.UserInputValidator;
+import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -52,6 +53,11 @@ public class HelloWorldController {
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             modelMap.addAttribute("username", authentication.getName());
         }
+
+        //int num = userService
+        //User user = tweetService.listTweets().get(0).getUser();
+        //modelMap.addAttribute("listAll", tweetService.listTweets());
+        //modelMap.addAttribute("one", tweetService.listTweets().get(0).getUser());
         return "index";
     }
 
@@ -124,7 +130,7 @@ public class HelloWorldController {
     }
 
 
-    @RequestMapping(value = "/main", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/main", method = RequestMethod.GET)
     public String displayMainPage(ModelMap modelMap){
         modelMap.addAttribute("tweet", new Tweet());
         modelMap.addAttribute("listTweets", tweetService.listTweets());
@@ -135,5 +141,5 @@ public class HelloWorldController {
     public String executeAddTweet(@ModelAttribute("tweet") Tweet tweet, ModelMap modelMap){
         tweetService.saveTweet(tweet);
         return "redirect:/main";
-    }
+    }*/
 }

@@ -68,3 +68,8 @@ insert into user_roles(id_user, id_role) values(1, 1), (2, 2),(1, 3);
 
 insert into users(username, password, email, first_name, last_name, enabled) 
 values	('pavel', 'qwe', 'pavel@mail.ru', 'Pasha', 'Pasha', true);
+
+
+insert into tweets(tweet_id, tweet_content, tweet_date, id_user)
+values	(1, 'Hello I am first', '1/18/1999', 3),
+	(2, 'Hello I am second','1/18/1999', 4);

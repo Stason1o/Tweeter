@@ -3,6 +3,8 @@ package com.endava.spring.dao.impl;
 import com.endava.spring.dao.TweetDao;
 import com.endava.spring.model.Tweet;
 import com.endava.spring.model.User;
+import org.hibernate.Hibernate;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -25,7 +27,14 @@ public class TweetDaoImpl implements TweetDao {
 
     @Override
     public List<Tweet> listTweets() {
-        return null;
+        List<Tweet> list = sessionFactory.getCurrentSession().createQuery("from Tweet").list();
+        for (Tweet tweet : list) {
+            if (tweet != null){
+                Hibernate.initialize(tweet.getUser());
+            }
+        }
+
+        return list;
     }
 
     @Override
@@ -47,4 +56,5 @@ public class TweetDaoImpl implements TweetDao {
     public Tweet getTweetByUser(User user) {
         return null;
     }
+
 }

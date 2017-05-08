@@ -2,6 +2,7 @@ package com.endava.spring.dao;
 
 import com.endava.spring.model.Tweet;
 import com.endava.spring.model.User;
+import org.hibernate.Query;
 
 import java.util.List;
 
@@ -21,4 +22,5 @@ public interface TweetDao {
     Tweet getTweetByUsername(String username);
 
     Tweet getTweetByUser(User user);
+
 }

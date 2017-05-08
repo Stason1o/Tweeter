@@ -24,8 +24,12 @@
     <input type="submit" value="Submit" />
 </form:form>
 
+<p>Tweets :</p>
 <c:forEach var="listTweets" items="${listTweets}">
-    <p>${listTweets.content}</p>
+    <div><p>Tweet ID#${listTweets.id},
+        posted by <b>${listTweets.user.username}</b>
+        at ${listTweets.date}</p> </div>
+    <div><p>${listTweets.content}</p></div>
 </c:forEach>
 </body>
 </html>

@@ -4,6 +4,7 @@ import com.endava.spring.dao.TweetDao;
 import com.endava.spring.model.Tweet;
 import com.endava.spring.model.User;
 import com.endava.spring.service.TweetService;
+import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +28,7 @@ public class TweetServiceImpl implements TweetService {
 
     @Override
     public List<Tweet> listTweets() {
-        return null;
+        return tweetDao.listTweets();
     }
 
     @Override
@@ -49,4 +50,5 @@ public class TweetServiceImpl implements TweetService {
     public Tweet getTweetByUser(User user) {
         return null;
     }
+
 }

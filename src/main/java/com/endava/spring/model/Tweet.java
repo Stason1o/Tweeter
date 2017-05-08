@@ -13,6 +13,7 @@ public class Tweet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tweet_id")
     private int id;
 
     @Column(name = "tweet_content")
@@ -27,9 +28,8 @@ public class Tweet {
 //    private int tweetType;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "id_user")
     private User user;
-
 
     public int getId() {
         return id;

@@ -14,5 +14,8 @@
 <body>
 <p>Hello world! ${username}</p>
 <a href="<c:url value="/logout" />">Logout</a>
+
+
+
 </body>
 </html>
