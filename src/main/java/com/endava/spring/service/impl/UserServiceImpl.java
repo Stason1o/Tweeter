@@ -36,6 +36,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void followUser(User user, User followedUser) {
+        user.getFollowedUsers().add(followedUser);
+        userDao.followUser(user);
+    }
+
+    @Override
     public User findByEmail(String email) {
         return userDao.findByEmail(email);
     }

@@ -15,6 +15,8 @@ public interface UserDao {
 
     void saveUser(User user);
 
+    void followUser(User user);
+
     User findByEmail(String email);
 
     void removeUser(int id);

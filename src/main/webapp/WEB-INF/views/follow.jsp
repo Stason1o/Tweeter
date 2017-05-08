@@ -13,11 +13,29 @@
     <title>Follow friends</title>
 </head>
 <body>
-<c:url var="addAction" value="/registration"/>
+<c:url var="addAction" value="/followFriends"/>
 <form:form action="${addAction}" commandName="listUsers">
+    <%--<form:form id="loginForm" method="post" action="login" modelAttribute="user">--%>
 
     <c:forEach var="user" items="${listUsers}" >
-        <p>${user.firstName}   ${user.lastName} <input type="submit" value="Follow" /></p>
+        <c:if test="${not empty loggedUser.followedUsers}">
+            <c:forEach items="${loggedUser.followedUsers}" var="followedUser">
+                <c:choose>
+                    <c:when test="${followedUser.id != user.id}">
+                        <p>${user.firstName}   ${user.lastName} ${user.id}
+                            <button style="height: 30px; width: 100px;" type="submit" name="userSelection" value="${user.id}">Follow</button> </p>
+                    </c:when>
+                    <c:otherwise>
+                        <p>${user.firstName}   ${user.lastName} ${user.id}
+                            <button style="height: 30px; width: 100px;" type="submit" name="userSelection" value="${user.id}">Unfollow</button> </p>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
+        </c:if>
+        <c:if test="${empty loggedUser.followedUsers}">
+                <p>${user.firstName}   ${user.lastName} ${user.id}
+                    <button style="height: 30px; width: 100px;" type="submit" name="userSelection" value="${user.id}">Follow</button> </p>
+        </c:if>
     </c:forEach>
 </form:form>
 </body>

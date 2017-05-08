@@ -20,7 +20,6 @@
 <form:form action="${addAction}" commandName="tweet">
     <form:label path="content">Enter tweet content</form:label>
     <form:input id="content" name="content" path="content" /><br>
-    <form:input type="hidden" id="date" value="${now}" name="date" path="date"/>
     <input type="submit" value="Submit" />
 </form:form>
 

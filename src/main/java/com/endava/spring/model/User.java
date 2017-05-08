@@ -39,8 +39,11 @@ public class User {
     @Column(name = "enabled")
     private boolean enabled;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,
-            orphanRemoval = true)
+    public User() {
+    }
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH,
+            orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Tweet> tweets;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
@@ -51,7 +54,7 @@ public class User {
     @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.REFRESH)
     @JoinTable(name="user_friends", joinColumns = @JoinColumn(name = "user_1_id"),
             inverseJoinColumns = @JoinColumn(name = "user_2_id"))
-    private List<User> users = new ArrayList<>();
+    private List<User> followedUsers;
 
     public int getId() {
         return id;
@@ -133,12 +136,12 @@ public class User {
         this.tweets = tweets;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public List<User> getFollowedUsers() {
+        return followedUsers;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setFollowedUsers(List<User> followedUsers) {
+        this.followedUsers = followedUsers;
     }
 
     @Override
@@ -156,12 +159,12 @@ public class User {
                 Objects.equals(lastName, user.lastName) &&
                 Objects.equals(tweets, user.tweets) &&
                 Objects.equals(roles, user.roles) &&
-                Objects.equals(users, user.users);
+                Objects.equals(followedUsers, user.followedUsers);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, confirmPassword, email, firstName, lastName, enabled, tweets, roles, users);
+        return Objects.hash(id, username, password, confirmPassword, email, firstName, lastName, enabled, tweets, roles, followedUsers);
     }
 
     @Override
@@ -177,7 +180,7 @@ public class User {
         sb.append(", enabled=").append(enabled);
         sb.append(", tweets=").append(tweets);
         sb.append(", roles=").append(roles);
-        sb.append(", users=").append(users);
+        sb.append(", users=").append(followedUsers);
         sb.append('}');
         return sb.toString();
     }

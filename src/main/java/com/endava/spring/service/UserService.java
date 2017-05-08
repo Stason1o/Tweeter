@@ -17,6 +17,8 @@ public interface UserService {
 
     User findByEmail(String email);
 
+    void followUser(User user, User followedUser);
+
     void removeUser(int id);
 
     void updateUser(User user);

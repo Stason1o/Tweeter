@@ -14,10 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -120,13 +117,17 @@ public class UserController {
 
     @RequestMapping(value = "/followFriends",  method = RequestMethod.GET)
     public String displayFollowPage(ModelMap modelMap){
+        modelMap.addAttribute("loggedUser", userService.findByUserName(getPrincipal()));
         modelMap.addAttribute("listUsers", userService.listUsers());
         return "follow";
     }
 
     @RequestMapping(value = "/followFriends", method = RequestMethod.POST)
-    public String followFriend(@ModelAttribute("user") User user, ModelMap modelMap){
-        return "redirect:/follow";
+    public String followFriend(@RequestParam("userSelection") int id){
+        User loggedUser = userService.findByUserName(getPrincipal());
+        User followedUser = userService.findById(id);
+        userService.followUser(loggedUser, followedUser);
+        return "redirect:/followFriends";
     }
 
     private String getPrincipal() {
