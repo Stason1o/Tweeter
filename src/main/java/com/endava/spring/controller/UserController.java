@@ -5,7 +5,7 @@ import com.endava.spring.model.User;
 import com.endava.spring.service.SecurityService;
 import com.endava.spring.service.TweetService;
 import com.endava.spring.service.UserService;
-import com.endava.spring.validator.UserInputValidator;
+import com.endava.spring.validator.RegistrationInputValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -42,7 +42,7 @@ public class UserController {
     private SecurityService securityService;
 
     @Autowired
-    private UserInputValidator userInputValidator;
+    private RegistrationInputValidator registrationInputValidator;
 
 //    @InitBinder
 //    public void initWebBinder(WebDataBinder webDataBinder) {
@@ -133,10 +133,10 @@ public class UserController {
     @RequestMapping(value = "/profile", method = RequestMethod.POST)
     public String saveUser(@ModelAttribute("user") User user, BindingResult result, Errors errors, ModelMap modelMap) {
         System.out.println("/profile POST");
-//        userInputValidator.validate(user, errors);
-//        if (result.hasErrors()) {
-//            return "profile";
-//        }
+        registrationInputValidator.validate(user, errors);
+        if (result.hasErrors()) {
+            return "profile";
+        }
 
         System.out.println("in saveUser : " + user);
         userService.updateUser(user);
@@ -152,7 +152,7 @@ public class UserController {
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String executeRegistration(@ModelAttribute("user") @Valid User user, BindingResult result, Model model){
-        userInputValidator.validate(user, result);
+        registrationInputValidator.validate(user, result);
         if(result.hasErrors()){
             return "registration";
         }
@@ -169,9 +169,15 @@ public class UserController {
     }
 
     @RequestMapping(value = "/main", method = RequestMethod.POST)
-    public String executeAddTweet(@ModelAttribute("tweet") Tweet tweet, ModelMap modelMap){
+    public String executeAddTweet(@ModelAttribute("tweet") Tweet tweet){
         tweetService.saveTweet(tweet);
         return "redirect:/main";
+    }
+
+    @RequestMapping(value = "/followFriends",  method = RequestMethod.GET)
+    public String displayFollowPage(ModelMap modelMap){
+        modelMap.addAttribute("listUsers", userService.listUsers());
+        return "follow";
     }
 
     private String getPrincipal() {

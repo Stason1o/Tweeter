@@ -42,19 +42,13 @@
     <form:errors path="username"/>
 
 
-    <form:input type="hidden" path="password" id="password" value="${user.password}" name="password"/>
-    <form:input type="hidden" path="confirmPassword" id="confirmPassword" value="${user.confirmPassword}" name="confirmPassword"/>
+    <form:label path="password">Please enter your password</form:label>
+    <form:input type="password" id="password" name="password" path="password" />
+    <form:errors path="password"/>
     <br>
 
-    <%--<form:label path="password">Please enter your password</form:label>--%>
-    <%--<form:password id="password" name="password" path="password" />--%>
-    <%--<form:errors path="password"/>--%>
-    <%--<br>--%>
-
-    <%--<form:label path="confirmPassword">Please confirm your password</form:label>--%>
-    <%--<form:password id="confirmPassword" name="confirmPassword" path="confirmPassword" />--%>
-    <%--<form:errors path="confirmPassword"/>--%>
-    <%--<br>--%>
+    <form:input type="hidden" id="confirmPassword" value="${user.password}" name="confirmPassword" path="confirmPassword" />
+    <br>
 
     <form:label path="email">Please enter your email</form:label>
     <form:input type="email" id="email" name="email" path="email" />
@@ -72,6 +66,10 @@
 
 <a href="<c:url value='/edit/${user.id}' />">Edit</a>
 <a href="<c:url value='/delete/${user.id}' />">Delete</a>
+
+<c:forEach items="${user.tweets}" var="userTweets" >
+    <p>${userTweets.content} ${userTweets.date} ${userTweets.user.username}</p>
+</c:forEach>
 
 <p></p>
 </body>
