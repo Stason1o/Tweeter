@@ -1,16 +1,18 @@
 package com.endava.spring.model;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
  * Created by sbogdanschi on 25/04/2017.
  */
-
 @Entity
+@DynamicUpdate
 @Table(name = "users")
 public class User {
 
@@ -42,12 +44,14 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private List<Tweet> tweets = new ArrayList<>();
+    private List<Tweet> tweets;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "id_user"),
             inverseJoinColumns = @JoinColumn(name = "id_role"))
     private Set<Role> roles = new HashSet<>(0);
+
+
 
     public int getId() {
         return id;
@@ -127,5 +131,43 @@ public class User {
 
     public void setTweets(List<Tweet> tweets) {
         this.tweets = tweets;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id &&
+                enabled == user.enabled &&
+                Objects.equals(username, user.username) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(confirmPassword, user.confirmPassword) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(firstName, user.firstName) &&
+                Objects.equals(lastName, user.lastName) &&
+                Objects.equals(tweets, user.tweets) &&
+                Objects.equals(roles, user.roles);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, password, confirmPassword, email, firstName, lastName, enabled, tweets, roles);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("User{");
+        sb.append("id=").append(id);
+        sb.append(", username='").append(username).append('\'');
+        sb.append(", password='").append(password).append('\'');
+        sb.append(", email='").append(email).append('\'');
+        sb.append(", firstName='").append(firstName).append('\'');
+        sb.append(", lastName='").append(lastName).append('\'');
+        sb.append(", enabled=").append(enabled);
+        sb.append(", tweets=").append(tweets);
+        sb.append(", roles=").append(roles);
+        sb.append('}');
+        return sb.toString();
     }
 }

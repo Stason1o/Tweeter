@@ -31,12 +31,31 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(User user) {
+
         userDao.saveUser(user);
     }
 
     @Override
     public User findByEmail(String email) {
-        return null;
+        return userDao.findByEmail(email);
+    }
+
+    @Override
+    public void removeUser(int id) {
+        userDao.removeUser(id);
+    }
+
+    @Override
+    public void updateUser(User user) {
+//        if(user.getPassword().length() < 1)
+//            user.setPassword(userDao.findById(user.getId()).getPassword());
+        System.out.println("in update user :  " + user);
+        userDao.updateUser(user);
+    }
+
+    @Override
+    public User findById(int id) {
+        return userDao.findById(id);
     }
 
     @Override

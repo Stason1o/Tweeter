@@ -9,7 +9,10 @@
 </head>
 <body>
 <c:forEach items="${users}" var="u">
-    <p>${u.username}</p>
+    <p>${u.username}<br></p>
+    <%--<c:forEach items="${u.tweets}" var="userTweets">--%>
+        <%--<p>${userTweets.content} ${userTweets.date} ${userTweets.user}</p>--%>
+    <%--</c:forEach>--%>
 </c:forEach>
 <form:form id="loginForm" method="post" action="login" modelAttribute="user">
     <form:label path="username">Enter your username</form:label>
