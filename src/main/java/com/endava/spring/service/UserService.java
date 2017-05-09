@@ -24,4 +24,6 @@ public interface UserService {
     void updateUser(User user);
 
     User findById(int id);
+
+    void unfollowUser(User user, User unfollowedUser);
 }

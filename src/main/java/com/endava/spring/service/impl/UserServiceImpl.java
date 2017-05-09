@@ -64,4 +64,16 @@ public class UserServiceImpl implements UserService {
         return userDao.findById(id);
     }
 
+    @Override
+    public void unfollowUser(User user, User unfollowedUser) {
+        User foundUser = new User();
+        for (User target: user.getFollowedUsers()) {
+            if(target.getId() == unfollowedUser.getId()){
+                foundUser = target;
+            }
+        }
+        user.getFollowedUsers().remove(foundUser);
+        userDao.updateUser(user);
+    }
+
 }
