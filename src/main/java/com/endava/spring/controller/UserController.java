@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Created by sbogdanschi on 25/04/2017.
@@ -117,26 +118,32 @@ public class UserController {
 
     @RequestMapping(value = "/followFriends", method = RequestMethod.GET)
     public String displayFollowPage(ModelMap modelMap) {
-        modelMap.addAttribute("loggedUser", userService.findByUserName(getPrincipal()));
-        modelMap.addAttribute("listUsers", userService.listUsers());
+        User loggedUser = userService.findByUserName(getPrincipal());
+        List<User> globalUserList = userService.listUsers();
+        modelMap.addAttribute("loggedUser", loggedUser);
+        modelMap.addAttribute("listUsers", globalUserList);
+        modelMap.addAttribute("listFollowedUsers", userService.filterFollowedUsers(globalUserList, loggedUser));
         return "follow";
     }
 
     @RequestMapping(value = "/followFriends", method = RequestMethod.POST)
     public String followFriend(@RequestParam(value = "followedFriend", required = false) Integer followedUserId,
                                @RequestParam(value = "unfollowedFriend", required = false) Integer unfollowedUserId) {
+        System.out.println("IN FOLLOW FRIEND");
         User loggedUser = userService.findByUserName(getPrincipal());
         if(followedUserId != null) {
+            System.out.println("IN FOLLOW IF");
             userService.followUser(loggedUser, userService.findById(followedUserId));
         } else if(followedUserId == null && unfollowedUserId != null){
+            System.out.println("IN FOLLOW ELSE IF");
             userService.unfollowUser(loggedUser, userService.findById(unfollowedUserId));
         }
         return "redirect:/followFriends";
     }
 
-
     @RequestMapping(value = "/userProfile", method = RequestMethod.GET)
         public String displayUserProfilePage(@RequestParam(value = "username") String username, ModelMap modelMap) {
+        modelMap.addAttribute("loggedUser", userService.findByUserName(getPrincipal()));
         modelMap.addAttribute("user", userService.findByUserName(username));
         return "userProfile";
     }

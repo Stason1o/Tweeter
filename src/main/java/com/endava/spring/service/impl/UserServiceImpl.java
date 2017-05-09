@@ -3,6 +3,7 @@ package com.endava.spring.service.impl;
 import com.endava.spring.dao.UserDao;
 import com.endava.spring.model.User;
 import com.endava.spring.service.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,8 @@ import java.util.List;
 @Transactional
 public class UserServiceImpl implements UserService {
 
+    private final static Logger logger = Logger.getLogger(UserServiceImpl.class);
+
     @Autowired
     private UserDao userDao;
 
@@ -25,20 +28,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByUserName(String username){
+    public User findByUserName(String username) {
         return userDao.findByUserName(username);
     }
 
     @Override
     public void saveUser(User user) {
-
         userDao.saveUser(user);
     }
 
     @Override
     public void followUser(User user, User followedUser) {
-        user.getFollowedUsers().add(followedUser);
-        userDao.followUser(user);
+        if (!user.getFollowedUsers().contains(followedUser)) {
+            user.getFollowedUsers().add(followedUser);
+            userDao.updateUser(user);
+        }
     }
 
     @Override
@@ -53,9 +57,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(User user) {
-//        if(user.getPassword().length() < 1)
-//            user.setPassword(userDao.findById(user.getId()).getPassword());
-        System.out.println("in update user :  " + user);
         userDao.updateUser(user);
     }
 
@@ -66,14 +67,40 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void unfollowUser(User user, User unfollowedUser) {
+        System.out.println("IN UNFOLLOW USER METHOD");
         User foundUser = new User();
-        for (User target: user.getFollowedUsers()) {
-            if(target.getId() == unfollowedUser.getId()){
+        for (User target : user.getFollowedUsers()) {
+            if (target.getId() == unfollowedUser.getId()) {
                 foundUser = target;
             }
         }
         user.getFollowedUsers().remove(foundUser);
+        System.out.println("BEFORE UPDATE USER");
+        System.out.println(user.getId() + " " + unfollowedUser.getId() + " " + unfollowedUser.getUsername() + "--------------------" );
+        for (User user12 : user.getFollowedUsers()) {
+            System.out.println(user12.getId());
+        }
         userDao.updateUser(user);
+        System.out.println("AFTER UPDATE USER");
     }
 
+    @Override
+    public List<User> filterFollowedUsers(List<User> listOfAllUsers, User currentUser) {
+        List<User> filteredUsers = listOfAllUsers;
+        int position = 0;
+
+        for(int i = 0; i < filteredUsers.size(); i++){
+            for (User followedUser : currentUser.getFollowedUsers()) {
+                if (filteredUsers.get(i).getId() == followedUser.getId()) {
+                    filteredUsers.get(i).setFollowed(true);
+                    break;
+                } else if(followedUser.getId() == currentUser.getId()){
+                    position = i;
+                }
+            }
+        }
+
+        filteredUsers.remove(position);
+        return filteredUsers;
+    }
 }

@@ -39,6 +39,9 @@ public class User {
     @Column(name = "enabled")
     private boolean enabled;
 
+    @Transient
+    private boolean isFollowed;
+
     public User() {
     }
 
@@ -144,6 +147,14 @@ public class User {
         this.followedUsers = followedUsers;
     }
 
+    public boolean isFollowed() {
+        return isFollowed;
+    }
+
+    public void setFollowed(boolean followed) {
+        isFollowed = followed;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -151,6 +162,7 @@ public class User {
         User user = (User) o;
         return id == user.id &&
                 enabled == user.enabled &&
+                isFollowed == user.isFollowed &&
                 Objects.equals(username, user.username) &&
                 Objects.equals(password, user.password) &&
                 Objects.equals(confirmPassword, user.confirmPassword) &&
@@ -164,7 +176,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, confirmPassword, email, firstName, lastName, enabled, tweets, roles, followedUsers);
+        return Objects.hash(id, username, password, confirmPassword, email, firstName, lastName, enabled, isFollowed, tweets, roles, followedUsers);
     }
 
     @Override
@@ -178,9 +190,10 @@ public class User {
         sb.append(", firstName='").append(firstName).append('\'');
         sb.append(", lastName='").append(lastName).append('\'');
         sb.append(", enabled=").append(enabled);
+        sb.append(", isFollowed=").append(isFollowed);
         sb.append(", tweets=").append(tweets);
         sb.append(", roles=").append(roles);
-        sb.append(", users=").append(followedUsers);
+        sb.append(", followedUsers=").append(followedUsers);
         sb.append('}');
         return sb.toString();
     }

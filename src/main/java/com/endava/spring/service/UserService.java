@@ -26,4 +26,6 @@ public interface UserService {
     User findById(int id);
 
     void unfollowUser(User user, User unfollowedUser);
+
+    List<User> filterFollowedUsers(List<User> listOfAllUsers, User currentUser);
 }

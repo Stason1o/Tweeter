@@ -15,31 +15,35 @@
 <body>
 <c:url var="addAction" value="/followFriends"/>
 <form:form action="${addAction}" commandName="listUsers">
-    <%--<form:form id="loginForm" method="post" action="login" modelAttribute="user">--%>
 
-    <c:forEach var="registeredUser" items="${listUsers}" >
-        <c:if test="${not empty loggedUser.followedUsers}">
-            <c:forEach items="${loggedUser.followedUsers}" var="followedUserByLoggedUser">
-                <c:choose>
-                    <c:when test="${followedUserByLoggedUser.id != registeredUser.id }">
-                        <p><a href="userProfile?username=${registeredUser.username}">
-                                ${registeredUser.firstName}   ${registeredUser.lastName} ${registeredUser.id}</a>
-                            <button style="height: 30px; width: 100px;" type="submit" name="followedFriend" value="${registeredUser.id}">Follow</button> </p>
-                    </c:when>
-                    <c:otherwise>
-                        <p><a href="userProfile?username=${registeredUser.username}">
-                                ${registeredUser.firstName}   ${registeredUser.lastName} ${registeredUser.id}</a>
-                            <button style="height: 30px; width: 100px;" type="submit" name="unfollowedFriend" value="${registeredUser.id}">Unfollow</button> </p>
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
-        </c:if>
-        <c:if test="${empty loggedUser.followedUsers}">
-                <p><a href="userProfile?username=${registeredUser.username}">
-                        ${registeredUser.firstName}   ${registeredUser.lastName} ${registeredUser.id}</a>
-                    <button style="height: 30px; width: 100px;" type="submit" name="followedFriend" value="${registeredUser.id}">Follow</button> </p>
-        </c:if>
+    <c:forEach items="${listFollowedUsers}" var="followedUser">
+        <c:choose>
+            <c:when test="${followedUser.followed}">
+                <p>
+                    <a href="userProfile?username=${followedUser.username}">
+                        ${followedUser.firstName}   ${followedUser.lastName} ${followedUser.id}
+                    </a>
+                    <button style="height: 30px; width: 100px;" type="submit" name="unfollowedFriend" value="${followedUser.id}">UnFollow</button>
+                </p>
+            </c:when>
+            <c:otherwise>
+                <p>
+                    <a href="userProfile?username=${followedUser.username}">
+                        ${followedUser.firstName}   ${followedUser.lastName} ${followedUser.id}
+                    </a>
+                    <button style="height: 30px; width: 100px;" type="submit" name="followedFriend" value="${followedUser.id}">Follow</button>
+                </p>
+            </c:otherwise>
+        </c:choose>
     </c:forEach>
+
+
+
 </form:form>
+
+
+<c:forEach items="${loggedUser.followedUsers}" var="users">
+    <p>${users.id}</p>
+</c:forEach>
 </body>
 </html>

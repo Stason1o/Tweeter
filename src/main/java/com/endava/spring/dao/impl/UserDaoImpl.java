@@ -52,11 +52,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void followUser(User user) {
-        sessionFactory.getCurrentSession().update(user);
-    }
-
-    @Override
     public User findByEmail(String email) {
         User user = (User) sessionFactory.getCurrentSession()
                 .createQuery("from User where email = :email")
@@ -82,7 +77,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void updateUser(User user) {
-        System.out.println("in update user DAO: " + user);
+//        System.err.println("MY WORST MISTAKE" + user);
         sessionFactory.getCurrentSession().update(user);
     }
 
@@ -97,5 +92,7 @@ public class UserDaoImpl implements UserDao {
         }
         return user;
     }
+
+
 
 }
