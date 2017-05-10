@@ -29,7 +29,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUserName(String username) {
-        return userDao.findByUserName(username);
+        User user = userDao.findByUserName(username);
+        user.setConfirmPassword(user.getPassword());
+        user.setOldEmail(user.getEmail());
+        return user;
     }
 
     @Override
@@ -47,7 +50,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByEmail(String email) {
-        return userDao.findByEmail(email);
+        User user = userDao.findByEmail(email);
+        user.setConfirmPassword(user.getPassword());
+        user.setOldEmail(user.getEmail());
+        return user;
     }
 
     @Override
@@ -62,7 +68,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(int id) {
-        return userDao.findById(id);
+        User user = userDao.findById(id);
+        user.setConfirmPassword(user.getPassword());
+        user.setOldEmail(user.getEmail());
+        return user;
     }
 
     @Override

@@ -47,7 +47,12 @@
     <form:errors path="password"/>
     <br>
 
-    <form:input type="hidden" id="confirmPassword" value="${user.password}" name="confirmPassword" path="confirmPassword" />
+    <form:label path="confirmPassword">Password</form:label>
+    <form:input id="confirmPassword" value="${user.confirmPassword}" name="confirmPassword" path="confirmPassword" />
+    <form:errors path="confirmPassword"/>
+    <br>
+
+    <form:input type="hidden" id="oldEmail" value="${user.oldEmail}" name="oldEmail" path="oldEmail" />
     <br>
 
     <form:label path="email">Email</form:label>

@@ -45,8 +45,8 @@ public class RegistrationInputValidator implements Validator {
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "Required");
-        if (!(userService.findByEmail(user.getEmail()) == null) &&
-                !initialUser.getEmail().equals(user.getEmail())) {
+        if (userService.findByEmail(user.getEmail()) != null &&
+                !user.getEmail().equals(user.getOldEmail())) {
             errors.rejectValue("email", "Duplicate.userForm.email");
         }
 

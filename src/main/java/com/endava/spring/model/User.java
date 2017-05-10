@@ -24,9 +24,6 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Transient
-    private String confirmPassword;
-
     @Column(name = "email")
     private String email;
 
@@ -41,6 +38,12 @@ public class User {
 
     @Transient
     private boolean isFollowed;
+
+    @Transient
+    private String confirmPassword;
+
+    @Transient
+    private String oldEmail;
 
     public User() {
     }
@@ -155,6 +158,35 @@ public class User {
         isFollowed = followed;
     }
 
+    public String getOldEmail() {
+
+        return oldEmail;
+    }
+
+    public void setOldEmail(String oldEmail) {
+        this.oldEmail = oldEmail;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("User{");
+        sb.append("id=").append(id);
+        sb.append(", username='").append(username).append('\'');
+        sb.append(", password='").append(password).append('\'');
+        sb.append(", email='").append(email).append('\'');
+        sb.append(", firstName='").append(firstName).append('\'');
+        sb.append(", lastName='").append(lastName).append('\'');
+        sb.append(", enabled=").append(enabled);
+        sb.append(", isFollowed=").append(isFollowed);
+        sb.append(", confirmPassword='").append(confirmPassword).append('\'');
+        sb.append(", oldEmail='").append(oldEmail).append('\'');
+        sb.append(", tweets=").append(tweets);
+        sb.append(", roles=").append(roles);
+        sb.append(", followedUsers=").append(followedUsers);
+        sb.append('}');
+        return sb.toString();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -165,10 +197,11 @@ public class User {
                 isFollowed == user.isFollowed &&
                 Objects.equals(username, user.username) &&
                 Objects.equals(password, user.password) &&
-                Objects.equals(confirmPassword, user.confirmPassword) &&
                 Objects.equals(email, user.email) &&
                 Objects.equals(firstName, user.firstName) &&
                 Objects.equals(lastName, user.lastName) &&
+                Objects.equals(confirmPassword, user.confirmPassword) &&
+                Objects.equals(oldEmail, user.oldEmail) &&
                 Objects.equals(tweets, user.tweets) &&
                 Objects.equals(roles, user.roles) &&
                 Objects.equals(followedUsers, user.followedUsers);
@@ -176,25 +209,9 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, confirmPassword, email, firstName, lastName, enabled, isFollowed, tweets, roles, followedUsers);
+        return Objects.hash(id, username, password, email, firstName, lastName, enabled, isFollowed, confirmPassword, oldEmail, tweets, roles, followedUsers);
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("User{");
-        sb.append("id=").append(id);
-        sb.append(", username='").append(username).append('\'');
-        sb.append(", password='").append(password).append('\'');
-        sb.append(", confirmPassword='").append(confirmPassword).append('\'');
-        sb.append(", email='").append(email).append('\'');
-        sb.append(", firstName='").append(firstName).append('\'');
-        sb.append(", lastName='").append(lastName).append('\'');
-        sb.append(", enabled=").append(enabled);
-        sb.append(", isFollowed=").append(isFollowed);
-        sb.append(", tweets=").append(tweets);
-        sb.append(", roles=").append(roles);
-        sb.append(", followedUsers=").append(followedUsers);
-        sb.append('}');
-        return sb.toString();
-    }
+
+
 }
