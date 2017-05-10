@@ -10,20 +10,25 @@
 </head>
 <body>
     <div class="container">
-
-        <c:forEach items="${users}" var="u">
-            <p>${u.username}<br></p>
-            <%--<c:forEach items="${u.tweets}" var="userTweets">--%>
-                <%--<p>${userTweets.content} ${userTweets.date} ${userTweets.user}</p>--%>
-            <%--</c:forEach>--%>
-        </c:forEach>
-        <form:form id="loginForm" method="post" action="login" modelAttribute="user">
-            <form:label path="username">Enter your username</form:label>
-            <form:input id="username" name="username" path="username" /><br>
-            <form:label path="password">Please enter your password</form:label>
-            <form:password id="password" name="password" path="password" /><br>
-            <input type="submit" value="Submit" class="btn btn-success"/>
-        </form:form>
+        <%--<c:forEach items="${users}" var="u">--%>
+            <%--<p>${u.username}<br></p>--%>
+            <%--&lt;%&ndash;<c:forEach items="${u.tweets}" var="userTweets">&ndash;%&gt;--%>
+                <%--&lt;%&ndash;<p>${userTweets.content} ${userTweets.date} ${userTweets.user}</p>&ndash;%&gt;--%>
+            <%--&lt;%&ndash;</c:forEach>&ndash;%&gt;--%>
+        <%--</c:forEach>--%>
+            <div class="col-md-6">
+                <form:form id="loginForm" method="post" action="login" modelAttribute="user" class="form-login">
+                    <%--<form:label path="username">Enter your username</form:label>--%>
+                    <h2 class="form-login-heading">Login</h2>
+                    <form:input id="username" name="username" path="username" class="form-control"
+                                placeholder="Username" required="" autofocus="" /><br>
+                    <%--<form:label path="password">Please enter your password</form:label>--%>
+                    <form:password id="password" name="password" path="password" class="form-control"
+                                   placeholder="Password" required="" autofocus=""/><br>
+                    <%--<input type="submit" value="Log in" class="btn btn-success"/>--%>
+                    <button class="btn btn-lg btn-success btn-block" type="submit">Log in</button>
+                </form:form>
+            </div>
     </div>
     <!--Content goes here-->
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
