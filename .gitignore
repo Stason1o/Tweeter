@@ -27,3 +27,5 @@ hs_err_pid*
 src/test/
 target/generated-sources/
 .idea/
+/out/
+/HelloWorldSpring.iml
