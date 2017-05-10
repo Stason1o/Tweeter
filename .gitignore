@@ -26,4 +26,4 @@ hs_err_pid*
 /target/
 src/test/
 target/generated-sources/
-/.idea/
+.idea/
