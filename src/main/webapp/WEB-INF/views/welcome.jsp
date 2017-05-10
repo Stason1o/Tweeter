@@ -11,13 +11,17 @@
 <html>
 <head>
     <title>Welcome</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<p>Welcome page; ${username}</p>
+    <p>Welcome page; ${username}</p>
 
-<sec:authorize var="loggedIn" access="isAuthenticated()"/>
-<c:if test="${loggedIn}">
-    <a href="<c:url value="/logout" />">Logout</a>
-</c:if>
+    <sec:authorize var="loggedIn" access="isAuthenticated()"/>
+    <c:if test="${loggedIn}">
+        <a href="<c:url value="/logout" />">Logout</a>
+    </c:if>
+    <!--Content goes here-->
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>
