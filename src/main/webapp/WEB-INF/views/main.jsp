@@ -11,24 +11,28 @@
 <html>
 <head>
     <title>Feed</title>
+    <link href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
-<jsp:useBean id="now" class="java.util.Date" />
+    <jsp:useBean id="now" class="java.util.Date" />
 
-<c:url var="addAction" value="/main"/>
-<form:form action="${addAction}" commandName="tweet">
-    <form:label path="content">Enter tweet content</form:label>
-    <form:input id="content" name="content" path="content" /><br>
-    <input type="submit" value="Submit" />
-</form:form>
+    <c:url var="addAction" value="/main"/>
+    <form:form action="${addAction}" commandName="tweet">
+        <form:label path="content">Enter tweet content</form:label>
+        <form:input id="content" name="content" path="content" /><br>
+        <input type="submit" value="Submit" />
+    </form:form>
 
-<p>Tweets :</p>
-<c:forEach var="listTweets" items="${listTweets}">
-    <div><p>Tweet ID#${listTweets.id},
-        posted by <b>${listTweets.user.username}</b>
-        at ${listTweets.date}</p> </div>
-    <div><p>${listTweets.content}</p></div>
-</c:forEach>
+    <p>Tweets :</p>
+    <c:forEach var="listTweets" items="${listTweets}">
+        <div><p>Tweet ID#${listTweets.id},
+            posted by <b>${listTweets.user.username}</b>
+            at ${listTweets.date}</p> </div>
+        <div><p>${listTweets.content}</p></div>
+    </c:forEach>
+    <!--Content goes here-->
+    <script src="webjars/jquery/1.9.1/jquery.min.js"></script>
+    <script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>

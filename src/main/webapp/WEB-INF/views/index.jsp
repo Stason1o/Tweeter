@@ -10,12 +10,13 @@
 <html>
 <head>
     <title>Hello World</title>
+    <link href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<p>Hello world! ${username}</p>
-<a href="<c:url value="/logout" />">Logout</a>
-
-
-
+    <p>Hello world! ${username}</p>
+    <a href="<c:url value="/logout" />">Logout</a>
+    <!--Content goes here-->
+    <script src="webjars/jquery/1.9.1/jquery.min.js"></script>
+    <script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>

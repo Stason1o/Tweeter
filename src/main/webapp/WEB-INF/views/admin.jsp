@@ -10,9 +10,13 @@
 <html>
 <head>
     <title>Admin </title>
+    <link href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<p>admin page; ${username}</p>
-<a href="<c:url value="/logout" />">Logout</a>
+    <p>admin page; ${username}</p>
+    <a href="<c:url value="/logout" />">Logout</a>
+    <!--Content goes here-->
+    <script src="webjars/jquery/1.9.1/jquery.min.js"></script>
+    <script src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>
