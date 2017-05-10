@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: sbogdanschi
@@ -14,6 +15,9 @@
 <body>
 <p>Welcome page; ${username}</p>
 
-<a href="<c:url value="/logout"/>">Logout</a>
+<sec:authorize var="loggedIn" access="isAuthenticated()"/>
+<c:if test="${loggedIn}">
+    <a href="<c:url value="/logout" />">Logout</a>
+</c:if>
 </body>
 </html>

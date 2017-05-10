@@ -2,11 +2,9 @@ package com.endava.spring.controller;
 
 import com.endava.spring.model.User;
 import com.endava.spring.service.SecurityService;
-import com.endava.spring.service.TweetService;
 import com.endava.spring.service.UserService;
 import com.endava.spring.validator.RegistrationInputValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,14 +14,12 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Created by sbogdanschi on 25/04/2017.
@@ -33,9 +29,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private TweetService tweetService;
 
     @Autowired
     private SecurityService securityService;
@@ -48,58 +41,8 @@ public class UserController {
 //        webDataBinder.setValidator(userInputValidator);
 //    }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String helloWorld(ModelMap modelMap){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            modelMap.addAttribute("username", authentication.getName());
-        }
-
-        //int num = userService
-        //User user = tweetService.listTweets().get(0).getUser();
-        //modelMap.addAttribute("listAll", tweetService.listTweets());
-        //modelMap.addAttribute("one", tweetService.listTweets().get(0).getUser());
-        return "index";
-    }
-
-    @RequestMapping(value = "/welcome", method = RequestMethod.GET)
-    public String displayWelcomePage(ModelMap modelMap){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            modelMap.addAttribute("username", authentication.getName());
-        }
-        return "welcome";
-    }
-
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String executeLogout(HttpServletRequest request, HttpServletResponse response){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-        return "redirect:/login";
-    }
-
-    @RequestMapping(value = "/admin", method = RequestMethod.GET)
-    public String displayAdminPage(ModelMap modelMap){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            modelMap.addAttribute("username", authentication.getName());
-        }
-        return "admin";
-    }
-
-    @RequestMapping(value = "/moderator", method = RequestMethod.GET)
-    public String displayModeratorPage(ModelMap modelMap){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            modelMap.addAttribute("username", authentication.getName());
-        }
-        return "moderator";
-    }
-
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String displayLoginPage(ModelMap modelMap){
+    public String displayLoginPage(ModelMap modelMap) {
         User user = new User();
         modelMap.addAttribute("users", userService.listUsers());
         modelMap.addAttribute("user", user);
@@ -107,57 +50,65 @@ public class UserController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String executeLogin(@ModelAttribute("user") User user){
+    public String executeLogin(@ModelAttribute("user") User user) {
         return "successPage";
     }
 
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String executeLogout(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/login";
+    }
 
-    @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public String displayProfilePage(ModelMap modelMap){
+    @RequestMapping(value = "/myProfile", method = RequestMethod.GET)
+    public String displayLoggedUserProfilePage(ModelMap modelMap) {
         System.out.println("/profile GET");
         modelMap.addAttribute("loggedUser", getPrincipal());
         modelMap.addAttribute("user", userService.findByUserName(getPrincipal()));
-        return "profile";
+        return "myProfile";
     }
 
     @RequestMapping(value = "/edit/{id}")
-    public String editUserDetails(@PathVariable("id")int id, ModelMap modelMap){
+    public String editUserDetails(@PathVariable("id") int id, ModelMap modelMap) {
         System.out.println("edit");
         modelMap.addAttribute("loggedUser", getPrincipal());
         modelMap.addAttribute("user", userService.findById(id));
-        return "profile";
+        return "myProfile";
     }
 
     @RequestMapping(value = "/delete/{id}")
-    public String deleteUser(@PathVariable("id")int id){
+    public String deleteUser(@PathVariable("id") int id) {
         userService.removeUser(id);
         return "redirect:/login";
     }
 
-    @RequestMapping(value = "/profile", method = RequestMethod.POST)
+    @RequestMapping(value = "/myProfile", method = RequestMethod.POST)
     public String saveUser(@ModelAttribute("user") User user, BindingResult result, Errors errors, ModelMap modelMap) {
         System.out.println("/profile POST");
         registrationInputValidator.validate(user, errors);
         if (result.hasErrors()) {
-            return "profile";
+            return "myProfile";
         }
 
         System.out.println("in saveUser : " + user);
         userService.updateUser(user);
         securityService.autoLogin(user.getUsername(), user.getPassword());
-        return "redirect:/profile";
+        return "redirect:/myProfile";
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
-    public String displayRegistrationPage(ModelMap modelMap){
+    public String displayRegistrationPage(ModelMap modelMap) {
         modelMap.addAttribute("user", new User());
         return "registration";
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String executeRegistration(@ModelAttribute("user") @Valid User user, BindingResult result, Model model){
+    public String executeRegistration(@ModelAttribute("user") @Valid User user, BindingResult result, Model model) {
         registrationInputValidator.validate(user, result);
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             return "registration";
         }
         userService.saveUser(user);
@@ -165,23 +116,36 @@ public class UserController {
         return "redirect:/welcome";
     }
 
-//    @RequestMapping(value = "/main", method = RequestMethod.GET)
-//    public String displayMainPage(ModelMap modelMap){
-//        modelMap.addAttribute("tweet", new Tweet());
-//        modelMap.addAttribute("listTweets", tweetService.listTweets());
-//        return "main";
-//    }
-//
-//    @RequestMapping(value = "/main", method = RequestMethod.POST)
-//    public String executeAddTweet(@ModelAttribute("tweet") Tweet tweet){
-//        tweetService.saveTweet(tweet);
-//        return "redirect:/main";
-//    }
-
-    @RequestMapping(value = "/followFriends",  method = RequestMethod.GET)
-    public String displayFollowPage(ModelMap modelMap){
-        modelMap.addAttribute("listUsers", userService.listUsers());
+    @RequestMapping(value = "/followFriends", method = RequestMethod.GET)
+    public String displayFollowPage(ModelMap modelMap) {
+        User loggedUser = userService.findByUserName(getPrincipal());
+        List<User> globalUserList = userService.listUsers();
+        modelMap.addAttribute("loggedUser", loggedUser);
+        modelMap.addAttribute("listUsers", globalUserList);
+        modelMap.addAttribute("listFollowedUsers", userService.filterFollowedUsers(globalUserList, loggedUser));
         return "follow";
+    }
+
+    @RequestMapping(value = "/followFriends", method = RequestMethod.POST)
+    public String followFriend(@RequestParam(value = "followedFriend", required = false) Integer followedUserId,
+                               @RequestParam(value = "unfollowedFriend", required = false) Integer unfollowedUserId) {
+        System.out.println("IN FOLLOW FRIEND");
+        User loggedUser = userService.findByUserName(getPrincipal());
+        if(followedUserId != null) {
+            System.out.println("IN FOLLOW IF");
+            userService.followUser(loggedUser, userService.findById(followedUserId));
+        } else if(followedUserId == null && unfollowedUserId != null){
+            System.out.println("IN FOLLOW ELSE IF");
+            userService.unfollowUser(loggedUser, userService.findById(unfollowedUserId));
+        }
+        return "redirect:/followFriends";
+    }
+
+    @RequestMapping(value = "/userProfile", method = RequestMethod.GET)
+        public String displayUserProfilePage(@RequestParam(value = "username") String username, ModelMap modelMap) {
+        modelMap.addAttribute("loggedUser", userService.findByUserName(getPrincipal()));
+        modelMap.addAttribute("user", userService.findByUserName(username));
+        return "userProfile";
     }
 
     private String getPrincipal() {

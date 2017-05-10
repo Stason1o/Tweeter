@@ -1,7 +1,6 @@
 package com.endava.spring.dao.impl;
 
 import com.endava.spring.dao.UserDao;
-import com.endava.spring.model.Tweet;
 import com.endava.spring.model.User;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
@@ -25,6 +24,8 @@ public class UserDaoImpl implements UserDao {
         for (User user :list) {
             if(user != null){
                 Hibernate.initialize(user.getTweets());
+                Hibernate.initialize(user.getFollowedUsers());
+                Hibernate.initialize(user.getRoles());
             }
         }
         return list;
@@ -40,6 +41,7 @@ public class UserDaoImpl implements UserDao {
             System.out.println("initializing in findByUserName");
             Hibernate.initialize(user.getTweets());
             Hibernate.initialize(user.getRoles());
+            Hibernate.initialize(user.getFollowedUsers());
         }
         return user;
     }
@@ -59,6 +61,7 @@ public class UserDaoImpl implements UserDao {
             System.out.println("initializing in findByEmail");
             Hibernate.initialize(user.getTweets());
             Hibernate.initialize(user.getRoles());
+            Hibernate.initialize(user.getFollowedUsers());
         }
         return user;
     }
@@ -74,7 +77,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void updateUser(User user) {
-        System.out.println("in update user DAO: " + user);
+//        System.err.println("MY WORST MISTAKE" + user);
         sessionFactory.getCurrentSession().update(user);
     }
 
@@ -85,8 +88,11 @@ public class UserDaoImpl implements UserDao {
             System.out.println("initializing in findById");
             Hibernate.initialize(user.getTweets());
             Hibernate.initialize(user.getRoles());
+            Hibernate.initialize(user.getFollowedUsers());
         }
         return user;
     }
+
+
 
 }

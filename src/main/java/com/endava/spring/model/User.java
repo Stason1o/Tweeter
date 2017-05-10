@@ -3,10 +3,7 @@ package com.endava.spring.model;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by sbogdanschi on 25/04/2017.
@@ -42,8 +39,14 @@ public class User {
     @Column(name = "enabled")
     private boolean enabled;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,
-            orphanRemoval = true)
+    @Transient
+    private boolean isFollowed;
+
+    public User() {
+    }
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH,
+            orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Tweet> tweets;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
@@ -51,7 +54,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "id_role"))
     private Set<Role> roles = new HashSet<>(0);
 
-
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.REFRESH)
+    @JoinTable(name="user_friends", joinColumns = @JoinColumn(name = "user_1_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_2_id"))
+    private List<User> followedUsers;
 
     public int getId() {
         return id;
@@ -133,6 +139,22 @@ public class User {
         this.tweets = tweets;
     }
 
+    public List<User> getFollowedUsers() {
+        return followedUsers;
+    }
+
+    public void setFollowedUsers(List<User> followedUsers) {
+        this.followedUsers = followedUsers;
+    }
+
+    public boolean isFollowed() {
+        return isFollowed;
+    }
+
+    public void setFollowed(boolean followed) {
+        isFollowed = followed;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -140,6 +162,7 @@ public class User {
         User user = (User) o;
         return id == user.id &&
                 enabled == user.enabled &&
+                isFollowed == user.isFollowed &&
                 Objects.equals(username, user.username) &&
                 Objects.equals(password, user.password) &&
                 Objects.equals(confirmPassword, user.confirmPassword) &&
@@ -147,12 +170,13 @@ public class User {
                 Objects.equals(firstName, user.firstName) &&
                 Objects.equals(lastName, user.lastName) &&
                 Objects.equals(tweets, user.tweets) &&
-                Objects.equals(roles, user.roles);
+                Objects.equals(roles, user.roles) &&
+                Objects.equals(followedUsers, user.followedUsers);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, confirmPassword, email, firstName, lastName, enabled, tweets, roles);
+        return Objects.hash(id, username, password, confirmPassword, email, firstName, lastName, enabled, isFollowed, tweets, roles, followedUsers);
     }
 
     @Override
@@ -161,12 +185,15 @@ public class User {
         sb.append("id=").append(id);
         sb.append(", username='").append(username).append('\'');
         sb.append(", password='").append(password).append('\'');
+        sb.append(", confirmPassword='").append(confirmPassword).append('\'');
         sb.append(", email='").append(email).append('\'');
         sb.append(", firstName='").append(firstName).append('\'');
         sb.append(", lastName='").append(lastName).append('\'');
         sb.append(", enabled=").append(enabled);
+        sb.append(", isFollowed=").append(isFollowed);
         sb.append(", tweets=").append(tweets);
         sb.append(", roles=").append(roles);
+        sb.append(", followedUsers=").append(followedUsers);
         sb.append('}');
         return sb.toString();
     }

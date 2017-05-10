@@ -15,34 +15,34 @@
 </head>
 <body>
 
-<c:url var="addAction" value="/profile"/>
+<c:url var="addAction" value="/myProfile"/>
 
 <form:form action="${addAction}" commandName="user">
-    <c:if test="${!empty user.id}">
+    <%--<c:if test="${!empty user.id}">--%>
 
-        <form:label path="id">
-            <spring:message text="ID"/>
-        </form:label>
-        <form:input path="id" readonly="true" size="8" disabled="true"/>
-        <form:hidden path="id"/>
-    </c:if>
+        <%--<form:label path="id">--%>
+            <%--<spring:message text="ID"/>--%>
+        <%--</form:label>--%>
+        <%--<form:input path="id" readonly="true" size="8" disabled="true"/>--%>
+        <%--<form:hidden path="id"/>--%>
+    <%--</c:if>--%>
 
-    <form:label path="firstName">Enter your First Name</form:label>
+    <form:label path="firstName">First Name</form:label>
     <form:input id="firstName" name="firstName" path="firstName" />
     <form:errors path="firstName"/>
     <br>
 
-    <form:label path="lastName">Enter your Last Name</form:label>
+    <form:label path="lastName">Last Name</form:label>
     <form:input id="lastName" name="lastName" path="lastName" />
     <form:errors path="lastName"/>
     <br>
 
-    <form:label path="username">Enter your username</form:label>
+    <form:label path="username">Username</form:label>
     <form:input id="username" name="username" path="username" />
     <form:errors path="username"/>
 
 
-    <form:label path="password">Please enter your password</form:label>
+    <form:label path="password">Password</form:label>
     <form:input type="password" id="password" name="password" path="password" />
     <form:errors path="password"/>
     <br>
@@ -50,7 +50,7 @@
     <form:input type="hidden" id="confirmPassword" value="${user.password}" name="confirmPassword" path="confirmPassword" />
     <br>
 
-    <form:label path="email">Please enter your email</form:label>
+    <form:label path="email">Email</form:label>
     <form:input type="email" id="email" name="email" path="email" />
     <form:errors path="email"/>
     <br>
