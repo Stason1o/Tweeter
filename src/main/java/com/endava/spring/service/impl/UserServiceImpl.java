@@ -99,12 +99,13 @@ public class UserServiceImpl implements UserService {
         int position = 0;
 
         for(int i = 0; i < filteredUsers.size(); i++){
+            if(filteredUsers.get(i).getId() == currentUser.getId()){
+                position = i;
+            }
             for (User followedUser : currentUser.getFollowedUsers()) {
                 if (filteredUsers.get(i).getId() == followedUser.getId()) {
                     filteredUsers.get(i).setFollowed(true);
                     break;
-                } else if(followedUser.getId() == currentUser.getId()){
-                    position = i;
                 }
             }
         }
