@@ -14,6 +14,14 @@ public interface TweetService {
 
     List<Tweet> listTweets();
 
+    List<Tweet> listPaginatedTweets(int page);
+
+    int countPage();
+
+    void updateTweet(Tweet tweet, User user);
+
+    void removeTweet(int id);
+
     Tweet getTweetById(int id);
 
     Tweet getTweetByUserId(int id);

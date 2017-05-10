@@ -8,37 +8,20 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<c:url var="firstUrl" value="/main/1" />
+<c:url var="lastUrl" value="/main/${deploymentLog}" />
+<c:url var="prevUrl" value="/main/${currentIndex - 1}" />
+<c:url var="nextUrl" value="/main/${currentIndex + 1}" />
 <html>
 <head>
     <title>Feed</title>
 </head>
 <body>
 
-<jsp:useBean id="now" class="java.util.Date" />
-
-<%--<c:url var="addAction" value="/main"/>
-<form:form action="${addAction}" commandName="tweet">
-    <form:label path="content">Enter tweet content</form:label>
-    <form:input id="content" name="content" path="content" /><br>
-
-    <form:label path="user">Enter UserId</form:label>
-    <form:input type="hidden" id="user" value="${loggedUser.idl}" name="user" path="user" /><br>
-
-    <form:label path="date">Date</form:label>
-    <form:input id="date" value="${now}" name="date" path="date"/>
-    &lt;%&ndash;<form:input type="hidden" id="date" value="${now}" name="date" path="date"/>&ndash;%&gt;
-    <input type="submit" value="Submit" />
-</form:form>--%>
-
 <form:form method="post" modelAttribute="tweet">
     <form:label path="content">Enter tweet content</form:label>
     <form:input path="content" /><br>
-
-   <%-- <form:label path="user">Enter UserId</form:label>
-    <form:input path="user" value="${loggedUser.id}" /><br>--%>
-
-    <%--<form:label path="date">Date</form:label>
-    <form:input path="date" value="${now}"/>--%>
 
     <input type="submit" value="Submit" />
 </form:form>
@@ -49,8 +32,48 @@
         posted by <b>${listTweets.user.username}</b>
         at ${listTweets.date}</p> </div>
     <div><p>${listTweets.content}</p></div>
+
+    <c:if test="${listTweets.user.id == user.id}">
+        <a href="<c:url value='/editTweet/${listTweets.id}' />">Edit</a>
+        <a href="<c:url value='/deleteTweet/${listTweets.id}' />">Delete</a>
+    </c:if>
 </c:forEach>
 
-<%--User : ${loggedUser.id}--%>
+<div class="pagination">
+    <ul>
+        <c:choose>
+            <c:when test="${currentIndex == 1}">
+                <li class="disabled"><a href="#">&lt;&lt;</a></li>
+                <li class="disabled"><a href="#">&lt;</a></li>
+            </c:when>
+            <c:otherwise>
+                <li><a href="${firstUrl}">&lt;&lt;</a></li>
+                <li><a href="${prevUrl}">&lt;</a></li>
+            </c:otherwise>
+        </c:choose>
+        <c:forEach var="i" begin="${beginIndex}" end="${endIndex}">
+            <c:url var="pageUrl" value="/main/${i}" />
+            <c:choose>
+                <c:when test="${i == currentIndex}">
+                    <li class="active"><a href="${pageUrl}"><c:out value="${i}" /></a></li>
+                </c:when>
+                <c:otherwise>
+                    <li><a href="${pageUrl}"><c:out value="${i}" /></a></li>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+        <c:choose>
+            <c:when test="${currentIndex == deploymentLog}">
+                <li class="disabled"><a href="#">&gt;</a></li>
+                <li class="disabled"><a href="#">&gt;&gt;</a></li>
+            </c:when>
+            <c:otherwise>
+                <li><a href="${nextUrl}">&gt;</a></li>
+                <li><a href="${lastUrl}">&gt;&gt;</a></li>
+            </c:otherwise>
+        </c:choose>
+    </ul>
+</div>
+
 </body>
 </html>

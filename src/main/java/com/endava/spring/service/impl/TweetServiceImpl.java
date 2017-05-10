@@ -30,13 +30,35 @@ public class TweetServiceImpl implements TweetService {
     }
 
     @Override
+    public void updateTweet(Tweet tweet, User user) {
+        tweet.setDate(new Date());
+        tweet.setUser(user);
+        tweetDao.updateTweet(tweet);
+    }
+
+    @Override
+    public void removeTweet(int id) {
+        tweetDao.removeTweet(id);
+    }
+
+    @Override
+    public List<Tweet> listPaginatedTweets(int page) {
+        return tweetDao.listPaginatedTweets(page);
+    }
+
+    @Override
+    public int countPage() {
+        return tweetDao.countPage();
+    }
+
+    @Override
     public List<Tweet> listTweets() {
         return tweetDao.listTweets();
     }
 
     @Override
     public Tweet getTweetById(int id) {
-        return null;
+        return tweetDao.getTweetById(id);
     }
 
     @Override

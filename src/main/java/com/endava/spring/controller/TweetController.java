@@ -9,11 +9,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.util.Date;
 
 @Controller
 public class TweetController {
@@ -24,25 +24,53 @@ public class TweetController {
     @Autowired
     private UserService userService;
 
-    /*@RequestMapping(value = "/main")
-    public String viewTweets(ModelMap modelMap){
-        modelMap.addAttribute("listTweets", tweetService.listTweets());
-        return "main";
-    }*/
+    @RequestMapping(value = "/main")
+    public String redirectMain(){
+        return "redirect:/main/1";
+    }
 
-    @RequestMapping(value = "/main", method = RequestMethod.GET)
-    public String addTweet(ModelMap modelMap){
+    @RequestMapping(value = "/main/{page}", method = RequestMethod.GET)
+    public String addTweet(@PathVariable("page") int page, ModelMap modelMap){
+
+        int current = page;
+        int begin = Math.max(1, current - 2);
+        int end = Math.min(begin + 5, tweetService.countPage());
+
+        modelMap.addAttribute("deploymentLog", tweetService.countPage());
+        modelMap.addAttribute("beginIndex", begin);
+        modelMap.addAttribute("endIndex", end);
+        modelMap.addAttribute("currentIndex", current);
+
         modelMap.addAttribute("tweet", new Tweet());
-        modelMap.addAttribute("listTweets", tweetService.listTweets());
+        modelMap.addAttribute("listTweets", tweetService.listPaginatedTweets(page));
+        modelMap.addAttribute("user", userService.findByUserName(getPrincipal()));
 
         return "main";
     }
 
-    @RequestMapping(value = "/main", method = RequestMethod.POST)
-    public String executeAddTweet(@ModelAttribute("tweet") Tweet tweet, ModelMap modelMap){
+    @RequestMapping(value = "/main/{page}", method = RequestMethod.POST)
+    public String executeAddTweet(@PathVariable("page") Integer page, @ModelAttribute("tweet") Tweet tweet, ModelMap modelMap){
         tweetService.saveTweet(tweet, userService.findByUserName(getPrincipal()));
 
         return "redirect:/main";
+    }
+
+    @RequestMapping(value = "/editTweet/{id}")
+    public String editTweetMessage(@PathVariable("id")int id, ModelMap modelMap){
+        modelMap.addAttribute("editTweet", tweetService.getTweetById(id));
+        return "editTweet";
+    }
+
+    @RequestMapping(value = "/editTweet/{id}", method = RequestMethod.POST)
+    public String executeEditTweetMessage(@PathVariable("id") int id, @ModelAttribute("editTweet") Tweet tweet, ModelMap modelMap){
+        tweetService.updateTweet(tweet, tweetService.getTweetById(id).getUser());
+        return "redirect:/main/1";
+    }
+
+    @RequestMapping(value = "/deleteTweet/{id}")
+    public String deleteTweet(@PathVariable("id")int id){
+        tweetService.removeTweet(id);
+        return "redirect:/main/1";
     }
 
     // Need to do static
