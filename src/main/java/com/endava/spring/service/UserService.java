@@ -9,11 +9,19 @@ import java.util.List;
  */
 public interface UserService {
 
+    List<User> listInitializedUsers();
+
     List<User> listUsers();
 
-    User findByUserName(String username);
+    List<User> listUnfollowedUsers(int id);
+
+    User findByUsernameInitialized(String username);
+
+    User findByUsername(String username);
 
     void saveUser(User user);
+
+    User findByEmailInitialized(String email);
 
     User findByEmail(String email);
 
@@ -23,9 +31,13 @@ public interface UserService {
 
     void updateUser(User user);
 
+    User findByIdInitialized(int id);
+
     User findById(int id);
 
     void unfollowUser(User user, User unfollowedUser);
 
     List<User> filterFollowedUsers(List<User> listOfAllUsers, User currentUser);
+
+    List<User> listFollowedUsers(int id);
 }

@@ -30,7 +30,7 @@ public class RegistrationInputValidator implements Validator {
         User initialUser = user;
         System.out.println(user.getId() + " -------------------------------------------");
         if (user.getId() != 0) {
-            initialUser = userService.findByUserName(user.getUsername());
+            initialUser = userService.findByUsername(user.getUsername());
         }
 
         System.out.println(initialUser);
@@ -59,7 +59,7 @@ public class RegistrationInputValidator implements Validator {
             errors.rejectValue("username", "Size.userFrom.username");
         }
 
-        if (userService.findByUserName(user.getUsername()) != null &&
+        if (userService.findByUsername(user.getUsername()) != null &&
                 !initialUser.getUsername().equals(user.getUsername())) {
             errors.rejectValue("username", "Duplicate.userForm.username");
         }

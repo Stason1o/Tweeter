@@ -2,7 +2,6 @@ package com.endava.spring.dao.impl;
 
 import com.endava.spring.dao.UserDao;
 import com.endava.spring.model.User;
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +20,23 @@ public class UserDaoImpl implements UserDao {
 
     public List<User> listUsers() {
         List<User> list = sessionFactory.getCurrentSession().createQuery("from User").list();
-        for (User user :list) {
-            if(user != null){
-                Hibernate.initialize(user.getTweets());
-                Hibernate.initialize(user.getFollowedUsers());
-                Hibernate.initialize(user.getRoles());
-            }
-        }
+        return list;
+    }
+
+    public List<User> listFollowedUsers(int id){
+        String hql = "SELECT user_2_id FROM user_friends WHERE user_1_id = " + id;
+        List<User> followedUsers = sessionFactory.getCurrentSession().createSQLQuery(hql).list();
+        List<User> list = sessionFactory.getCurrentSession().createQuery("from User where id in :idlist")
+                .setParameterList("idlist", followedUsers).list();
+        return list;
+    }
+
+    @Override
+    public List<User> listUnfollowedUsers(int id) {
+        String hql = "SELECT user_2_id FROM user_friends WHERE user_1_id = " + id;
+        List<User> followedUsers = sessionFactory.getCurrentSession().createSQLQuery(hql).list();
+        List<User> list = sessionFactory.getCurrentSession().createQuery("from User where id not in :idlist")
+                .setParameterList("idlist", followedUsers).list();
         return list;
     }
 
@@ -37,18 +46,14 @@ public class UserDaoImpl implements UserDao {
                 .createQuery("from User where username = :username")
                 .setString("username", username)
                 .uniqueResult();
-        if (user != null) {
-            System.out.println("initializing in findByUserName");
-            Hibernate.initialize(user.getTweets());
-            Hibernate.initialize(user.getRoles());
-            Hibernate.initialize(user.getFollowedUsers());
-        }
         return user;
     }
 
     @Override
     public void saveUser(User user) {
         sessionFactory.getCurrentSession().persist(user);
+//        user.getRoles().add(new Role(2, "ROLE_USER"));
+//        sessionFactory.getCurrentSession().update(user);
     }
 
     @Override
@@ -57,12 +62,6 @@ public class UserDaoImpl implements UserDao {
                 .createQuery("from User where email = :email")
                 .setString("email", email)
                 .uniqueResult();
-        if (user != null) {
-            System.out.println("initializing in findByEmail");
-            Hibernate.initialize(user.getTweets());
-            Hibernate.initialize(user.getRoles());
-            Hibernate.initialize(user.getFollowedUsers());
-        }
         return user;
     }
 
@@ -84,12 +83,6 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User findById(int id) {
         User user = (User) sessionFactory.getCurrentSession().get(User.class, id);
-        if (user != null) {
-            System.out.println("initializing in findById");
-            Hibernate.initialize(user.getTweets());
-            Hibernate.initialize(user.getRoles());
-            Hibernate.initialize(user.getFollowedUsers());
-        }
         return user;
     }
 
