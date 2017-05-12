@@ -12,9 +12,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
-/**
- * Created by sbogdanschi on 25/04/2017.
- */
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.endava.spring")
@@ -31,7 +28,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry){
-        registry.addResourceHandler("/resources/**").addResourceLocations("/resources");
+        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
         registry.addResourceHandler("/static/**").addResourceLocations("/static/");
     }
 
