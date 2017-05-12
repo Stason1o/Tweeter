@@ -5,9 +5,6 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 import java.util.*;
 
-/**
- * Created by sbogdanschi on 25/04/2017.
- */
 @Entity
 @DynamicUpdate
 @Table(name = "users")
@@ -52,7 +49,7 @@ public class User {
             orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Tweet> tweets;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "id_user"),
             inverseJoinColumns = @JoinColumn(name = "id_role"))
     private Set<Role> roles = new HashSet<>(0);
