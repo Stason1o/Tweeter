@@ -30,18 +30,16 @@ public class TweetController {
     @RequestMapping(value = "/main/{page}", method = RequestMethod.GET)
     public String addTweet(@PathVariable("page") int page, ModelMap modelMap){
 
-        int current = page;
-        int begin = Math.max(1, current - 2);
-        int end = Math.min(begin + 5, tweetService.countPage());
-
         modelMap.addAttribute("deploymentLog", tweetService.countPage());
-        modelMap.addAttribute("beginIndex", begin);
-        modelMap.addAttribute("endIndex", end);
-        modelMap.addAttribute("currentIndex", current);
+        modelMap.addAttribute("beginIndex", Math.max(1, page - 2));
+        modelMap.addAttribute("endIndex", Math.min(Math.max(1, page - 2) + 5, tweetService.countPage()));
+        modelMap.addAttribute("currentIndex", page);
 
         modelMap.addAttribute("tweet", new Tweet());
-        modelMap.addAttribute("listTweets", tweetService.listPaginatedTweets(page));
-        modelMap.addAttribute("user", userService.findByUsernameInitialized(getPrincipal()));
+
+        modelMap.addAttribute("listTweets", tweetService.listPaginatedTweetsById(0, page));
+        modelMap.addAttribute("user", userService.findByUsername(getPrincipal()));
+
 
         return "main";
     }
