@@ -36,9 +36,8 @@ public class TweetController {
         modelMap.addAttribute("currentIndex", page);
 
         modelMap.addAttribute("tweet", new Tweet());
-
         modelMap.addAttribute("listTweets", tweetService.listPaginatedTweetsById(0, page));
-        modelMap.addAttribute("user", userService.findByUsername(getPrincipal()));
+        modelMap.addAttribute("user", userService.findByUsernameInitialized(getPrincipal()));
 
 
         return "main";

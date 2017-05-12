@@ -48,6 +48,8 @@ public class TweetServiceImpl implements TweetService {
 
         if (page == 1){
             firstResult = 0;
+        } else {
+            maxResults = 5;
         }
 
         List<Tweet> list;
