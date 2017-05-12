@@ -111,19 +111,21 @@
                 <a href="<c:url value='/edit/${user.id}' />">Edit</a>
                 <a href="<c:url value='/delete/${user.id}' />">Delete</a>
 
-                <c:forEach items="${user.tweets}" var="userTweets" >
-                <p>${userTweets.content} ${userTweets.date} ${userTweets.user.username}</p>
-                </c:forEach>
-
                 <p></p>
             </div>
-        </div>
-        <div class="col-md-4">
-            <!-- HERE GOES USER'S TWEETS -->
-        </div>
 
-        <div class="col-md-3">
-            <!-- HERE GOES USER'S FRIENDS -->
+            <div class="col-md-6">
+                <!-- HERE GOES USER'S TWEETS -->
+                <div class="tweets">
+                    <c:forEach items="${user.tweets}" var="userTweets" >
+                        <p>${userTweets.content} ${userTweets.date} ${userTweets.user.username}</p>
+                    </c:forEach>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <!-- HERE GOES USER'S FRIENDS -->
+            </div>
         </div>
     </div>
     <!-- ##Content## -->
