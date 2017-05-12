@@ -13,7 +13,9 @@ public interface TweetService {
 
     List<Tweet> listTweets();
 
-    List<Tweet> listPaginatedTweets(int page);
+    //List<Tweet> listPaginatedTweets(int page);
+
+    List<Tweet> listPaginatedTweetsById(int id, int page);
 
     int countPage();
 
