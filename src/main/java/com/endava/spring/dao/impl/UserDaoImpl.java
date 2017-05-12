@@ -35,7 +35,7 @@ public class UserDaoImpl implements UserDao {
     public List<User> listUnfollowedUsers(int id) {
         String hql = "SELECT user_2_id FROM user_friends WHERE user_1_id = " + id;
         List<User> followedUsers = sessionFactory.getCurrentSession().createSQLQuery(hql).list();
-        List<User> list = sessionFactory.getCurrentSession().createQuery("from User where id not in :idlist")
+        List<User> list = sessionFactory.getCurrentSession().createQuery("from User where id not in :idlist and id !=" + id)
                 .setParameterList("idlist", followedUsers).list();
         return list;
     }
