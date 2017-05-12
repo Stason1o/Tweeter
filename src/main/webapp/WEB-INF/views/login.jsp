@@ -1,37 +1,93 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>Login</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<c:url value="/resources/css/style.css" />" rel="stylesheet">
 </head>
+
 <body>
-    <div class="container">
-        <%--<c:forEach items="${users}" var="u">--%>
-            <%--<p>${u.username}<br></p>--%>
-            <%--&lt;%&ndash;<c:forEach items="${u.tweets}" var="userTweets">&ndash;%&gt;--%>
-                <%--&lt;%&ndash;<p>${userTweets.content} ${userTweets.date} ${userTweets.user}</p>&ndash;%&gt;--%>
-            <%--&lt;%&ndash;</c:forEach>&ndash;%&gt;--%>
-        <%--</c:forEach>--%>
-            <div class="col-md-6">
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-inverse navbar-static-top">
+        <div class="container-nav">
+            <div class="container-fluid">
+
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="">FLASH</a>
+                </div>
+
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/login"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                        <li><a href=""><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
+                        <li><a href="/registration"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+    <!-- ##Navigation Bar## -->
+
+    <!-- Content -->
+    <div class="container-fluid" id="main-content">
+        <div class="row">
+            <div class="col-md-8">
+                <h3>Welcome to FLASH</h3>
+                <p>Here you will can make friends, collegues, business parteners and so much more.
+                    You can you this platform for your business activities, private life or hobbies.
+                </p>
+
+            </div>
+            <div class="col-md-4">
                 <form:form id="loginForm" method="post" action="login" modelAttribute="user" class="form-login">
-                    <%--<form:label path="username">Enter your username</form:label>--%>
-                    <h2 class="form-login-heading">Login</h2>
-                    <form:input id="username" name="username" path="username" class="form-control"
-                                placeholder="Username" required="" autofocus="" /><br>
-                    <%--<form:label path="password">Please enter your password</form:label>--%>
-                    <form:password id="password" name="password" path="password" class="form-control"
-                                   placeholder="Password" required="" autofocus=""/><br>
-                    <%--<input type="submit" value="Log in" class="btn btn-success"/>--%>
-                    <button class="btn btn-lg btn-success btn-block" type="submit">Log in</button>
+
+                    <h3 class="form-heading">Login</h3>
+                    <hr>
+
+                    <div class="field input-group input-group-lg">
+                        <span class="input-group-addon" id="user-icon">
+                            <span class="glyphicon glyphicon-user"></span>
+                        </span>
+                        <form:input id="username" name="username" path="username" class="form-control"
+                                placeholder="lazyuser25" required="" autofocus="" aria-describedby="user-icon"/>
+                    </div>
+                    <br>
+                    <div class="field padding-top input-group input-group-lg">
+                            <%--<form:label path="password">Password:</form:label>--%>
+                         <span class="input-group-addon" id="password-icon">
+                            <span class="glyphicon glyphicon-lock"></span>
+                        </span>
+                        <form:password id="password" name="password" path="password" class="form-control"
+                                       placeholder="P@ssword#23.1" required="" autofocus=""
+                                       aria-describedby="password-icon"/>
+                    </div>
+                    <br>
+                    <div class="padding-top">
+                        <button type="submit" class="btn btn-lg btn-success">Log in</button>
+                        <input type="button" value="Register" onclick="window.location='/registration'"
+                               class="btn btn-lg btn-warning">
+                    </div>
                 </form:form>
             </div>
+        </div>
     </div>
-    <!--Content goes here-->
+    <!-- ##Content## -->
+
+    <!--REST OF THE CONTENT GOES HERE. BEFORE <script> tags-->
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="<c:url value="/resources/js/script.js" />"></script>
 </body>
 </html>
