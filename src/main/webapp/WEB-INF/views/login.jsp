@@ -8,7 +8,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>Login</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <link href="<c:url value="/resources/css/style.css" />" rel="stylesheet">
+    <style type="text/css">
+        <%@include file="/resources/css/style.css"%>
+    </style>
 </head>
 
 <body>
@@ -88,6 +90,6 @@
     <!--REST OF THE CONTENT GOES HERE. BEFORE <script> tags-->
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="<c:url value="/resources/js/script.js" />"></script>
+
 </body>
 </html>
