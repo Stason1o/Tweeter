@@ -1,0 +1,206 @@
+/* === GLOBAL CSS RESET === */
+
+/*
+ * html, body, div, span, applet, object, iframe,
+ * h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+ * a, abbr, acronym, address, big, cite, code,
+ * del, dfn, em, img, ins, kbd, q, s, samp,
+ * small, strike, strong, sub, sup, tt, var,
+ * b, u, i, center,
+ * dl, dt, dd, ol, ul, li,
+ * fieldset, form, label, legend,
+ * table, caption, tbody, tfoot, thead, tr, th, td,
+ * article, aside, canvas, details, embed, 
+ * figure, figcaption, footer, header, hgroup, 
+ * menu, nav, output, ruby, section, summary,
+ * time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+ * }
+*/
+
+/*
+ * >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
+ */
+/*
+ * === LAPTOP === 
+ */
+
+
+/*
+ * Navigation Bar 
+ */
+.navbar {
+    margin-bottom: 0;
+}
+
+.inverse-dropdown {
+    background-color: #222;
+    border-color: #080808;
+}
+
+.inverse-dropdown .divider {
+    background-color: #000;
+}
+
+.inverse-dropdown li a {
+    color: #999;
+}
+
+.inverse-dropdown li a:hover, li a:focus, li a:active, li a:visited{
+    color: #fff;
+    background-color: #000;
+}
+  
+/*
+ * Main Content 
+ */
+body {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+kbd {
+    font-size: 15px;
+}
+
+/*
+#projects, #news, #features {
+    background-color: rgba(172, 160, 149, 0.7); 
+}
+*/
+
+.title-left-margin, #lights, #switch {
+    margin-left: 5px;
+}
+
+.padding-top {
+    padding-top: 10px;
+}
+
+h3 a {
+    text-decoration: none;
+    color: #3D464D;
+}
+
+h3 {
+    color:red;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #7B8994;
+}
+
+a:visited {
+    color: #304040;
+
+}
+
+a:active {
+    color: #B50938;
+}
+
+a:focus {
+    text-decoration: none;
+}
+
+hr {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #FF2A2A;
+}
+
+/*
+ * Home Image 
+ */
+
+/*
+ * Forms 
+ */
+.field {
+    padding-top: 5px;
+}
+
+
+/*
+ * Footer 
+ */
+
+
+
+/*
+ * <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
+ */
+/*
+ * >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
+ */
+/*
+ * === DESKTOP === 
+ */
+
+
+
+
+
+/*
+ * <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
+ */
+/*
+ * >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
+ */
+/*
+ * === BIG SCREENS 2K/4K === 
+ */
+
+
+
+
+ 
+/*
+ * <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
+ */
+/*
+ * ><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>< 
+ */
+/*
+ * === RESPONSIVE SECTION === 
+ */
+/*
+ * ><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><
+ */
+/*
+ * >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
+ */
+/*
+ * === TABLET === 
+ */
+
+
+
+
+ 
+/*
+ * <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
+ */
+/*
+ * >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
+ */
+/*
+ * === MOBILE === 
+ */
+
+
+
+
+ 
+/*
+ * <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
+ */
