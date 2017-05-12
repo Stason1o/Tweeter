@@ -48,8 +48,18 @@
         <form:errors path="password"/>
         <br>
 
+<<<<<<< HEAD
+    <form:label path="confirmPassword">Password</form:label>
+    <form:input id="confirmPassword" value="${user.confirmPassword}" name="confirmPassword" path="confirmPassword" />
+    <form:errors path="confirmPassword"/>
+    <br>
+
+    <form:input type="hidden" id="oldEmail" value="${user.oldEmail}" name="oldEmail" path="oldEmail" />
+    <br>
+=======
         <form:input type="hidden" id="confirmPassword" value="${user.password}" name="confirmPassword" path="confirmPassword" />
         <br>
+>>>>>>> e7bd2546b1892b08de4df631e107116a4c9af75a
 
         <form:label path="email">Email</form:label>
         <form:input type="email" id="email" name="email" path="email" />

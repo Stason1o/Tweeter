@@ -85,7 +85,7 @@ public class TweetDaoImpl implements TweetDao {
 
         int maxResults = 5 * page;
         int firstResult = maxResults - 5;
-        Query query = sessionFactory.getCurrentSession().createQuery("from Tweet");
+        Query query = sessionFactory.getCurrentSession().createQuery("from Tweet order by date desc ");
         query.setFirstResult(firstResult);
         if (page == 1){
             query.setMaxResults(maxResults);

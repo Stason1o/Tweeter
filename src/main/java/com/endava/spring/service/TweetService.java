@@ -2,7 +2,6 @@ package com.endava.spring.service;
 
 import com.endava.spring.model.Tweet;
 import com.endava.spring.model.User;
-import org.hibernate.Query;
 
 import java.util.List;
 

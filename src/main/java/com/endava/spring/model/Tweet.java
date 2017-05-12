@@ -21,8 +21,8 @@ public class Tweet {
     @Size(max = 140, min = 1)
     private String content;
 
-    @Column(name = "tweet_date")
-    @Temporal(value = TemporalType.DATE)
+    @Column(name = "tweet_date", columnDefinition="DATETIME")
+    @Temporal(value = TemporalType.TIMESTAMP)
     private Date date;
 
 //    @Column(name = "tweet_type")
