@@ -21,9 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 
-/**
- * Created by sbogdanschi on 25/04/2017.
- */
 @Controller
 public class UserController {
 
