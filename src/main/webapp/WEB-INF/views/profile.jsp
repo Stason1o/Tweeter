@@ -16,7 +16,7 @@
 </head>
 <body>
 
-    <c:url var="addAction" value="/myProfile"/>
+    <c:url var="addAction" value="/profile"/>
 
     <form:form action="${addAction}" commandName="user">
         <%--<c:if test="${!empty user.id}">--%>

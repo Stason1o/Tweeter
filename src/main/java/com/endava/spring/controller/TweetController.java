@@ -41,14 +41,14 @@ public class TweetController {
 
         modelMap.addAttribute("tweet", new Tweet());
         modelMap.addAttribute("listTweets", tweetService.listPaginatedTweets(page));
-        modelMap.addAttribute("user", userService.findByUserName(getPrincipal()));
+        modelMap.addAttribute("user", userService.findByUsernameInitialized(getPrincipal()));
 
         return "main";
     }
 
     @RequestMapping(value = "/main/{page}", method = RequestMethod.POST)
     public String executeAddTweet(@PathVariable("page") Integer page, @ModelAttribute("tweet") Tweet tweet, ModelMap modelMap){
-        tweetService.saveTweet(tweet, userService.findByUserName(getPrincipal()));
+        tweetService.saveTweet(tweet, userService.findByUsernameInitialized(getPrincipal()));
         return "redirect:/main";
     }
 

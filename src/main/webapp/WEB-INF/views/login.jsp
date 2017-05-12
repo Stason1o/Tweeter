@@ -10,12 +10,12 @@
 </head>
 <body>
     <div class="container">
-        <%--<c:forEach items="${users}" var="u">--%>
-            <%--<p>${u.username}<br></p>--%>
-            <%--&lt;%&ndash;<c:forEach items="${u.tweets}" var="userTweets">&ndash;%&gt;--%>
-                <%--&lt;%&ndash;<p>${userTweets.content} ${userTweets.date} ${userTweets.user}</p>&ndash;%&gt;--%>
-            <%--&lt;%&ndash;</c:forEach>&ndash;%&gt;--%>
-        <%--</c:forEach>--%>
+        <c:forEach items="${users}" var="u">
+            <p>${u.username}<br></p>
+            <%--<c:forEach items="${u.tweets}" var="userTweets">--%>
+                <%--<p>${userTweets.content} ${userTweets.date} ${userTweets.user.username}</p>--%>
+            <%--</c:forEach>--%>
+        </c:forEach>
             <div class="col-md-6">
                 <form:form id="loginForm" method="post" action="login" modelAttribute="user" class="form-login">
                     <%--<form:label path="username">Enter your username</form:label>--%>

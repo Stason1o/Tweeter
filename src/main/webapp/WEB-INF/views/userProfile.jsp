@@ -35,7 +35,7 @@
             </c:when>
             <c:otherwise>
                 <p>
-                    <a href="<c:url value="/myProfile" />" >
+                    <a href="<c:url value="/profile" />" >
                             ${followedUser.firstName} ${followedUser.lastName} ${followedUser.username}
                     </a>
                 </p>

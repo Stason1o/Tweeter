@@ -11,6 +11,10 @@ public interface UserDao {
 
     List<User> listUsers();
 
+    List<User> listFollowedUsers(int id);
+
+    List<User> listUnfollowedUsers(int id);
+
     User findByUserName(String username);
 
     void saveUser(User user);

@@ -44,7 +44,7 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String displayLoginPage(ModelMap modelMap) {
         User user = new User();
-        modelMap.addAttribute("users", userService.listUsers());
+//        modelMap.addAttribute("users", userService.listUsers());
         modelMap.addAttribute("user", user);
         return "login";
     }
@@ -63,12 +63,12 @@ public class UserController {
         return "redirect:/login";
     }
 
-    @RequestMapping(value = "/myProfile", method = RequestMethod.GET)
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String displayLoggedUserProfilePage(ModelMap modelMap) {
         System.out.println("/profile GET");
         modelMap.addAttribute("loggedUser", getPrincipal());
-        modelMap.addAttribute("user", userService.findByUserName(getPrincipal()));
-        return "myProfile";
+        modelMap.addAttribute("user", userService.findByUsernameInitialized(getPrincipal()));
+        return "profile";
     }
 
     @RequestMapping(value = "/edit/{id}")
@@ -76,7 +76,7 @@ public class UserController {
         System.out.println("edit");
         modelMap.addAttribute("loggedUser", getPrincipal());
         modelMap.addAttribute("user", userService.findById(id));
-        return "myProfile";
+        return "profile";
     }
 
     @RequestMapping(value = "/delete/{id}")
@@ -85,18 +85,18 @@ public class UserController {
         return "redirect:/login";
     }
 
-    @RequestMapping(value = "/myProfile", method = RequestMethod.POST)
+    @RequestMapping(value = "/profile", method = RequestMethod.POST)
     public String saveUser(@ModelAttribute("user") User user, BindingResult result, Errors errors, ModelMap modelMap) {
         System.out.println("/profile POST");
         registrationInputValidator.validate(user, errors);
         if (result.hasErrors()) {
-            return "myProfile";
+            return "profile";
         }
 
         System.out.println("in saveUser : " + user);
         userService.updateUser(user);
         securityService.autoLogin(user.getUsername(), user.getPassword());
-        return "redirect:/myProfile";
+        return "redirect:/profile";
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
@@ -118,11 +118,11 @@ public class UserController {
 
     @RequestMapping(value = "/followFriends", method = RequestMethod.GET)
     public String displayFollowPage(ModelMap modelMap) {
-        User loggedUser = userService.findByUserName(getPrincipal());
-        List<User> globalUserList = userService.listUsers();
-        modelMap.addAttribute("loggedUser", loggedUser);
-        modelMap.addAttribute("listUsers", globalUserList);
-        modelMap.addAttribute("listFollowedUsers", userService.filterFollowedUsers(globalUserList, loggedUser));
+        User loggedUser = userService.findByUsernameInitialized(getPrincipal());
+        List<User> listFollowedUsers = userService.listFollowedUsers(loggedUser.getId());
+        List<User> listUnfollowedUsers = userService.listUnfollowedUsers(loggedUser.getId());
+        modelMap.addAttribute("listFollowedUsers", listFollowedUsers);
+        modelMap.addAttribute("listUnfollowedUsers", listUnfollowedUsers);
         return "follow";
     }
 
@@ -130,21 +130,21 @@ public class UserController {
     public String followFriend(@RequestParam(value = "followedFriend", required = false) Integer followedUserId,
                                @RequestParam(value = "unfollowedFriend", required = false) Integer unfollowedUserId) {
         System.out.println("IN FOLLOW FRIEND");
-        User loggedUser = userService.findByUserName(getPrincipal());
+        User loggedUser = userService.findByUsernameInitialized(getPrincipal());
         if(followedUserId != null) {
             System.out.println("IN FOLLOW IF");
-            userService.followUser(loggedUser, userService.findById(followedUserId));
+            userService.followUser(loggedUser, userService.findByIdInitialized(followedUserId));
         } else if(followedUserId == null && unfollowedUserId != null){
             System.out.println("IN FOLLOW ELSE IF");
-            userService.unfollowUser(loggedUser, userService.findById(unfollowedUserId));
+            userService.unfollowUser(loggedUser, userService.findByIdInitialized(unfollowedUserId));
         }
         return "redirect:/followFriends";
     }
 
     @RequestMapping(value = "/userProfile", method = RequestMethod.GET)
         public String displayUserProfilePage(@RequestParam(value = "username") String username, ModelMap modelMap) {
-        modelMap.addAttribute("loggedUser", userService.findByUserName(getPrincipal()));
-        modelMap.addAttribute("user", userService.findByUserName(username));
+//        modelMap.addAttribute("loggedUser", userService.findByUsernameInitialized(getPrincipal()));
+        modelMap.addAttribute("user", userService.findByUsernameInitialized(username));
         return "userProfile";
     }
 
