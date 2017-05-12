@@ -53,6 +53,7 @@
 
             </div>
             <div class="col-md-4">
+
                 <form:form id="loginForm" method="post" action="login" modelAttribute="user" class="form-login">
 
                     <h3 class="form-heading">Login</h3>

@@ -26,12 +26,6 @@ public class TweetDaoImpl implements TweetDao {
     @Override
     public List<Tweet> listTweets() {
         List<Tweet> list = sessionFactory.getCurrentSession().createQuery("from Tweet").list();
-        for (Tweet tweet : list) {
-            if (tweet != null){
-                Hibernate.initialize(tweet.getUser());
-            }
-        }
-
         return list;
     }
 
@@ -81,24 +75,25 @@ public class TweetDaoImpl implements TweetDao {
     }
 
     @Override
-    public List<Tweet> listPaginatedTweets(int page) {
+    public List<Tweet> listPaginatedTweets(int firstResult, int maxResults) {
 
-        int maxResults = 5 * page;
-        int firstResult = maxResults - 5;
-        Query query = sessionFactory.getCurrentSession().createQuery("from Tweet");
+        Query query = sessionFactory.getCurrentSession().createQuery("from Tweet order by date desc ");
         query.setFirstResult(firstResult);
-        if (page == 1){
-            query.setMaxResults(maxResults);
-        } else {
-            query.setMaxResults(firstResult);
-        }
+        query.setMaxResults(maxResults);
 
         List<Tweet> list = (List<Tweet>)query.list();
-        for (Tweet tweet : list) {
-            if (tweet != null){
-                Hibernate.initialize(tweet.getUser());
-            }
-        }
+
+        return list;
+    }
+
+    @Override
+    public List<Tweet> listPaginatedTweetsByUserId(int id, int firstResult, int maxResults) {
+        Query query = sessionFactory.getCurrentSession().createQuery("from Tweet where user =" + id + " order by date desc");
+        query.setFirstResult(firstResult);
+        query.setMaxResults(maxResults);
+
+        List<Tweet> list = (List<Tweet>)query.list();
+
         return list;
     }
 }

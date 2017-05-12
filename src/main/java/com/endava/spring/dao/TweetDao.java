@@ -2,7 +2,6 @@ package com.endava.spring.dao;
 
 import com.endava.spring.model.Tweet;
 import com.endava.spring.model.User;
-import org.hibernate.Query;
 
 import java.util.List;
 
@@ -15,7 +14,9 @@ public interface TweetDao {
 
     List<Tweet> listTweets();
 
-    List<Tweet> listPaginatedTweets(int page);
+    List<Tweet> listPaginatedTweets(int firstResult, int maxResults);
+
+    List<Tweet> listPaginatedTweetsByUserId(int id, int firstResult, int maxResults);
 
     int countPage();
 

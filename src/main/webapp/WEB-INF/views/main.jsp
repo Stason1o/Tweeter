@@ -16,27 +16,6 @@
 </head>
 <body>
 
-<<<<<<< HEAD
-    <jsp:useBean id="now" class="java.util.Date" />
-
-    <c:url var="addAction" value="/main"/>
-    <form:form action="${addAction}" commandName="tweet">
-        <form:label path="content">Enter tweet content</form:label>
-        <form:input id="content" name="content" path="content" /><br>
-        <input type="submit" value="Submit" />
-    </form:form>
-
-    <p>Tweets :</p>
-    <c:forEach var="listTweets" items="${listTweets}">
-        <div><p>Tweet ID#${listTweets.id},
-            posted by <b>${listTweets.user.username}</b>
-            at ${listTweets.date}</p> </div>
-        <div><p>${listTweets.content}</p></div>
-    </c:forEach>
-    <!--Content goes here-->
-    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-=======
 <form:form method="post" modelAttribute="tweet">
     <form:label path="content">Enter tweet content</form:label>
     <form:input path="content" /><br>
@@ -56,7 +35,7 @@
         <a href="<c:url value='/deleteTweet/${listTweets.id}' />">Delete</a>
     </c:if>
 </c:forEach>
-
+<br>
 <div class="pagination">
     <ul>
         <c:choose>
@@ -93,6 +72,5 @@
     </ul>
 </div>
 
->>>>>>> f8ffb906c577865d63eab5f56dc3c2b4c871d438
 </body>
 </html>

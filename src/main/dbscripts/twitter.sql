@@ -31,7 +31,7 @@ create table user_roles(
 create table tweets(
 	tweet_id SERIAL primary key,
 	tweet_content varchar(140),
-	tweet_date date not null,
+	tweet_date TIMESTAMP not null,
 	id_user int not null references users(user_id)
 );
 

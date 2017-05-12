@@ -53,7 +53,7 @@
     <div class="container-fluid" id="main-content">
         <div class="row">
             <div class="col-md-3">
-                <c:url var="addAction" value="/myProfile"/>
+                <c:url var="addAction" value="/profile"/>
                 <form:form action="${addAction}" commandName="user">
 
                 <h2 class="form-profile-heading">Profile</h2>
@@ -94,6 +94,14 @@
 
                 <c:if test="${!empty user.id}">
 
+                <form:label path="confirmPassword">Password</form:label>
+                <form:input id="confirmPassword" value="${user.confirmPassword}" name="confirmPassword" path="confirmPassword" />
+                <form:errors path="confirmPassword"/>
+                <br>
+
+                <form:input type="hidden" id="oldEmail" value="${user.oldEmail}" name="oldEmail" path="oldEmail" />
+                <br>
+
                 <input type="submit" class="btn btn-success"
                        value="<spring:message text="Edit user"/>"/>
                 </c:if>
@@ -117,11 +125,11 @@
         <div class="col-md-3">
             <!-- HERE GOES USER'S FRIENDS -->
         </div>
+    </div>
     <!-- ##Content## -->
 
     <!--REST OF THE CONTENT GOES HERE. BEFORE <script> tags-->
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="<c:url value="/resources/js/script.js" />"></script>
 </body>
 </html>

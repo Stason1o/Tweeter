@@ -4,6 +4,7 @@ import com.endava.spring.dao.UserDao;
 import com.endava.spring.model.User;
 import com.endava.spring.service.UserService;
 import org.apache.log4j.Logger;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,12 +24,39 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Override
+    public List<User> listInitializedUsers() {
+        List<User> list = userDao.listUsers();
+        for (User user :list) {
+            if(user != null){
+                Hibernate.initialize(user.getFollowedUsers());
+                Hibernate.initialize(user.getTweets());
+            }
+        }
+        return userDao.listUsers();
+    }
+
+    @Override
     public List<User> listUsers() {
         return userDao.listUsers();
     }
 
     @Override
-    public User findByUserName(String username) {
+    public List<User> listUnfollowedUsers(int id) {
+        return userDao.listUnfollowedUsers(id);
+    }
+
+    @Override
+    public User findByUsernameInitialized(String username) {
+        User user = userDao.findByUserName(username);
+        if(user != null){
+            Hibernate.initialize(user.getTweets());
+            Hibernate.initialize(user.getFollowedUsers());
+        }
+        return user;
+    }
+
+    @Override
+    public User findByUsername(String username) {
         return userDao.findByUserName(username);
     }
 
@@ -43,6 +71,16 @@ public class UserServiceImpl implements UserService {
             user.getFollowedUsers().add(followedUser);
             userDao.updateUser(user);
         }
+    }
+
+    @Override
+    public User findByEmailInitialized(String email) {
+        User user = userDao.findByEmail(email);
+        if (user != null){
+            Hibernate.initialize(user.getFollowedUsers());
+            Hibernate.initialize(user.getTweets());
+        }
+        return user;
     }
 
     @Override
@@ -61,6 +99,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findByIdInitialized(int id) {
+        User user = userDao.findById(id);
+        if(user != null) {
+            Hibernate.initialize(user.getTweets());
+            Hibernate.initialize(user.getFollowedUsers());
+        }
+        return user;
+    }
+
+    @Override
     public User findById(int id) {
         return userDao.findById(id);
     }
@@ -75,13 +123,7 @@ public class UserServiceImpl implements UserService {
             }
         }
         user.getFollowedUsers().remove(foundUser);
-        System.out.println("BEFORE UPDATE USER");
-        System.out.println(user.getId() + " " + unfollowedUser.getId() + " " + unfollowedUser.getUsername() + "--------------------" );
-        for (User user12 : user.getFollowedUsers()) {
-            System.out.println(user12.getId());
-        }
         userDao.updateUser(user);
-        System.out.println("AFTER UPDATE USER");
     }
 
     @Override
@@ -90,17 +132,23 @@ public class UserServiceImpl implements UserService {
         int position = 0;
 
         for(int i = 0; i < filteredUsers.size(); i++){
+            if(filteredUsers.get(i).getId() == currentUser.getId()){
+                position = i;
+            }
             for (User followedUser : currentUser.getFollowedUsers()) {
                 if (filteredUsers.get(i).getId() == followedUser.getId()) {
                     filteredUsers.get(i).setFollowed(true);
                     break;
-                } else if(followedUser.getId() == currentUser.getId()){
-                    position = i;
                 }
             }
         }
 
         filteredUsers.remove(position);
         return filteredUsers;
+    }
+
+    @Override
+    public List<User> listFollowedUsers(int id) {
+        return userDao.listFollowedUsers(id);
     }
 }

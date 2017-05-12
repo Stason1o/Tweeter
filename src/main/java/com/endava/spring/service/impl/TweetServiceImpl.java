@@ -4,7 +4,7 @@ import com.endava.spring.dao.TweetDao;
 import com.endava.spring.model.Tweet;
 import com.endava.spring.model.User;
 import com.endava.spring.service.TweetService;
-import org.hibernate.Query;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,8 +42,27 @@ public class TweetServiceImpl implements TweetService {
     }
 
     @Override
-    public List<Tweet> listPaginatedTweets(int page) {
-        return tweetDao.listPaginatedTweets(page);
+    public List<Tweet> listPaginatedTweetsById(int id, int page) {
+        int maxResults = 5 * page;
+        int firstResult = maxResults - 5;
+
+        if (page == 1){
+            firstResult = 0;
+        }
+
+        List<Tweet> list;
+        if (id == 0){
+            list = tweetDao.listPaginatedTweets(firstResult, maxResults);
+            for (Tweet tweet : list) {
+                if (tweet != null){
+                    Hibernate.initialize(tweet.getUser());
+                }
+            }
+        }else {
+            list = tweetDao.listPaginatedTweetsByUserId(id, firstResult, maxResults);
+        }
+
+        return list;
     }
 
     @Override
@@ -53,7 +72,13 @@ public class TweetServiceImpl implements TweetService {
 
     @Override
     public List<Tweet> listTweets() {
-        return tweetDao.listTweets();
+        List<Tweet> list = tweetDao.listTweets();
+        for (Tweet tweet : list) {
+            if (tweet != null){
+                Hibernate.initialize(tweet.getUser());
+            }
+        }
+        return list;
     }
 
     @Override

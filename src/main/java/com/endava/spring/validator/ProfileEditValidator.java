@@ -30,7 +30,7 @@
 //        User initialUser = user;
 //        System.out.println(user.getId() + " -------------------------------------------");
 //        if (user.getId() != 0) {
-//            initialUser = userService.findByUserName(user.getUsername());
+//            initialUser = userService.findByUsernameInitialized(user.getUsername());
 //        }
 //
 //        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "Required");
@@ -44,7 +44,7 @@
 //        }
 //
 //        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "Required");
-//        if ((userService.findByEmail(user.getEmail()) != null) ||
+//        if ((userService.findByEmailInitialized(user.getEmail()) != null) ||
 //                !initialUser.getEmail().equals(user.getEmail())) {
 //            errors.rejectValue("email", "Duplicate.userForm.email");
 //        }
@@ -58,7 +58,7 @@
 //            errors.rejectValue("username", "Size.userFrom.username");
 //        }
 //
-//        if (userService.findByUserName(user.getUsername()) != null ||
+//        if (userService.findByUsernameInitialized(user.getUsername()) != null ||
 //                !initialUser.getUsername().equals(user.getUsername())) {
 //            errors.rejectValue("username", "Duplicate.userForm.username");
 //        }
