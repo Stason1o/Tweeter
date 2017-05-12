@@ -29,4 +29,4 @@ target/generated-sources/
 .idea/
 /out/
 /HelloWorldSpring.iml
-
+/src/main/resources/application.properties
