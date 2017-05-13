@@ -147,7 +147,10 @@ public class UserController {
 
     @RequestMapping(value = "/userProfile/{username}")
         public String displayUserProfilePage(@PathVariable( value = "username", required = false) String username, ModelMap modelMap) {
-//        modelMap.addAttribute("loggedUser", userService.findByUsernameInitialized(getPrincipal()));
+        if(getPrincipal().equals(username)){
+            return "redirect:/profile";
+        }
+        modelMap.addAttribute("listFollowedUsers", userService.findByUsernameInitialized(getPrincipal()).getFollowedUsers());
         if(username != null) {
             modelMap.addAttribute("user", userService.findByUsernameInitialized(username));
         }
@@ -157,7 +160,23 @@ public class UserController {
     @RequestMapping(value = "/userProfile", method = RequestMethod.POST)
     public String manageUser(@RequestParam(value = "userBanUnban", required = false) Integer userToBanOrUnban,
                              @RequestParam(value = "userToDelete", required = false) Integer userIdToDelete,
+                             @RequestParam(value = "unfollowedFriend", required = false) Integer userIdToUnfollow,
+                             @RequestParam(value = "followedFriend", required = false) Integer userIdToFollow,
                              RedirectAttributes redirectAttrs){
+        User loggedUser = userService.findByUsernameInitialized(getPrincipal());
+        if(userIdToFollow != null){
+            User user = userService.findByIdInitialized(userIdToFollow);
+            userService.followUser(loggedUser, user);
+            redirectAttrs.addAttribute("username", user.getUsername());
+            return "redirect:/userProfile/{username}";
+        }
+
+        if(userIdToUnfollow != null){
+            User user = userService.findByIdInitialized(userIdToUnfollow);
+            userService.unfollowUser(loggedUser, user);
+            redirectAttrs.addAttribute("username", user.getUsername());
+            return "redirect:/userProfile/{username}";
+        }
 
         if(userToBanOrUnban != null){
             userService.updateUserState(userToBanOrUnban);

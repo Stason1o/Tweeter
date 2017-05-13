@@ -11,12 +11,26 @@
     </style>
 </head>
 <body>
+<c:set value="false" var="contains"/>
 <c:url var="addAction" value="/userProfile"/>
     <p>
         Name : ${user.firstName}<br>
         Surname: ${user.lastName} <br>
         Username: ${user.username}<br>
         <form:form action="${addAction}" commandName="user">
+            <c:forEach items="${listFollowedUsers}" var="followedUser">
+                    <c:if test="${followedUser.username eq user.username}">
+                        <c:set var="contains" value="true"/>
+                    </c:if>
+            </c:forEach>
+            <c:choose>
+                <c:when test="${contains}">
+                    <button class="btn btn-warning" type="submit" name="unfollowedFriend" value="${user.id}">UnFollow</button>
+                </c:when>
+                <c:otherwise>
+                    <button class="btn btn-success" type="submit" name="followedFriend" value="${user.id}">Follow</button>
+                </c:otherwise>
+            </c:choose>
             <security:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin"/>
             <c:if test="${isAdmin}">
                 <c:choose>
