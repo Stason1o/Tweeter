@@ -15,6 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -121,6 +122,7 @@ public class UserController {
         User loggedUser = userService.findByUsernameInitialized(getPrincipal());
         List<User> listFollowedUsers = userService.listFollowedUsers(loggedUser.getId());
         List<User> listUnfollowedUsers = userService.listUnfollowedUsers(loggedUser.getId());
+
         modelMap.addAttribute("listFollowedUsers", listFollowedUsers);
         modelMap.addAttribute("listUnfollowedUsers", listUnfollowedUsers);
         return "follow";
@@ -131,21 +133,44 @@ public class UserController {
                                @RequestParam(value = "unfollowedFriend", required = false) Integer unfollowedUserId) {
         System.out.println("IN FOLLOW FRIEND");
         User loggedUser = userService.findByUsernameInitialized(getPrincipal());
+
         if(followedUserId != null) {
             System.out.println("IN FOLLOW IF");
             userService.followUser(loggedUser, userService.findByIdInitialized(followedUserId));
-        } else if(followedUserId == null && unfollowedUserId != null){
+        } else {
             System.out.println("IN FOLLOW ELSE IF");
             userService.unfollowUser(loggedUser, userService.findByIdInitialized(unfollowedUserId));
         }
+
         return "redirect:/followFriends";
     }
 
-    @RequestMapping(value = "/userProfile", method = RequestMethod.GET)
-        public String displayUserProfilePage(@RequestParam(value = "username") String username, ModelMap modelMap) {
+    @RequestMapping(value = "/userProfile/{username}")
+        public String displayUserProfilePage(@PathVariable( value = "username", required = false) String username, ModelMap modelMap) {
 //        modelMap.addAttribute("loggedUser", userService.findByUsernameInitialized(getPrincipal()));
-        modelMap.addAttribute("user", userService.findByUsernameInitialized(username));
+        if(username != null) {
+            modelMap.addAttribute("user", userService.findByUsernameInitialized(username));
+        }
         return "userProfile";
+    }
+
+    @RequestMapping(value = "/userProfile", method = RequestMethod.POST)
+    public String manageUser(@RequestParam(value = "userBanUnban", required = false) Integer userToBanOrUnban,
+                             @RequestParam(value = "userToDelete", required = false) Integer userIdToDelete,
+                             RedirectAttributes redirectAttrs){
+
+        if(userToBanOrUnban != null){
+            userService.updateUserState(userToBanOrUnban);
+            redirectAttrs.addAttribute("username", userService.findById(userToBanOrUnban).getUsername());
+            return "redirect:/userProfile/{username}";
+        }
+
+        if(userIdToDelete != null){
+            userService.removeUser(userIdToDelete);
+            return "profile";
+        }
+
+        return "redirect:/profile";
     }
 
     private String getPrincipal() {

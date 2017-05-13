@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <c:url var="firstUrl" value="/main/1" />
@@ -24,6 +25,8 @@
 </form:form>
 
 <p>Tweets :</p>
+<security:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin"/>
+
 <c:forEach var="listTweets" items="${listTweets}">
     <div><p>Tweet ID#${listTweets.id},
         posted by <b>${listTweets.user.username}</b>
@@ -32,6 +35,8 @@
 
     <c:if test="${listTweets.user.id == user.id}">
         <a href="<c:url value='/editTweet/${listTweets.id}' />">Edit</a>
+    </c:if>
+    <c:if test="${listTweets.user.id == user.id || isAdmin}">
         <a href="<c:url value='/deleteTweet/${listTweets.id}' />">Delete</a>
     </c:if>
 </c:forEach>

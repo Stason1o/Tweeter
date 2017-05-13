@@ -39,7 +39,6 @@ public class TweetController {
         modelMap.addAttribute("listTweets", tweetService.listPaginatedTweetsById(0, page));
         modelMap.addAttribute("user", userService.findByUsernameInitialized(getPrincipal()));
 
-
         return "main";
     }
 

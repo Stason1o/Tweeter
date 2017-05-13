@@ -15,7 +15,7 @@
             <form:form action="${addAction}" commandName="listFollowedUsers">
 
             <c:forEach items="${listFollowedUsers}" var="followedUser">
-                            <a href="userProfile?username=${followedUser.username}">
+                            <a href="<c:url value="/userProfile/${followedUser.username}"/>">
                                     ${followedUser.firstName} ${followedUser.lastName} ${followedUser.id}
                             </a>
                 <button style="height: 30px; width: 100px;" type="submit" name="unfollowedFriend" value="${followedUser.id}">UnFollow</button>
@@ -29,7 +29,7 @@
 
             <c:forEach items="${listUnfollowedUsers}" var="unfollowedUser">
                 <p>
-                <a href="userProfile?username=${unfollowedUser.username}">
+                <a href="<c:url value="/userProfile/${unfollowedUser.username}"/>">
                 ${unfollowedUser.firstName}   ${unfollowedUser.lastName} ${unfollowedUser.id}
                 </a>
                 <button style="height: 30px; width: 100px;" type="submit" name="followedFriend" value="${unfollowedUser.id}">Follow</button>
