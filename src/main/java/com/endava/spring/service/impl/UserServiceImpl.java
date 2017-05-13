@@ -7,6 +7,7 @@ import com.endava.spring.service.UserService;
 import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private PasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public List<User> listInitializedUsers() {
@@ -63,6 +67,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(User user) {
+        String password = user.getPassword();
+        user.setPassword(bCryptPasswordEncoder.encode(password));
+        user.setConfirmPassword(bCryptPasswordEncoder.encode(password));
         userDao.saveUser(user);
     }
 
