@@ -1,25 +1,33 @@
 ﻿
+drop table if EXISTS user_roles;
+drop table if EXISTS user_friends;
+drop table if EXISTS tweet_comments;
+drop TABLE IF EXISTS tweets;
+drop TABLE if EXISTS users;
+drop table if EXISTS roles;
+
+
 ------------TABLE ROLE--------
 create table roles(
 	role_id int primary key,
-    role varchar(15) not null
+	role varchar(15) not null
 );
 
 ----------TABLE USERS----------------
 create table users(
 	user_id SERIAL  primary key,
-    username varchar(30) unique not null,
-    password varchar(30) not null,
-    email varchar(50) unique not null,
-    first_name varchar(20) not null,
-    last_name varchar(20) not null,
-    enabled boolean default true
+	username varchar(32) unique not null,
+	password varchar(32) not null,
+	email varchar(50) unique not null,
+	first_name varchar(32) not null,
+	last_name varchar(32) not null,
+	enabled boolean default true
 );
 
 ------TABLE USER_ROLES---------------
 create table user_roles(
-	id_user int not null references users(user_id),
-    id_role int not null references roles(role_id)    
+	id_user int not null references users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	id_role int not null references roles(role_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 create table tweets(
@@ -32,26 +40,26 @@ create table tweets(
 create table tweet_comments(
 	tweet_comment_id serial primary key,
 	id_tweet int not null references tweets(tweet_id),
-	comment_content varchar(50) not null,
+	comment_content varchar(140) not null,
 	comment_date timestamp not null
 );
 
 create table user_friends(
-	user_1_id int not null references users(user_id),
-	user_2_id int not null references users(user_id)
+	user_1_id int not null references users(user_id) ON DELETE CASCADE ON UPDATE CASCADE ,
+	user_2_id int not null references users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 ----------------------TRIGGERS AND PROCS---------------------
 CREATE OR REPLACE FUNCTION insert_in_user_roles()
-RETURNS TRIGGER AS $$
+	RETURNS TRIGGER AS $$
 BEGIN
-  INSERT INTO user_roles (id_user, id_role) VALUES(NEW.user_id, 2);
-  RETURN NEW;
+	INSERT INTO user_roles (id_user, id_role) VALUES(NEW.user_id, 2);
+	RETURN NEW;
 END; $$ LANGUAGE 'plpgsql';
 
 CREATE TRIGGER setRoleAfterUserInsert
 AFTER INSERT ON users
-FOR EACH ROW 
+FOR EACH ROW
 execute procedure insert_in_user_roles();
 
 
@@ -78,14 +86,14 @@ INSERT INTO public.users (user_id, username, password, email, first_name, last_n
 INSERT INTO public.users (user_id, username, password, email, first_name, last_name, enabled) VALUES (6, 'testtes', '11111111', '4321@mail.ru', 'stas', 'stas', true);
 INSERT INTO public.users (user_id, username, password, email, first_name, last_name, enabled) VALUES (28, 'fgv121', '11111111', 'asdfc@mail.ru', 'jkhasdfb', 'gkjh', true);
 insert into public.users (user_id, username, password, email, first_name, last_name, enabled) values (1, 'stas', 'abc123', 'stas@mail.ru', 'Stas', 'Bogdanschi', true);
-insert into public.users (user_id, username, password, email, first_name, last_name, enabled) values ('peter', 'abc124','patrick@mail.ru', 'Peter', 'Panfilov',true);
+insert into public.users (user_id, username, password, email, first_name, last_name, enabled) values (2,'peter', 'abc124','patrick@mail.ru', 'Peter', 'Panfilov',true);
 
 -----------------------USER-ROLES-----------------------------
-INSERT INTO public.user_roles (id_user, id_role) VALUES (4, 2);
+INSERT INTO public.user_roles (id_user, id_role) VALUES ( 4, 2);
 INSERT INTO public.user_roles (id_user, id_role) VALUES (13, 2);
 INSERT INTO public.user_roles (id_user, id_role) VALUES (14, 2);
 INSERT INTO public.user_roles (id_user, id_role) VALUES (15, 2);
-INSERT INTO public.user_roles (id_user, id_role) VALUES (4, 1);
+INSERT INTO public.user_roles (id_user, id_role) VALUES ( 4, 1);
 INSERT INTO public.user_roles (id_user, id_role) VALUES (18, 2);
 INSERT INTO public.user_roles (id_user, id_role) VALUES (19, 2);
 INSERT INTO public.user_roles (id_user, id_role) VALUES (20, 2);
@@ -97,7 +105,12 @@ INSERT INTO public.user_roles (id_user, id_role) VALUES (25, 2);
 INSERT INTO public.user_roles (id_user, id_role) VALUES (26, 2);
 INSERT INTO public.user_roles (id_user, id_role) VALUES (27, 2);
 INSERT INTO public.user_roles (id_user, id_role) VALUES (28, 2);
-insert into public.user_roles (id_user, id_role) values (1, 1), (2, 2),(1, 3);
+insert into public.user_roles (id_user, id_role) values ( 1, 1);
+insert into public.user_roles (id_user, id_role) values ( 2, 2);
+insert into public.user_roles (id_user, id_role) values ( 1, 3);
+insert into public.user_roles (id_user, id_role) values ( 6, 1);
+insert into public.user_roles (id_user, id_role) values ( 6, 2);
+
 
 
 -------------------------------TWEETS------------------------------
