@@ -37,11 +37,11 @@ public interface UserService {
 
     void unfollowUser(User user, User unfollowedUser);
 
-    List<User> filterFollowedUsers(List<User> listOfAllUsers, User currentUser);
-
     List<User> listFollowedUsers(int id);
 
     void updateUserRole(int userId, int roleId);
 
     void updateUserState(int id);
+
+    List<User> searchByUsername(String username);
 }

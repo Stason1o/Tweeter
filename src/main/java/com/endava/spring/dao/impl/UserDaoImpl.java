@@ -26,9 +26,13 @@ public class UserDaoImpl implements UserDao {
     public List<User> listFollowedUsers(int id){
         String hql = "SELECT user_2_id FROM user_friends WHERE user_1_id = " + id;
         List<User> followedUsers = sessionFactory.getCurrentSession().createSQLQuery(hql).list();
-        List<User> list = sessionFactory.getCurrentSession().createQuery("from User where id in :idlist")
-                .setParameterList("idlist", followedUsers).list();
-        return list;
+        List<User> list;
+        if(followedUsers != null) {
+            list = sessionFactory.getCurrentSession().createQuery("from User where id in :idlist")
+                    .setParameterList("idlist", followedUsers).list();
+            return list;
+        }
+        return null;
     }
 
     @Override
@@ -86,6 +90,66 @@ public class UserDaoImpl implements UserDao {
         return user;
     }
 
+    @Override
+    public List<User> searchByUsername(String username) {
+        return sessionFactory.getCurrentSession()
+                .createQuery("from User where username LIKE " +
+                        ":startingUsername or username LIKE :middleUsername or username LIKE :endUsername" )
+                .setParameter("startingUsername", username + "%")
+                .setParameter("middleUsername", "%" + username + "%")
+                .setParameter("endUsername", "%" + username).list();
+    }
+
+//    @Override
+//    public User searchByUsernameFirstNameLastName(String username, String firstName, String lastName) {
+//        return (User)sessionFactory.getCurrentSession()
+//                .createQuery("from User where username = :username " +
+//                        "and firstName = :firstName and lastName = :lastName")
+//                .setParameter("username", username)
+//                .setParameter("firstName", firstName)
+//                .setParameter("lastName", lastName).uniqueResult();
+//    }
+//
+//    @Override
+//    public User searchByUsernameFirstName(String username, String firstName) {
+//        return (User)sessionFactory.getCurrentSession()
+//                .createQuery("from User where username = :username and firstName = :firstName")
+//                .setParameter("username", username)
+//                .setParameter("firstName", firstName)
+//                .uniqueResult();
+//    }
+//
+//    @Override
+//    public User searchByUsernameLastName(String username, String lastName) {
+//        return (User)sessionFactory.getCurrentSession()
+//                .createQuery("from User where username = :username and lastName = :lastName")
+//                .setParameter("username", username)
+//                .setParameter("lastName", lastName)
+//                .uniqueResult();
+//    }
+//
+//    @Override
+//    public List<User> searchByFirstName(String firstName) {
+//        return sessionFactory.getCurrentSession()
+//                .createQuery("from User where firstName = :firstName")
+//                .setParameter("firstName", firstName).list();
+//    }
+//
+//    @Override
+//    public List<User> searchByLastName(String lastName) {
+//        return sessionFactory.getCurrentSession()
+//                .createQuery("from User where lastName = :lastName")
+//                .setString("lastName", lastName).list();
+//    }
+//
+//    @Override
+//    public User searchByFirstNameLastName(String firstName, String lastName) {
+//        return (User)sessionFactory.getCurrentSession()
+//                .createQuery("from User where firstName = :firstName and lastName = :lastName")
+//                .setParameter("firstName", firstName)
+//                .setParameter("lastName", lastName)
+//                .uniqueResult();
+//    }
 
 
 }

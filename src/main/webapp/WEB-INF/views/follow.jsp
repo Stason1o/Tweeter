@@ -12,6 +12,7 @@
 <body>
     <c:url var="addAction" value="/followFriends"/>
     <div style="float:left">
+        <p>${emptyList}</p>
             <form:form action="${addAction}" commandName="listFollowedUsers">
 
             <c:forEach items="${listFollowedUsers}" var="followedUser">
@@ -24,6 +25,7 @@
 
         </form:form>
     </div>
+
     <div style="float: right">
         <form:form action="${addAction}" commandName="listUnfollowedUsers">
 

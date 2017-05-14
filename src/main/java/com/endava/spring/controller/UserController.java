@@ -118,26 +118,50 @@ public class UserController {
     }
 
     @RequestMapping(value = "/followFriends", method = RequestMethod.GET)
-    public String displayFollowPage(ModelMap modelMap) {
+    public String displayFollowPage(Model modelMap) {
         User loggedUser = userService.findByUsernameInitialized(getPrincipal());
         List<User> listFollowedUsers = userService.listFollowedUsers(loggedUser.getId());
         List<User> listUnfollowedUsers = userService.listUnfollowedUsers(loggedUser.getId());
 
-        modelMap.addAttribute("listFollowedUsers", listFollowedUsers);
+        if(listFollowedUsers != null){
+            modelMap.addAttribute("listFollowedUsers", listFollowedUsers);
+        } else {
+            modelMap.addAttribute("emptyList", "You don't have any followed users");
+        }
+        modelMap.addAttribute("searchUser", new User());
+
         modelMap.addAttribute("listUnfollowedUsers", listUnfollowedUsers);
         return "follow";
     }
 
+    @RequestMapping(value = "/globalSearch", method = RequestMethod.GET)
+    public String displaySearchPage(ModelMap modelMap) {
+        modelMap.addAttribute("user", new User());
+        return "searchPage";
+    }
+
+    @RequestMapping(value = "/globalSearch", method = RequestMethod.POST)
+    public String displaySearchResult(@ModelAttribute("user")User user, ModelMap modelMap){
+        List<User> listUsers;
+        if(user != null) {
+            listUsers = userService.searchByUsername(user.getUsername());
+            modelMap.addAttribute("listUsers", listUsers);
+        }
+
+        return "searchResult";
+    }
+
     @RequestMapping(value = "/followFriends", method = RequestMethod.POST)
     public String followFriend(@RequestParam(value = "followedFriend", required = false) Integer followedUserId,
-                               @RequestParam(value = "unfollowedFriend", required = false) Integer unfollowedUserId) {
+                               @RequestParam(value = "unfollowedFriend", required = false) Integer unfollowedUserId,
+                               RedirectAttributes redirectAttributes) {
         System.out.println("IN FOLLOW FRIEND");
         User loggedUser = userService.findByUsernameInitialized(getPrincipal());
 
         if(followedUserId != null) {
             System.out.println("IN FOLLOW IF");
             userService.followUser(loggedUser, userService.findByIdInitialized(followedUserId));
-        } else {
+        } else if(unfollowedUserId != null){
             System.out.println("IN FOLLOW ELSE IF");
             userService.unfollowUser(loggedUser, userService.findByIdInitialized(unfollowedUserId));
         }
