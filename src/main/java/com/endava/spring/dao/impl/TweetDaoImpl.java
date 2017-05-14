@@ -3,6 +3,7 @@ package com.endava.spring.dao.impl;
 import com.endava.spring.dao.TweetDao;
 import com.endava.spring.model.Tweet;
 import com.endava.spring.model.User;
+import org.apache.log4j.Logger;
 import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,8 @@ import java.util.List;
  */
 @Repository("tweetDao")
 public class TweetDaoImpl implements TweetDao {
+
+    private final static Logger logger = Logger.getLogger(TweetDaoImpl.class);
 
     @Autowired
     private SessionFactory sessionFactory;
