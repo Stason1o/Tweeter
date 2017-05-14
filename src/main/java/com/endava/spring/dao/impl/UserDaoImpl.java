@@ -47,9 +47,11 @@ public class UserDaoImpl implements UserDao {
                         .setParameterList("idlist", followedUsers).list();
                 logger.log(Level.INFO, "Returning list of followed users from database");
                 return list;
+            } else {
+                logger.log(Level.WARN, "Empty list of followed users");
             }
         } catch (Exception ex){
-            logger.log(Level.ERROR, ex);
+            logger.log(Level.ERROR,"Cannot extract the list of followed users", ex);
             ex.printStackTrace();
         }
         return null;
@@ -61,12 +63,16 @@ public class UserDaoImpl implements UserDao {
         String hql = "SELECT user_2_id FROM user_friends WHERE user_1_id = " + id;
         try {
             List<User> followedUsers = sessionFactory.getCurrentSession().createSQLQuery(hql).list();
-            List<User> list = sessionFactory.getCurrentSession().createQuery("from User where id not in :idlist and id !=" + id)
-                    .setParameterList("idlist", followedUsers).list();
-            logger.log(Level.INFO, "Returning list of unfollowed users");
-            return list;
+            if(followedUsers != null) {
+                List<User> list = sessionFactory.getCurrentSession().createQuery("from User where id not in :idlist and id !=" + id)
+                        .setParameterList("idlist", followedUsers).list();
+                logger.log(Level.INFO, "Returning list of unfollowed users");
+                return list;
+            } else {
+                logger.log(Level.WARN, "Empty list of unfollowed users");
+            }
         }catch (Exception ex){
-            logger.log(Level.ERROR, ex);
+            logger.log(Level.ERROR,"Cannot extract the list of unfollowed users", ex);
             ex.printStackTrace();
         }
         return null;

@@ -146,6 +146,7 @@ public class UserController {
         if(user != null) {
             listUsers = userService.searchByUsername(user.getUsername());
             modelMap.addAttribute("listUsers", listUsers);
+            modelMap.addAttribute("loggedUser", userService.findByUsernameInitialized(getPrincipal()));
         }
 
         return "searchResult";
@@ -153,8 +154,7 @@ public class UserController {
 
     @RequestMapping(value = "/followFriends", method = RequestMethod.POST)
     public String followFriend(@RequestParam(value = "followedFriend", required = false) Integer followedUserId,
-                               @RequestParam(value = "unfollowedFriend", required = false) Integer unfollowedUserId,
-                               RedirectAttributes redirectAttributes) {
+                               @RequestParam(value = "unfollowedFriend", required = false) Integer unfollowedUserId) {
         System.out.println("IN FOLLOW FRIEND");
         User loggedUser = userService.findByUsernameInitialized(getPrincipal());
 

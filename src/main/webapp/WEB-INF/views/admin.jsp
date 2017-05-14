@@ -19,9 +19,9 @@
     <div class="row">
         <c:forEach items="${listUsers}" var="user">
             <c:if test="${user.username != username}" >
-                <div class="col-md-8 col-md-offset-4">
+                <div class="col-md-10 col-md-offset-2">
                     <p>
-                        ${user.username} ${user.firstName} ${user.lastName} ${user.email}
+                        <a href="<c:url value="/userProfile/${user.username}"/>">${user.username} ${user.firstName} ${user.lastName} ${user.email}</a>
                         <c:forEach items="${user.roles}" var="role">
                             <c:choose>
                                 <c:when test="${role.id == 1}">
