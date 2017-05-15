@@ -25,15 +25,37 @@
 
 <p>Tweets :</p>
 <c:forEach var="listTweets" items="${listTweets}">
-    <div><p>Tweet ID#${listTweets.id},
+    <div>
+        <p><a href="<c:url value='/tweetPage/${listTweets.id}' />">Tweet ID#${listTweets.id},</a>
         posted by <b>${listTweets.user.username}</b>
         at ${listTweets.date}</p> </div>
-    <div><p>${listTweets.content}</p></div>
+
+    <c:choose>
+        <c:when test="${listTweets.tweet != null}">
+            ReTweeted:<div style="border: 4px double black; width: 400px; margin-left: 50px;"><p>Tweet ID#${listTweets.tweet.id},
+                posted by <b>${listTweets.tweet.user.username}</b>
+                at ${listTweets.tweet.date}</p>
+            <p>${listTweets.tweet.content}</p></div>
+        </c:when>
+        <c:otherwise>
+            <div><p>${listTweets.content}</p></div>
+        </c:otherwise>
+    </c:choose>
+
+    <%--<div><p>${listTweets.content}</p></div>--%>
+    <%--<div><p>${listTweets.tweet.id}</p></div>--%>
 
     <c:if test="${listTweets.user.id == user.id}">
         <a href="<c:url value='/editTweet/${listTweets.id}' />">Edit</a>
         <a href="<c:url value='/deleteTweet/${listTweets.id}' />">Delete</a>
     </c:if>
+    <a href="<c:url value='/tweetPage/${listTweets.id}' />">Commit</a>
+    <c:if test="${listTweets.user.id != user.id}">
+        <a href="<c:url value='/reTweet/${listTweets.id}' />">ReTweet</a>
+    </c:if>
+
+    <button style="height: 30px; width: 100px;" type="submit" name="followedFriend" value="${unfollowedUser.id}">Follow</button>
+
 </c:forEach>
 <br>
 <div class="pagination">
@@ -70,6 +92,12 @@
             </c:otherwise>
         </c:choose>
     </ul>
+</div>
+
+<div>
+    <c:forEach var="likeList" items="${likeList}">
+        ${likeList.content}
+    </c:forEach>
 </div>
 
 </body>

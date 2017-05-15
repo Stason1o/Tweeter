@@ -38,7 +38,7 @@ public class TweetController {
         modelMap.addAttribute("tweet", new Tweet());
         modelMap.addAttribute("listTweets", tweetService.listPaginatedTweetsById(0, page));
         modelMap.addAttribute("user", userService.findByUsernameInitialized(getPrincipal()));
-
+//        modelMap.addAttribute("likeList", tweetService.getLikeList(0, page));
 
         return "main";
     }
@@ -65,6 +65,26 @@ public class TweetController {
     public String deleteTweet(@PathVariable("id")int id){
         tweetService.removeTweet(id);
         return "redirect:/main/1";
+    }
+
+    @RequestMapping(value = "/reTweet/{id}")
+    public String reTweet(@PathVariable("id")int id, ModelMap modelMap){
+        tweetService.reTweet(new Tweet(), userService.findByUsernameInitialized(getPrincipal()), id);
+        return "redirect:/main/1";
+    }
+
+    @RequestMapping(value = "/tweetPage/{idT}", method = RequestMethod.GET)
+    public String commitTweet(@PathVariable("idT")int id, ModelMap modelMap){
+        modelMap.addAttribute("commit", new Tweet());
+        modelMap.addAttribute("tweet", tweetService.getTweetById(id));
+        modelMap.addAttribute("commitTweets", tweetService.getTweetComment(id));
+        return "tweetPage";
+    }
+
+    @RequestMapping(value = "/tweetPage/{idT}", method = RequestMethod.POST)
+    public String executeCommitTweetMessage(@PathVariable("idT") int id, @ModelAttribute("commit") Tweet tweet, ModelMap modelMap){
+        tweetService.commit(tweet, userService.findByUsernameInitialized(getPrincipal()), id);
+        return "redirect:/tweetPage/{idT}";
     }
 
     // Need to do static
