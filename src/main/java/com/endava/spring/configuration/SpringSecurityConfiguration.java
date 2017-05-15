@@ -45,15 +45,9 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
-<<<<<<< HEAD
             .and()
                 .exceptionHandling().accessDeniedPage("/link403")
             .and()
-=======
-                .and()
-                .exceptionHandling().accessDeniedPage("/accessDenied")
-                .and()
->>>>>>> 2d097245e8a26b113e3feb4bf55878f1e3edae1e
                 .logout()
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/welcome");
