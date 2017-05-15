@@ -3,7 +3,7 @@ package com.endava.spring.model;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
-import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tweets")
@@ -36,10 +36,10 @@ public class Tweet {
     @Column(name = "is_comment")
     private boolean isComment;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinTable(name="tweet_likes", joinColumns = @JoinColumn(name = "tweet_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<Tweet> tweetsLikes;
+//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+//    @JoinTable(name="tweet_likes", joinColumns = @JoinColumn(name = "tweet_id"),
+//            inverseJoinColumns = @JoinColumn(name = "user_id"))
+//    private List<Tweet> tweetsLikes;
 
     public int getId() {
         return id;
@@ -89,54 +89,42 @@ public class Tweet {
         isComment = comment;
     }
 
-    public List<Tweet> getTweetsLikes() {
-        return tweetsLikes;
-    }
-
-    public void setTweetsLikes(List<Tweet> tweetsComments) {
-        this.tweetsLikes = tweetsComments;
-    }
+//    public List<Tweet> getTweetsLikes() {
+//        return tweetsLikes;
+//    }
+//
+//    public void setTweetsLikes(List<Tweet> tweetsComments) {
+//        this.tweetsLikes = tweetsComments;
+//    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Tweet)) return false;
-
+        if (o == null || getClass() != o.getClass()) return false;
         Tweet tweet1 = (Tweet) o;
-
-        if (getId() != tweet1.getId()) return false;
-        if (isComment() != tweet1.isComment()) return false;
-        if (getContent() != null ? !getContent().equals(tweet1.getContent()) : tweet1.getContent() != null)
-            return false;
-        if (getDate() != null ? !getDate().equals(tweet1.getDate()) : tweet1.getDate() != null) return false;
-        if (getUser() != null ? !getUser().equals(tweet1.getUser()) : tweet1.getUser() != null) return false;
-        if (getTweet() != null ? !getTweet().equals(tweet1.getTweet()) : tweet1.getTweet() != null) return false;
-        return getTweetsLikes() != null ? getTweetsLikes().equals(tweet1.getTweetsLikes()) : tweet1.getTweetsLikes() == null;
-
+        return id == tweet1.id &&
+                isComment == tweet1.isComment &&
+                Objects.equals(content, tweet1.content) &&
+                Objects.equals(date, tweet1.date) &&
+                Objects.equals(user, tweet1.user) &&
+                Objects.equals(tweet, tweet1.tweet);
     }
 
     @Override
     public int hashCode() {
-        int result = getId();
-        result = 31 * result + (getContent() != null ? getContent().hashCode() : 0);
-        result = 31 * result + (getDate() != null ? getDate().hashCode() : 0);
-        result = 31 * result + (getUser() != null ? getUser().hashCode() : 0);
-        result = 31 * result + (getTweet() != null ? getTweet().hashCode() : 0);
-        result = 31 * result + (isComment() ? 1 : 0);
-        result = 31 * result + (getTweetsLikes() != null ? getTweetsLikes().hashCode() : 0);
-        return result;
+        return Objects.hash(id, content, date, user, tweet, isComment);
     }
 
     @Override
     public String toString() {
-        return "Tweet{" +
-                "id=" + id +
-                ", content='" + content + '\'' +
-                ", date=" + date +
-                ", user=" + user +
-                ", tweet=" + tweet +
-                ", isComment=" + isComment +
-                ", tweetsLikes=" + tweetsLikes +
-                '}';
+        final StringBuilder sb = new StringBuilder("Tweet{");
+        sb.append("id=").append(id);
+        sb.append(", content='").append(content).append('\'');
+        sb.append(", date=").append(date);
+        sb.append(", user=").append(user);
+        sb.append(", tweet=").append(tweet);
+        sb.append(", isComment=").append(isComment);
+        sb.append('}');
+        return sb.toString();
     }
 }
