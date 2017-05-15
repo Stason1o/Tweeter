@@ -41,10 +41,10 @@
             <li class="list-inline-item"><a href="/registration" class="text-muted">Register</a></li>
         </ul>
         <div class="text-center">
-            <span>©</span>
+            <span class="glyphicon glyphicon-copyright-mark"></span>
             <span>2017</span>
             <span>-</span>
-            <span>ENDAVA. Our Project Name.</span>
+            <span>ENDAVA. LazyCats Team.</span>
         </div>
     </div>
 </div>
