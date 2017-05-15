@@ -6,11 +6,15 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
         <%@include file="/resources/css/style.css"%>
     </style>
+    <%--<style>--%>
+        <%--<%@include file="/resources/images/home-background.jpg"%>--%>
+    <%--</style>--%>
 </head>
 
 <body>
@@ -43,7 +47,7 @@
     <!-- ##Navigation Bar## -->
 
     <!-- Content -->
-    <div class="container-fluid" id="main-content">
+    <div class="container-fluid background background-image">
         <div class="row">
             <div class="col-md-8">
                 <h3>Welcome to FLASH</h3>
