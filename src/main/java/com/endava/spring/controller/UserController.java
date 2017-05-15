@@ -145,6 +145,7 @@ public class UserController {
         List<User> listUsers;
         if(user != null) {
             listUsers = userService.searchByUsername(user.getUsername());
+            modelMap.addAttribute("user", new User());
             modelMap.addAttribute("listUsers", listUsers);
             modelMap.addAttribute("loggedUser", userService.findByUsernameInitialized(getPrincipal()));
         }

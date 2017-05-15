@@ -19,11 +19,31 @@
 <body>
 <c:url var="addAction" value="/followFriends"/>
 <c:set var="contains" value="false"/>
+<c:url var="findPage" value="/globalSearch"/>
+<form:form commandName="user" action="${findPage}">
+    <%--<form:form name="searchUser" action="/followFriend/{searchUser}" method="post">--%>
+    <h3 class="form-heading">Search User</h3>
+    <hr>
+
+    <div class="field input-group input-group-lg">
+                <span class="input-group-addon" id="user-icon">
+                    <span class="glyphicon glyphicon-user"></span>
+                </span>
+        <form:input id="username" name="username" path="username" class="form-control"
+                    placeholder="lazyuser25" required="" autofocus="" aria-describedby="user-icon"/>
+    </div>
+    <br>
+    <div class="padding-top">
+        <button class="btn btn-lg btn-success btn-block" type="submit">Search</button>
+    </div>
+</form:form>
 <c:forEach var="user" items="${listUsers}">
     <a href="<c:url value="/userProfile/${user.username}"/>">
         Name: ${user.firstName}
         Surname: ${user.lastName}
     </a>
+
+
 
     <form:form action="${addAction}" commandName="listUsers">
         <c:forEach items="${loggedUser.followedUsers}" var="followedUser">
