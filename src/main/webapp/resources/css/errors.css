@@ -1,5 +1,4 @@
 /* === GLOBAL CSS RESET === */
-
 /*
  * html, body, div, span, applet, object, iframe,
  * h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -25,124 +24,70 @@
 
 /*
  * >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
- */
-/*
  * === LAPTOP === 
  */
 
+    .col-md-4 #error, #error-no {
+        margin: 0 auto;
+        text-align: center;
+        /*max-width: 480px;*/
+        padding: 10px 5px;
+    }
 
-/*
- * Navigation Bar 
- */
-.navbar {
-    margin-bottom: 0;
-}
+    .col-md-4 #error-type, #error-msg {
+        margin: 0 auto;
+        text-align: left;
+       /* max-width: 480px;*/
+        padding: 5px 5px;
+        font-family: Times NewRoman;
+        font-size: 30px;
+    }
 
-.inverse-dropdown {
-    background-color: #222;
-    border-color: #080808;
-}
+    .divider-vertical {
+        align-content: center;   
+        height: 200px;
+        margin: 0 10px;
+        float: left;
+        opacity: 0.5;
+        border-left: 3px solid #F2F2F2;
+        border-right: 3px solid #FFF;
+        border-right-color: #222222;
+        border-left-color: #111111;
+    }
 
-.inverse-dropdown .divider {
-    background-color: #000;
-}
+    .row.one{
+        margin-top: 30%;
+    }
 
-.inverse-dropdown li a {
-    color: #999;
-}
+    .row.two {
+        margin-top: 30px;
+    }
 
-.inverse-dropdown li a:hover, li a:focus, li a:active, li a:visited{
-    color: #fff;
-    background-color: #000;
-}
-  
-/*
- * Main Content 
- */
-body {
-    background-color: rgba(0, 0, 0, 0.1);
-}
+    /*.nb-error .error-code {
+        color: #2d353c;
+        font-size: 96px;
+        line-height: 100px;
+    }
 
-kbd {
-    font-size: 15px;
-}
-
-/*
-#projects, #news, #features {
-    background-color: rgba(172, 160, 149, 0.7); 
-}
-*/
-
-.title-left-margin, #lights, #switch {
-    margin-left: 5px;
-}
-
-.padding-top {
-    padding-top: 10px;
-}
-
-h3 a {
-    text-decoration: none;
-    color: #3D464D;
-}
-
-h3 {
-    color:red;
-}
-
-a:hover {
-    text-decoration: none;
-    color: #7B8994;
-}
-
-a:visited {
-    color: #304040;
-
-}
-
-a:active {
-    color: #B50938;
-}
-
-a:focus {
-    text-decoration: none;
-}
-
-hr {
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-    margin-left: auto;
-    margin-right: auto;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #FF2A2A;
-}
-
-/*
- * Home Image 
- */
-
-/*
- * Forms 
- */
-.field {
-    padding-top: 5px;
-}
+    .nb-error .error-desc {
+        font-size: 12px;
+        color: #647788;
+    }
+    .nb-error .input-group{
+        margin: 30px 0;
+    }*/
 
 
-/*
- * Footer 
- */
 
-
+    /*@media (max-width: 767px) {
+        .navbar-collapse .nav > .divider-vertical {
+            display: none;
+         }
+    }*/
 
 /*
  * <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
- */
-/*
  * >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
- */
-/*
  * === DESKTOP === 
  */
 
@@ -152,11 +97,7 @@ hr {
 
 /*
  * <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
- */
-/*
  * >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
- */
-/*
  * === BIG SCREENS 2K/4K === 
  */
 
@@ -167,19 +108,15 @@ hr {
 /*
  * <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
  */
+
 /*
  * ><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>< 
- */
-/*
  * === RESPONSIVE SECTION === 
- */
-/*
  * ><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><
  */
+
 /*
  * >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
- */
-/*
  * === TABLET === 
  */
 
@@ -189,11 +126,7 @@ hr {
  
 /*
  * <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
- */
-/*
  * >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
- */
-/*
  * === MOBILE === 
  */
 

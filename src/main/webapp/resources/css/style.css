@@ -1,5 +1,4 @@
 /* === GLOBAL CSS RESET === */
-
 /*
  * html, body, div, span, applet, object, iframe,
  * h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -25,124 +24,203 @@
 
 /*
  * >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
- */
-/*
  * === LAPTOP === 
  */
+    /*
+     * Navigation Bar 
+     */
+    .navbar {
+        margin-bottom: 0;
+    }
 
+    .inverse-dropdown {
+        background-color: #222;
+        border-color: #080808;
+    }
 
-/*
- * Navigation Bar 
- */
-.navbar {
-    margin-bottom: 0;
-}
+    .inverse-dropdown .divider {
+        background-color: #000;
+    }
 
-.inverse-dropdown {
-    background-color: #222;
-    border-color: #080808;
-}
+    .inverse-dropdown li a {
+        color: #999;
+    }
 
-.inverse-dropdown .divider {
-    background-color: #000;
-}
-
-.inverse-dropdown li a {
-    color: #999;
-}
-
-.inverse-dropdown li a:hover, li a:focus, li a:active, li a:visited{
-    color: #fff;
-    background-color: #000;
-}
+    .inverse-dropdown li a:hover, li a:focus, li a:active, li a:visited{
+        color: #fff;
+        background-color: #000;
+    }
   
-/*
- * Main Content 
- */
-body {
-    background-color: rgba(0, 0, 0, 0.1);
-}
-
-kbd {
-    font-size: 15px;
-}
-
-/*
-#projects, #news, #features {
-    background-color: rgba(172, 160, 149, 0.7); 
-}
+    /*
+     * Content
+     */
+    /*.background {
+        background-size: cover;
+    }  
 */
+    /*.background.background-image {
+        background-image: url("http://imgur.com/gallery/CgZCD"); 
+    }*/
+    /*
+     * Main Content 
+     */
+    /*body {
+        background-color: rgba(0, 0, 0, 0.1);
+    }*/
 
-.title-left-margin, #lights, #switch {
-    margin-left: 5px;
-}
 
-.padding-top {
-    padding-top: 10px;
-}
 
-h3 a {
-    text-decoration: none;
-    color: #3D464D;
-}
 
-h3 {
-    color:red;
-}
+    /*
+     * Tweets
+     */
+    .row {
+        margin-top: 15px;
+    }
 
-a:hover {
-    text-decoration: none;
-    color: #7B8994;
-}
+    .row.nested-title img {
+        width: 64px;
+        height: 64px;
+    }
 
-a:visited {
-    color: #304040;
+    .row.nested-textarea textarea {
+        width: 378px;
+        height: 100px;
+    }
 
-}
 
-a:active {
-    color: #B50938;
-}
+    .row.nested-buttons {
+        margin-top: 7px;
+    }
 
-a:focus {
-    text-decoration: none;
-}
+    .row.nested-buttons  {
+        margin-top: 7px;
+    }
 
-hr {
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-    margin-left: auto;
-    margin-right: auto;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #FF2A2A;
-}
+   .row.nested-title {
+        /*padding-left: 15px;*/
+   } 
+
+    .tweet-wrapper {
+        /*border: 1px solid #000000;*/
+        width: 700px;
+    }
+
+    .tweet-wrapper .image  {
+        width: 94px;
+        height: 84px;
+        margin-top: 15px;
+    }
+
+    .tweet-wrapper .image img {
+        width: 64px;
+        height: 64px;
+        margin-left: 15px;
+    }
+
+    .tweet-wrapper .tweet-content .tweet-user-text {
+        /*border: 1px solid #000000;
+        background-color: #DDDDDD;*/
+        /*min-width: 380px;*/
+        min-height: 64px;
+    }
+
+    .tweet-wrapper .tweet-content .tweet-user-text .full-name {
+        font-family: Georgia, serif;
+        font-size: 16px;
+        font-style: bold;
+    }
+
+    .tweet-wrapper .tweet-content .tweet-user-text .user-name {
+        font-family: Georgia, serif;
+        font-size: 18px;
+        color: #657786;   
+    }
+
+    .tweet-wrapper .tweet-content .tweet-user-text .content-text {
+        font-family: Georgia, serif;
+        font-size: 14px;   
+    }
+
+    .tweet-wrapper .tweet-actions {
+        margin-top: 7px;
+        margin-bottom: 15px;
+    }
+
+    .tweet-wrapper .tweet-actions .col-sm-8 {
+        width: 234px;
+    }
+
+    .tweet-wrapper .tweet-actions .col-sm-4 .btn-success {
+        width: 67px;
+    }
+
+
+    /*
+     * General Alignment 
+     */
+    .padding-top {
+        padding-top: 10px;
+    }
+
+    /*h3 a {
+        text-decoration: none;
+        color: #3D464D;
+    }
+
+    h3 {
+        color:red;
+    }
+
+    a:hover {
+        text-decoration: none;
+        color: #7B8994;
+    }
+
+    a:visited {
+        color: #304040;
+
+    }
+
+    a:active {
+        color: #B50938;
+    }
+
+    a:focus {
+        text-decoration: none;
+    }*/
+
+    h3.form-heading {
+        font-family: Verdana, Geneva, sans-serif;
+        font-size: 20px;
+    }
+
+    hr {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        margin-left: auto;
+        margin-right: auto;
+        border-style: solid;
+        border-width: 1px;
+        border-color: #FF2A2A;
+    }
+
+
+    /*
+     * Forms 
+     */
+    .field {
+        padding-top: 5px;
+    }
+
+
+
+
+
 
 /*
- * Home Image 
- */
-
-/*
- * Forms 
- */
-.field {
-    padding-top: 5px;
-}
-
-
-/*
- * Footer 
- */
-
-
-
-/*
- * <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
- */
-/*
+ * <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<    
  * >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
- */
-/*
  * === DESKTOP === 
  */
 
@@ -152,11 +230,7 @@ hr {
 
 /*
  * <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
- */
-/*
  * >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
- */
-/*
  * === BIG SCREENS 2K/4K === 
  */
 
@@ -167,33 +241,47 @@ hr {
 /*
  * <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
  */
+
 /*
  * ><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>< 
- */
-/*
  * === RESPONSIVE SECTION === 
- */
-/*
  * ><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><
  */
+
 /*
  * >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
- */
-/*
  * === TABLET === 
  */
+    @media (max-width: 767px) {
+        .tweet-wrapper .image img {
+            width: 96px;
+            height: 96px;
+            margin-left: 0px;
+        }
 
+        .row.tweet-action {
+            margin-top: -10px;
+        }
+
+        .row.nested-title, .row.nested-textarea {
+            margin-left: 1px;
+        }
+
+        .nested-title {
+            font-family: Verdana, Geneva, sans-serif;
+            font-size: 16px;
+            font-style: bold;
+        }
+
+
+    }
 
 
 
  
 /*
  * <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
- */
-/*
  * >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
- */
-/*
  * === MOBILE === 
  */
 
