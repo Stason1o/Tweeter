@@ -33,6 +33,9 @@ public class User {
     @Column(name = "enabled")
     private boolean enabled;
 
+    @Column(name = "image")
+    private String image;
+
     @Transient
     private boolean isFollowed;
 
@@ -54,7 +57,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "id_role"))
     private Set<Role> roles = new HashSet<>(0);
 
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.REFRESH)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="user_friends", joinColumns = @JoinColumn(name = "user_1_id"),
             inverseJoinColumns = @JoinColumn(name = "user_2_id"))
     private List<User> followedUsers;
@@ -69,6 +72,14 @@ public class User {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public void setUsername(String username) {
@@ -174,6 +185,7 @@ public class User {
         sb.append(", firstName='").append(firstName).append('\'');
         sb.append(", lastName='").append(lastName).append('\'');
         sb.append(", enabled=").append(enabled);
+        sb.append(", image='").append(image).append('\'');
         sb.append(", isFollowed=").append(isFollowed);
         sb.append(", confirmPassword='").append(confirmPassword).append('\'');
         sb.append(", oldEmail='").append(oldEmail).append('\'');
@@ -197,6 +209,7 @@ public class User {
                 Objects.equals(email, user.email) &&
                 Objects.equals(firstName, user.firstName) &&
                 Objects.equals(lastName, user.lastName) &&
+                Objects.equals(image, user.image) &&
                 Objects.equals(confirmPassword, user.confirmPassword) &&
                 Objects.equals(oldEmail, user.oldEmail) &&
                 Objects.equals(tweets, user.tweets) &&
@@ -206,9 +219,6 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, email, firstName, lastName, enabled, isFollowed, confirmPassword, oldEmail, tweets, roles, followedUsers);
+        return Objects.hash(id, username, password, email, firstName, lastName, enabled, image, isFollowed, confirmPassword, oldEmail, tweets, roles, followedUsers);
     }
-
-
-
 }

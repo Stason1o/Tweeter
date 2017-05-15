@@ -3,7 +3,7 @@ package com.endava.spring.model;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
-import java.util.Objects;
+import java.util.List;
 
 @Entity
 @Table(name = "tweets")
@@ -28,6 +28,18 @@ public class Tweet {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user")
     private User user;
+
+    @OneToOne
+    @JoinColumn(name = "retweet_id")
+    private Tweet tweet;
+
+    @Column(name = "is_comment")
+    private boolean isComment;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @JoinTable(name="tweet_likes", joinColumns = @JoinColumn(name = "tweet_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<Tweet> tweetsLikes;
 
     public int getId() {
         return id;
@@ -61,30 +73,70 @@ public class Tweet {
         this.user = user;
     }
 
+    public Tweet getTweet() {
+        return tweet;
+    }
+
+    public void setTweet(Tweet tweet) {
+        this.tweet = tweet;
+    }
+
+    public boolean isComment() {
+        return isComment;
+    }
+
+    public void setComment(boolean comment) {
+        isComment = comment;
+    }
+
+    public List<Tweet> getTweetsLikes() {
+        return tweetsLikes;
+    }
+
+    public void setTweetsLikes(List<Tweet> tweetsComments) {
+        this.tweetsLikes = tweetsComments;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Tweet tweet = (Tweet) o;
-        return id == tweet.id &&
-                Objects.equals(content, tweet.content) &&
-                Objects.equals(date, tweet.date) &&
-                Objects.equals(user, tweet.user);
+        if (!(o instanceof Tweet)) return false;
+
+        Tweet tweet1 = (Tweet) o;
+
+        if (getId() != tweet1.getId()) return false;
+        if (isComment() != tweet1.isComment()) return false;
+        if (getContent() != null ? !getContent().equals(tweet1.getContent()) : tweet1.getContent() != null)
+            return false;
+        if (getDate() != null ? !getDate().equals(tweet1.getDate()) : tweet1.getDate() != null) return false;
+        if (getUser() != null ? !getUser().equals(tweet1.getUser()) : tweet1.getUser() != null) return false;
+        if (getTweet() != null ? !getTweet().equals(tweet1.getTweet()) : tweet1.getTweet() != null) return false;
+        return getTweetsLikes() != null ? getTweetsLikes().equals(tweet1.getTweetsLikes()) : tweet1.getTweetsLikes() == null;
+
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, content, date, user);
+        int result = getId();
+        result = 31 * result + (getContent() != null ? getContent().hashCode() : 0);
+        result = 31 * result + (getDate() != null ? getDate().hashCode() : 0);
+        result = 31 * result + (getUser() != null ? getUser().hashCode() : 0);
+        result = 31 * result + (getTweet() != null ? getTweet().hashCode() : 0);
+        result = 31 * result + (isComment() ? 1 : 0);
+        result = 31 * result + (getTweetsLikes() != null ? getTweetsLikes().hashCode() : 0);
+        return result;
     }
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Tweet{");
-        sb.append("id=").append(id);
-        sb.append(", content='").append(content).append('\'');
-        sb.append(", date=").append(date);
-        sb.append(", user=").append(user);
-        sb.append('}');
-        return sb.toString();
+        return "Tweet{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", date=" + date +
+                ", user=" + user +
+                ", tweet=" + tweet +
+                ", isComment=" + isComment +
+                ", tweetsLikes=" + tweetsLikes +
+                '}';
     }
 }

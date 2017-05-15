@@ -15,6 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -114,13 +115,39 @@ public class UserController {
     }
 
     @RequestMapping(value = "/followFriends", method = RequestMethod.GET)
-    public String displayFollowPage(ModelMap modelMap) {
+    public String displayFollowPage(Model modelMap) {
         User loggedUser = userService.findByUsernameInitialized(getPrincipal());
         List<User> listFollowedUsers = userService.listFollowedUsers(loggedUser.getId());
         List<User> listUnfollowedUsers = userService.listUnfollowedUsers(loggedUser.getId());
-        modelMap.addAttribute("listFollowedUsers", listFollowedUsers);
+
+        if(listFollowedUsers != null){
+            modelMap.addAttribute("listFollowedUsers", listFollowedUsers);
+        } else {
+            modelMap.addAttribute("emptyList", "You don't have any followed users");
+        }
+        modelMap.addAttribute("searchUser", new User());
+
         modelMap.addAttribute("listUnfollowedUsers", listUnfollowedUsers);
         return "follow";
+    }
+
+    @RequestMapping(value = "/globalSearch", method = RequestMethod.GET)
+    public String displaySearchPage(ModelMap modelMap) {
+        modelMap.addAttribute("user", new User());
+        return "searchPage";
+    }
+
+    @RequestMapping(value = "/globalSearch", method = RequestMethod.POST)
+    public String displaySearchResult(@ModelAttribute("user")User user, ModelMap modelMap){
+        List<User> listUsers;
+        if(user != null) {
+            listUsers = userService.searchByUsername(user.getUsername());
+            modelMap.addAttribute("user", new User());
+            modelMap.addAttribute("listUsers", listUsers);
+            modelMap.addAttribute("loggedUser", userService.findByUsernameInitialized(getPrincipal()));
+        }
+
+        return "searchResult";
     }
 
     @RequestMapping(value = "/followFriends", method = RequestMethod.POST)
@@ -128,21 +155,63 @@ public class UserController {
                                @RequestParam(value = "unfollowedFriend", required = false) Integer unfollowedUserId) {
         System.out.println("IN FOLLOW FRIEND");
         User loggedUser = userService.findByUsernameInitialized(getPrincipal());
+
         if(followedUserId != null) {
             System.out.println("IN FOLLOW IF");
             userService.followUser(loggedUser, userService.findByIdInitialized(followedUserId));
-        } else if(followedUserId == null && unfollowedUserId != null){
+        } else if(unfollowedUserId != null){
             System.out.println("IN FOLLOW ELSE IF");
             userService.unfollowUser(loggedUser, userService.findByIdInitialized(unfollowedUserId));
         }
+
         return "redirect:/followFriends";
     }
 
-    @RequestMapping(value = "/userProfile", method = RequestMethod.GET)
-        public String displayUserProfilePage(@RequestParam(value = "username") String username, ModelMap modelMap) {
-//        modelMap.addAttribute("loggedUser", userService.findByUsernameInitialized(getPrincipal()));
-        modelMap.addAttribute("user", userService.findByUsernameInitialized(username));
+    @RequestMapping(value = "/userProfile/{username}")
+        public String displayUserProfilePage(@PathVariable( value = "username", required = false) String username, ModelMap modelMap) {
+        if(getPrincipal().equals(username)){
+            return "redirect:/profile";
+        }
+        modelMap.addAttribute("listFollowedUsers", userService.findByUsernameInitialized(getPrincipal()).getFollowedUsers());
+        if(username != null) {
+            modelMap.addAttribute("user", userService.findByUsernameInitialized(username));
+        }
         return "userProfile";
+    }
+
+    @RequestMapping(value = "/userProfile", method = RequestMethod.POST)
+    public String manageUser(@RequestParam(value = "userBanUnban", required = false) Integer userToBanOrUnban,
+                             @RequestParam(value = "userToDelete", required = false) Integer userIdToDelete,
+                             @RequestParam(value = "unfollowedFriend", required = false) Integer userIdToUnfollow,
+                             @RequestParam(value = "followedFriend", required = false) Integer userIdToFollow,
+                             RedirectAttributes redirectAttrs){
+        User loggedUser = userService.findByUsernameInitialized(getPrincipal());
+        if(userIdToFollow != null){
+            User user = userService.findByIdInitialized(userIdToFollow);
+            userService.followUser(loggedUser, user);
+            redirectAttrs.addAttribute("username", user.getUsername());
+            return "redirect:/userProfile/{username}";
+        }
+
+        if(userIdToUnfollow != null){
+            User user = userService.findByIdInitialized(userIdToUnfollow);
+            userService.unfollowUser(loggedUser, user);
+            redirectAttrs.addAttribute("username", user.getUsername());
+            return "redirect:/userProfile/{username}";
+        }
+
+        if(userToBanOrUnban != null){
+            userService.updateUserState(userToBanOrUnban);
+            redirectAttrs.addAttribute("username", userService.findById(userToBanOrUnban).getUsername());
+            return "redirect:/userProfile/{username}";
+        }
+
+        if(userIdToDelete != null){
+            userService.removeUser(userIdToDelete);
+            return "profile";
+        }
+
+        return "redirect:/profile";
     }
 
     private String getPrincipal() {

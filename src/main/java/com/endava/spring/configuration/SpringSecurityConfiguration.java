@@ -1,20 +1,26 @@
 package com.endava.spring.configuration;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    private final static Logger logger = Logger.getLogger("connectionsLogger");
 
     @Autowired
     @Qualifier("userDetailsService")
@@ -22,7 +28,10 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configAuthentication(AuthenticationManagerBuilder managerBuilder) throws Exception {
-        managerBuilder.userDetailsService(userDetailsService);
+        managerBuilder
+                .authenticationProvider(authProvider())
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -33,12 +42,18 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/user/**").access("hasRole('ROLE_USER')")
                 .anyRequest().authenticated()
-            .and()
+                .and()
                 .formLogin()
                 .loginPage("/login")
+<<<<<<< HEAD
             .and()
                 .exceptionHandling().accessDeniedPage("/link403")
             .and()
+=======
+                .and()
+                .exceptionHandling().accessDeniedPage("/accessDenied")
+                .and()
+>>>>>>> 2d097245e8a26b113e3feb4bf55878f1e3edae1e
                 .logout()
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/welcome");
@@ -48,5 +63,18 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider authProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
     }
 }

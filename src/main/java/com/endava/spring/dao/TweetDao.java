@@ -26,6 +26,10 @@ public interface TweetDao {
 
     Tweet getTweetById(int id);
 
+    /*List<Tweet> getLikeList(int id, int firstResult, int maxResults);*/
+
+    List<Tweet> getTweetComment(int id);
+
     Tweet getTweetByUserId(int id);
 
     Tweet getTweetByUsername(String username);

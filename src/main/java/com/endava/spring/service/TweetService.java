@@ -25,6 +25,14 @@ public interface TweetService {
 
     Tweet getTweetById(int id);
 
+    void reTweet(Tweet tweet, User user, int id);
+
+    void commit(Tweet tweet, User user, int id);
+
+    /*List<Tweet> getLikeList(int id, int page);*/
+
+    List<Tweet> getTweetComment(int id);
+
     Tweet getTweetByUserId(int id);
 
     Tweet getTweetByUsername(String username);

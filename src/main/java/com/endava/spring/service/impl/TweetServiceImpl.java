@@ -48,18 +48,19 @@ public class TweetServiceImpl implements TweetService {
 
         if (page == 1){
             firstResult = 0;
+        } else {
+            maxResults = 5;
         }
 
         List<Tweet> list;
         if (id == 0){
             list = tweetDao.listPaginatedTweets(firstResult, maxResults);
-            for (Tweet tweet : list) {
-                if (tweet != null){
-                    Hibernate.initialize(tweet.getUser());
-                }
-            }
         }else {
             list = tweetDao.listPaginatedTweetsByUserId(id, firstResult, maxResults);
+        }
+
+        for (Tweet tweet : list) {
+            tweet = initializeTweet(tweet);
         }
 
         return list;
@@ -83,7 +84,9 @@ public class TweetServiceImpl implements TweetService {
 
     @Override
     public Tweet getTweetById(int id) {
-        return tweetDao.getTweetById(id);
+        Tweet tweet = tweetDao.getTweetById(id);
+        tweet = initializeTweet(tweet);
+        return tweet;
     }
 
     @Override
@@ -101,4 +104,61 @@ public class TweetServiceImpl implements TweetService {
         return null;
     }
 
+    @Override
+    public void reTweet(Tweet tweet, User user, int id) {
+        tweet.setTweet(tweetDao.getTweetById(id));
+        saveTweet(tweet, user);
+    }
+
+    @Override
+    public void commit(Tweet tweet, User user, int id) {
+        tweet.setTweet(tweetDao.getTweetById(id));
+        tweet.setComment(true);
+        saveTweet(tweet, user);
+    }
+
+    @Override
+    public List<Tweet> getTweetComment(int id) {
+        List<Tweet> list = tweetDao.getTweetComment(id);
+        for (Tweet tweet : list) {
+            tweet = initializeTweet(tweet);
+        }
+        return list;
+    }
+
+    /*@Override
+    public List<Tweet> getLikeList(int id, int page) {
+        int maxResults = 5 * page;
+        int firstResult = maxResults - 5;
+
+        if (page == 1){
+            firstResult = 0;
+        } else {
+            maxResults = 5;
+        }
+
+        List<Tweet> list;
+        *//*if (id == 0){
+            list = tweetDao.listPaginatedTweets(firstResult, maxResults);
+        }else {*//*
+            list = tweetDao.getLikeList(id, firstResult, maxResults);
+        }
+
+        for (Tweet tweet : list) {
+            tweet = initializeTweet(tweet);
+        }
+
+        return list;
+    }*/
+
+    private Tweet initializeTweet(Tweet  tweet){
+        if (tweet != null){
+            Hibernate.initialize(tweet.getUser());
+            Tweet retweet = tweet.getTweet();
+            if (retweet != null) {
+                Hibernate.initialize(retweet.getUser());
+            }
+        }
+        return tweet;
+    }
 }
