@@ -5,7 +5,6 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Profile</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
@@ -14,7 +13,6 @@
 </head>
 
 <body>
-
     <!-- Navigation Bar -->
     <nav class="navbar navbar-inverse navbar-static-top">
         <div class="container-nav">
@@ -33,19 +31,10 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="/login"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-                        <li><a href=""><span class="glyphicon glyphicon-user"></span>${user.username}</a></li>
-                        <li class="drop-down">
-                            <a href="" class="dropdown-toggle" data-toggle="dropdown">
-                                <span class="glyphicon glyphicon-question-sign">
-                                    <span class="caret">
-                                    </span>
-                                </span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Item 1</a></li>
-                                <li><a href="/logout">Log Out</a></li>
-                            </ul>
-                        </li>
+                        <li><a href=""><span class="glyphicon glyphicon-user"></span> $Username</a></li>
+                        <li><a
+                                href=""><span
+                                class="glyphicon glyphicon-question-sign"><span class="caret"></span></span></a></li>
                         <ul class="dropdown-menu">
                             <li><a href=""><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
                             <li><a href=""><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
@@ -68,18 +57,38 @@
                 <form:form action="${addAction}" commandName="user">
 
                 <h2 class="form-profile-heading">Profile</h2>
-                <span>First name</span>
-                <span>${user.firstName}</span>
+                <form:label path="firstName">First Name</form:label>
+                    <form:input id="firstName" name="firstName" path="firstName" class="form-control"
+                                 required="" autofocus=""/>
+                    <form:errors path="firstName"/>
                 <br>
-                <span>Last name</span>
-                <span>${user.lastName}</span>
-                <br>
-                <span>Username</span>
-                <span>${user.username}</span>
-                <br>
-                <span>E-mail</span>
-                <span>${user.email}</span>
 
+                <form:label path="lastName">Last Name</form:label>
+                    <form:input id="lastName" name="lastName" path="lastName" class="form-control"
+                                required="" autofocus=""/>
+                    <form:errors path="lastName"/>
+                <br>
+
+                <form:label path="username">Username</form:label>
+                    <form:input id="username" name="username" path="username" class="form-control"
+                                required="" autofocus=""/>
+                    <form:errors path="username"/>
+                <br>
+
+                <form:label path="password">Password</form:label>
+                    <form:input type="password" id="password" name="password" path="password" class="form-control"
+                                required="" autofocus=""/>
+                    <form:errors path="password"/>
+                <br>
+
+                    <form:input type="hidden" id="confirmPassword" value="${user.password}" name="confirmPassword" path="confirmPassword" />
+                <br>
+
+                <form:label path="email">Email</form:label>
+                    <form:input type="email" id="email" name="email" path="email" class="form-control"
+                                required="" autofocus=""/>
+                    <form:errors path="email"/>
+                <br>
 
                 <form:input type="hidden" id="enabled" value="1" name="enabled" path="enabled"/>
 
