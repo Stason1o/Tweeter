@@ -31,7 +31,7 @@
                 </div><!-- end navbar-header -->
 
                 <div id="navbar" class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-right">
+                    <ul class="nav navbar-nav">
                         <li><a href="/login"><span class="glyphicon glyphicon-home"></span> Home</a></li>
                         <li><a href=""><span class="glyphicon glyphicon-user"></span>${user.username}</a></li>
                         <li class="drop-down">
@@ -79,23 +79,13 @@
                 <br>
                 <span>E-mail</span>
                 <span>${user.email}</span>
+                <br>
 
 
                 <form:input type="hidden" id="enabled" value="1" name="enabled" path="enabled"/>
-
-                <%--<c:if test="${!empty user.id}">--%>
-
-                <%--<form:input type="hidden" id="oldEmail" value="${user.oldEmail}" name="oldEmail" path="oldEmail" />--%>
-                <%--<br>--%>
-
-                <input type="submit" class="btn btn-success"
-                       value="<spring:message text="Edit user"/>"/>
-                <%--</c:if>--%>
-                <input type="submit" class="btn btn-success" value="Submit" />
+                    <a href="<c:url value='/edit/${user.id}' />" class="btn btn-info">Edit</a>
+                    <a href="<c:url value='/delete/${user.id}' />" class="btn btn-danger">Delete Profile</a>
                 </form:form>
-
-                <a href="<c:url value='/edit/${user.id}' />">Edit</a>
-                <a href="<c:url value='/delete/${user.id}' />">Delete</a>
 
                 <p></p>
             </div>

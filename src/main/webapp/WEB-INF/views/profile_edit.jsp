@@ -30,9 +30,9 @@
                 </div><!-- end navbar-header -->
 
                 <div id="navbar" class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-right">
+                    <ul class="nav navbar-nav">
                         <li><a href="/login"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-                        <li><a href=""><span class="glyphicon glyphicon-user"></span> $Username</a></li>
+                        <li><a href=""><span class="glyphicon glyphicon-user"></span>${user.firstName}</a></li>
                         <li><a
                                 href=""><span
                                 class="glyphicon glyphicon-question-sign"><span class="caret"></span></span></a></li>
@@ -98,14 +98,10 @@
                 <%--<form:input type="hidden" id="oldEmail" value="${user.oldEmail}" name="oldEmail" path="oldEmail" />--%>
                 <%--<br>--%>
 
-                <input type="submit" class="btn btn-success"
-                       value="<spring:message text="Edit user"/>"/>
-                <%--</c:if>--%>
-                <input type="submit" class="btn btn-success" value="Submit" />
-                </form:form>
 
-                <a href="<c:url value='/edit/${user.id}' />">Edit</a>
-                <a href="<c:url value='/delete/${user.id}' />">Delete</a>
+                <input type="submit" class="btn btn-success" value="Save" />
+                <a href="<c:url value='/profile' />" class="btn btn-danger">Cancel</a>
+                </form:form>
 
                 <p></p>
             </div>
