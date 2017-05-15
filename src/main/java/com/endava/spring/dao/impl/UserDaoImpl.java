@@ -18,7 +18,7 @@ import java.util.List;
 @Repository("userDao")
 public class UserDaoImpl implements UserDao {
 
-    private final static Logger logger = Logger.getLogger("dataBaseLoggerActions");
+    private final static Logger logger = Logger.getLogger("dataBaseLoggerActions" + UserDaoImpl.class);
 
     @Autowired
     private SessionFactory sessionFactory;
