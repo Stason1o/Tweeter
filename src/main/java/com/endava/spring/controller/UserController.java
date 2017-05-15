@@ -117,14 +117,16 @@ public class UserController {
     @RequestMapping(value = "/followFriends", method = RequestMethod.GET)
     public String displayFollowPage(Model modelMap) {
         User loggedUser = userService.findByUsernameInitialized(getPrincipal());
-        List<User> listFollowedUsers = userService.listFollowedUsers(loggedUser.getId());
+//        List<User> listFollowedUsers = userService.listFollowedUsers(loggedUser.getId());
         List<User> listUnfollowedUsers = userService.listUnfollowedUsers(loggedUser.getId());
 
-        if(listFollowedUsers != null){
+        /*if(listFollowedUsers != null){
             modelMap.addAttribute("listFollowedUsers", listFollowedUsers);
         } else {
             modelMap.addAttribute("emptyList", "You don't have any followed users");
-        }
+        }*/
+
+//        modelMap.addAttribute("listFollowedUsers", listFollowedUsers);
         modelMap.addAttribute("searchUser", new User());
 
         modelMap.addAttribute("listUnfollowedUsers", listUnfollowedUsers);

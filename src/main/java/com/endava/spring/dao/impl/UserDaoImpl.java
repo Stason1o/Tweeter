@@ -36,7 +36,7 @@ public class UserDaoImpl implements UserDao {
         return list;
     }
 
-    public List<User> listFollowedUsers(int id){
+    /*public List<User> listFollowedUsers(int id){
         logger.log(Level.INFO, "Creating list of followed users");
         String hql = "SELECT user_2_id FROM user_friends WHERE user_1_id = " + id;
         try {
@@ -76,6 +76,37 @@ public class UserDaoImpl implements UserDao {
             ex.printStackTrace();
         }
         return null;
+    }*/
+
+    public List<User> listFollowedUsers(int id){
+        /*logger.log(Level.INFO, "Creating list of followed users");
+        String hql = "SELECT user_2_id FROM user_friends WHERE user_1_id = " + id;
+        try {
+            List<User> followedUsers = sessionFactory.getCurrentSession().createSQLQuery(hql).list();
+            List<User> list;
+            if (followedUsers != null) {
+                list = sessionFactory.getCurrentSession().createQuery("from User where id in :idlist")
+                        .setParameterList("idlist", followedUsers).list();
+                logger.log(Level.INFO, "Returning list of followed users from database");
+                return list;
+            } else {
+                logger.log(Level.WARN, "Empty list of followed users");
+            }
+        } catch (Exception ex){
+            logger.log(Level.ERROR,"Cannot extract the list of followed users", ex);
+            ex.printStackTrace();
+        }*/
+        return null;
+    }
+
+    @Override
+    public List<User> listUnfollowedUsers(int id) {
+        String hql = "SELECT user_2_id FROM user_friends WHERE user_1_id = " + id;
+        List<User> followedUsers = sessionFactory.getCurrentSession().createSQLQuery(hql).list();
+
+        List<User> list = sessionFactory.getCurrentSession().createQuery("from User where id not in :idlist and id !=" + id)
+                .setParameterList("idlist", followedUsers).list();
+        return list;
     }
 
     @Override
