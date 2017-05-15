@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class ErrorController {
 
-    @RequestMapping(value = {"/link403"}, method = RequestMethod.GET)
+    @RequestMapping(value = "/link403", method = RequestMethod.GET)
     public String httpError403(ModelMap modelMap){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
@@ -20,7 +20,7 @@ public class ErrorController {
         return "HTTP403";
     }
 
-    @RequestMapping(value = {"/link404"}, method = RequestMethod.GET)
+    @RequestMapping(value = "/link404", method = RequestMethod.GET)
     public String httpError404(ModelMap modelMap){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {

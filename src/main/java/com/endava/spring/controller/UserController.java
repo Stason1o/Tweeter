@@ -72,7 +72,7 @@ public class UserController {
     public String editUserDetails(@PathVariable("id") int id, ModelMap modelMap) {
         System.out.println("edit");
         modelMap.addAttribute("loggedUser", getPrincipal());
-        modelMap.addAttribute("user", userService.findById(id));
+        modelMap.addAttribute("user", userService.findByIdInitialized(id));
         return "profile";
     }
 
