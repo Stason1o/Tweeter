@@ -72,7 +72,7 @@ public class UserController {
     @RequestMapping(value = "/edit/{id}")
     public String editUserDetails(@PathVariable("id") int id, ModelMap modelMap) {
         System.out.println("edit");
-//        modelMap.addAttribute("loggedUser", getPrincipal());
+        modelMap.addAttribute("loggedUser", getPrincipal());
         modelMap.addAttribute("user", userService.findByIdInitialized(id));
         return "profile";
     }
@@ -120,8 +120,13 @@ public class UserController {
         List<User> listFollowedUsers = userService.listFollowedUsers(loggedUser.getId());
         List<User> listUnfollowedUsers = userService.listUnfollowedUsers(loggedUser.getId());
 
-        modelMap.addAttribute("listFollowedUsers", listFollowedUsers);
+        if(listFollowedUsers != null){
+            modelMap.addAttribute("listFollowedUsers", listFollowedUsers);
+        } else {
+            modelMap.addAttribute("emptyList", "You don't have any followed users");
+        }
         modelMap.addAttribute("searchUser", new User());
+
         modelMap.addAttribute("listUnfollowedUsers", listUnfollowedUsers);
         return "follow";
     }
