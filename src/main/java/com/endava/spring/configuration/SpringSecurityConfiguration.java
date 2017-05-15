@@ -12,10 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-/**
- * Created by sbogdanschi on 28/04/2017.
- */
-
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -41,7 +37,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
             .and()
-                .exceptionHandling().accessDeniedPage("/accessDenied")
+                .exceptionHandling().accessDeniedPage("/link403")
             .and()
                 .logout()
                 .logoutUrl("/logout")
