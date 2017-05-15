@@ -18,7 +18,7 @@ import java.util.List;
 @Repository("userDao")
 public class UserDaoImpl implements UserDao {
 
-    private final static Logger logger = Logger.getLogger("dataBaseLoggerActions");
+    private final static Logger logger = Logger.getLogger("dataBaseLoggerActions" + UserDaoImpl.class);
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -37,45 +37,54 @@ public class UserDaoImpl implements UserDao {
     }
 
     public List<User> listFollowedUsers(int id){
-        logger.log(Level.INFO, "Creating list of followed users");
-        String hql = "SELECT user_2_id FROM user_friends WHERE user_1_id = " + id;
+        logger.log(Level.INFO, "Initializing search of list by followed user");
+        List<User> followedUsers = getFollowers(id);
+        List<User> list = new ArrayList<>();
+
         try {
-            List<User> followedUsers = sessionFactory.getCurrentSession().createSQLQuery(hql).list();
-            List<User> list;
-            if (followedUsers != null) {
-                list = sessionFactory.getCurrentSession().createQuery("from User where id in :idlist")
-                        .setParameterList("idlist", followedUsers).list();
-                logger.log(Level.INFO, "Returning list of followed users from database");
-                return list;
-            } else {
+            if (followedUsers.size() == 0){
                 logger.log(Level.WARN, "Empty list of followed users");
+                return null;
+            } else{
+                list = sessionFactory.getCurrentSession().createQuery("from User where id in :idlist and id !=" + id)
+                        .setParameterList("idlist", followedUsers).list();
+                logger.log(Level.INFO, "Returning list of followed users");
             }
         } catch (Exception ex){
             logger.log(Level.ERROR,"Cannot extract the list of followed users", ex);
             ex.printStackTrace();
         }
-        return null;
+
+        return list;
     }
 
     @Override
     public List<User> listUnfollowedUsers(int id) {
-        logger.log(Level.INFO, "Creating list of unfollowed users");
-        String hql = "SELECT user_2_id FROM user_friends WHERE user_1_id = " + id;
+        logger.log(Level.INFO, "Initializing search of list by unfollowed user");
+        List<User> followedUsers = getFollowers(id);
+        List<User> list = new ArrayList<>();
         try {
-            List<User> followedUsers = sessionFactory.getCurrentSession().createSQLQuery(hql).list();
-            if(followedUsers != null) {
-                List<User> list = sessionFactory.getCurrentSession().createQuery("from User where id not in :idlist and id !=" + id)
-                        .setParameterList("idlist", followedUsers).list();
-                logger.log(Level.INFO, "Returning list of unfollowed users");
-                return list;
+            if (followedUsers.size() == 0) {
+                list = sessionFactory.getCurrentSession().createQuery("from User where id !=" + id).list();
+                logger.log(Level.INFO, "Returning list of all users except current User");
             } else {
-                logger.log(Level.WARN, "Empty list of unfollowed users");
+                list = sessionFactory.getCurrentSession().createQuery("from User where id not in :idlist and id !=" + id)
+                        .setParameterList("idlist", followedUsers).list();
+                logger.log(Level.INFO, "Returning list of unfollowed users excluding followers");
             }
-        }catch (Exception ex){
+        } catch (Exception ex){
             logger.log(Level.ERROR,"Cannot extract the list of unfollowed users", ex);
             ex.printStackTrace();
         }
-        return null;
+        return list;
+    }
+
+    private List<User> getFollowers(int id){
+        logger.log(Level.INFO, "Creating list of followed users");
+        String hql = "SELECT user_2_id FROM user_friends WHERE user_1_id = " + id;
+        List<User> followedUsers = sessionFactory.getCurrentSession().createSQLQuery(hql).list();
+        logger.log(Level.INFO, "Returning list of followed users");
+        return followedUsers;
     }
 
     @Override

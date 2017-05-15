@@ -28,12 +28,33 @@ public class RegistrationInputValidator implements Validator {
     public void validate(Object target, Errors errors) {
         User user = (User) target;
         User initialUser = user;
-        System.out.println(user.getId() + " -------------------------------------------");
+
+
         if (user.getId() != 0) {
-            initialUser = userService.findByUsername(user.getUsername());
+            initialUser = userService.findById(user.getId());
+
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "Required");
+            if (userService.findByEmail(user.getEmail()) != null &&
+                    !initialUser.getEmail().equals(user.getEmail())) {
+                errors.rejectValue("email", "Duplicate.userForm.email");
+            }
+
+            if (userService.findByUsername(user.getUsername()) != null &&
+                !initialUser.getUsername().equals(user.getUsername())) {
+                errors.rejectValue("username", "Duplicate.userForm.username");
+            }
+        } else {
+
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "Required");
+            if (userService.findByEmail(user.getEmail()) != null) {
+                errors.rejectValue("email", "Duplicate.userForm.email");
+            }
+
+            if (userService.findByUsername(user.getUsername()) != null) {
+                errors.rejectValue("username", "Duplicate.userForm.username");
+            }
         }
 
-        System.out.println(initialUser);
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "Required");
         if (user.getFirstName().length() < 2 || user.getFirstName().length() > 32) {
             errors.rejectValue("firstName", "Size.userForm.firstName");
@@ -44,12 +65,6 @@ public class RegistrationInputValidator implements Validator {
             errors.rejectValue("lastName", "Size.userForm.lastName");
         }
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "Required");
-        if (userService.findByEmail(user.getEmail()) != null &&
-                !user.getEmail().equals(user.getOldEmail())) {
-            errors.rejectValue("email", "Duplicate.userForm.email");
-        }
-
         if (!user.getEmail().matches(EMAIL_REGEX)) {
             errors.rejectValue("email", "Wrong.userForm.email");
         }
@@ -57,11 +72,6 @@ public class RegistrationInputValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "Required");
         if (user.getUsername().length() < 6 || user.getUsername().length() > 32) {
             errors.rejectValue("username", "Size.userFrom.username");
-        }
-
-        if (userService.findByUsername(user.getUsername()) != null &&
-                !initialUser.getUsername().equals(user.getUsername())) {
-            errors.rejectValue("username", "Duplicate.userForm.username");
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "Required");
