@@ -55,7 +55,7 @@
             <div class="col-md-3">
                 <c:url var="addAction" value="/profile"/>
                 <form:form action="${addAction}" commandName="user">
-
+                    <form:input type="hidden" id="id" value="${user.id}" name="id" path="id" />
                 <h2 class="form-profile-heading">Profile</h2>
                 <form:label path="firstName">First Name</form:label>
                     <form:input id="firstName" name="firstName" path="firstName" class="form-control"

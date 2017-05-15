@@ -39,10 +39,10 @@ public class Tweet {
     @Column(name = "is_comment")
     private boolean isComment;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    /*@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinTable(name="tweet_likes", joinColumns = @JoinColumn(name = "tweet_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<Tweet> tweetsLikes;
+    private List<Tweet> tweetsLikes;*/
 
     public int getId() {
         return id;
@@ -92,13 +92,13 @@ public class Tweet {
         isComment = comment;
     }
 
-    public List<Tweet> getTweetsLikes() {
+    /*public List<Tweet> getTweetsLikes() {
         return tweetsLikes;
     }
 
     public void setTweetsLikes(List<Tweet> tweetsComments) {
         this.tweetsLikes = tweetsComments;
-    }
+    }*/
 
     @Override
     public boolean equals(Object o) {
@@ -113,8 +113,7 @@ public class Tweet {
             return false;
         if (getDate() != null ? !getDate().equals(tweet1.getDate()) : tweet1.getDate() != null) return false;
         if (getUser() != null ? !getUser().equals(tweet1.getUser()) : tweet1.getUser() != null) return false;
-        if (getTweet() != null ? !getTweet().equals(tweet1.getTweet()) : tweet1.getTweet() != null) return false;
-        return getTweetsLikes() != null ? getTweetsLikes().equals(tweet1.getTweetsLikes()) : tweet1.getTweetsLikes() == null;
+        return getTweet() != null ? getTweet().equals(tweet1.getTweet()) : tweet1.getTweet() == null;
 
     }
 
@@ -126,7 +125,6 @@ public class Tweet {
         result = 31 * result + (getUser() != null ? getUser().hashCode() : 0);
         result = 31 * result + (getTweet() != null ? getTweet().hashCode() : 0);
         result = 31 * result + (isComment() ? 1 : 0);
-        result = 31 * result + (getTweetsLikes() != null ? getTweetsLikes().hashCode() : 0);
         return result;
     }
 
@@ -139,7 +137,6 @@ public class Tweet {
                 ", user=" + user +
                 ", tweet=" + tweet +
                 ", isComment=" + isComment +
-                ", tweetsLikes=" + tweetsLikes +
                 '}';
     }
 }
