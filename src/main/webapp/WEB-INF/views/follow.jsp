@@ -12,18 +12,20 @@
 <body>
     <c:url var="addAction" value="/followFriends"/>
     <div style="float:left">
+        <p>${emptyList}</p>
             <form:form action="${addAction}" commandName="listFollowedUsers">
 
             <c:forEach items="${listFollowedUsers}" var="followedUser">
                             <a href="<c:url value="/userProfile/${followedUser.username}"/>">
                                     ${followedUser.firstName} ${followedUser.lastName} ${followedUser.id}
                             </a>
-                <button style="height: 30px; width: 100px;" type="submit" name="unfollowedFriend" value="${followedUser.id}">UnFollow</button>
+                <button class="btn btn-warning" type="submit" name="unfollowedFriend" value="${followedUser.id}">UnFollow</button>
                 <br>
             </c:forEach>
 
         </form:form>
     </div>
+
     <div style="float: right">
         <form:form action="${addAction}" commandName="listUnfollowedUsers">
 
@@ -32,7 +34,7 @@
                 <a href="<c:url value="/userProfile/${unfollowedUser.username}"/>">
                 ${unfollowedUser.firstName}   ${unfollowedUser.lastName} ${unfollowedUser.id}
                 </a>
-                <button style="height: 30px; width: 100px;" type="submit" name="followedFriend" value="${unfollowedUser.id}">Follow</button>
+                <button class="btn btn-success" type="submit" name="followedFriend" value="${unfollowedUser.id}">Follow</button>
                 </p>
                 <br>
             </c:forEach>

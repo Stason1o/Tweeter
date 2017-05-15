@@ -135,27 +135,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> filterFollowedUsers(List<User> listOfAllUsers, User currentUser) {
-        List<User> filteredUsers = listOfAllUsers;
-        int position = 0;
-
-        for (int i = 0; i < filteredUsers.size(); i++) {
-            if (filteredUsers.get(i).getId() == currentUser.getId()) {
-                position = i;
-            }
-            for (User followedUser : currentUser.getFollowedUsers()) {
-                if (filteredUsers.get(i).getId() == followedUser.getId()) {
-                    filteredUsers.get(i).setFollowed(true);
-                    break;
-                }
-            }
-        }
-
-        filteredUsers.remove(position);
-        return filteredUsers;
-    }
-
-    @Override
     public List<User> listFollowedUsers(int id) {
         return userDao.listFollowedUsers(id);
     }
@@ -195,6 +174,21 @@ public class UserServiceImpl implements UserService {
         userDao.updateUser(user);
     }
 
+    @Override
+    public List<User> searchByUsername(String username) {
+        return userDao.searchByUsername(username);
+    }
+
+
+//    @Override
+//    public List<User> searchByUser(User user) {
+//        boolean isUsernameNotNull = contains(user.getUsername());
+//        boolean isFirstNameNotNull = contains(user.getFirstName());
+//        boolean isLastNameNotNull = contains(user.getLastName());
+//
+//        return searchByUsernameFirstNameLastName(isUsernameNotNull, isFirstNameNotNull, isLastNameNotNull, user);
+//    }
+
     private static Role createRole(int id) {
         if (id == 1) {
             return new Role(1, "ROLE_ADMIN");
@@ -208,4 +202,42 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+//    private static boolean contains(String string) {
+//        return string != null;
+//    }
+//
+//    private List<User> searchByUsernameFirstNameLastName(boolean isUsernameNotNull, boolean isFirstNameNotNull, boolean isLastNameNotNull, User user){
+//        List<User> list = new ArrayList<>();
+//        if (isUsernameNotNull){
+//            list.add(searchByUsernameFirstNameOrLastNameOrBoth(isFirstNameNotNull, isLastNameNotNull, user));
+//            return list;
+//        } else {
+//            return searchByFirstNameOrLastNameOrBoth(isFirstNameNotNull, isLastNameNotNull, user);
+//        }
+//    }
+//
+//    private List<User> searchByFirstNameOrLastNameOrBoth(boolean isFirstNameNotNull, boolean isLastNameNotNull, User user){
+//        List<User> list = new ArrayList<>();
+//        if (isFirstNameNotNull && isLastNameNotNull){
+//            list.add(userDao.searchByFirstNameLastName(user.getFirstName(), user.getLastName()));
+//            return list;
+//        } else if(isFirstNameNotNull){
+//            list.add(userDao.findByUserName(user.getFirstName()));
+//            return list;
+//        } else {
+//            return userDao.searchByLastName(user.getLastName());
+//        }
+//    }
+//
+//    private User searchByUsernameFirstNameOrLastNameOrBoth(boolean isFirstNameNotNull, boolean isLastNameNotNull, User user){
+//        if(isFirstNameNotNull && isLastNameNotNull){
+//            return userDao.searchByUsernameFirstNameLastName(user.getUsername(), user.getFirstName(), user.getLastName());
+//        } else if(isFirstNameNotNull){
+//            return userDao.searchByUsernameFirstName(user.getUsername(), user.getFirstName());
+//        } else if(isLastNameNotNull){
+//            return userDao.searchByUsernameLastName(user.getUsername(), user.getLastName());
+//        } else {
+//            return userDao.findByUserName(user.getUsername());
+//        }
+//    }
 }

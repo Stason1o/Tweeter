@@ -27,4 +27,18 @@ public interface UserDao {
 
     User findById(int id);
 
+    List<User> searchByUsername(String username);
+
+//    User searchByUsernameFirstNameLastName(String username, String firstName, String lastName);
+//
+//    User searchByUsernameFirstName(String username, String firstName);
+//
+//    User searchByUsernameLastName(String username, String lastName);
+//
+//    List<User> searchByFirstName(String firstName);
+//
+//    List<User> searchByLastName(String lastName);
+//
+//    User searchByFirstNameLastName(String firstName, String lastName);
+
 }
