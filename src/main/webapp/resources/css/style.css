@@ -54,19 +54,24 @@
     /*
      * Content
      */
-    /*.background {
+   /* .background {
         background-size: cover;
-    }  
-*/
-    /*.background.background-image {
-        background: url("../images/test.jpg"); 
-    }*/
+    }  */
+
+    .background {
+        background-image: url("http://i.imgur.com/qmToBtj.jpg");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        background-size: cover;
+    }
     /*
      * Main Content 
      */
-    /*body {
-        background-color: rgba(0, 0, 0, 0.1);
-    }*/
+    body {
+        background-color: rgba(221, 221, 221, 0.6);
+        
+    }
 
 
 
