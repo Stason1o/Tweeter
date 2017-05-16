@@ -70,6 +70,7 @@ public class DataBaseConfiguration {
             properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
             properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
             properties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
+            properties.put("hibernate.temp.use_jdbc_metadata_defaults", environment.getRequiredProperty("hibernate.temp.use_jdbc_metadata_defaults"));
         }catch (Exception ex){
             logger.log(Level.ERROR, ex);
             ex.printStackTrace();
