@@ -14,7 +14,6 @@
 </head>
 
 <body>
-
     <!-- Navigation Bar -->
     <nav class="navbar navbar-inverse navbar-static-top">
         <div class="container-nav">
@@ -32,8 +31,10 @@
 
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
+                        <li><a href=""><span class="glyphicon glyphicon-user"></span> ${user.firstName}</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
                         <li><a href="/login"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-                        <li><a href=""><span class="glyphicon glyphicon-user"></span>${user.username}</a></li>
                         <li class="drop-down">
                             <a href="" class="dropdown-toggle" data-toggle="dropdown">
                                 <span class="glyphicon glyphicon-question-sign">
@@ -41,17 +42,12 @@
                                     </span>
                                 </span>
                             </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Item 1</a></li>
-                                <li><a href="/logout">Log Out</a></li>
+                            <ul class="inverse-dropdown dropdown-menu">
+                                <li><a href=""><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
                             </ul>
                         </li>
-                        <ul class="dropdown-menu">
-                            <li><a href=""><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
-                            <li><a href=""><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
-                        </ul>
-
-                        <li></li>
                     </ul>
                 </div>
 

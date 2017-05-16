@@ -30,16 +30,29 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="">FLASH</a>
-                </div>
+                </div><!-- end navbar-header -->
 
                 <div id="navbar" class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/login"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-                        <li><a href=""><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
+                    <ul class="nav navbar-nav">
                         <li><a href="/profile"><span class="glyphicon glyphicon-user"></span> ${user.firstName}</a></li>
                     </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/login"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                        <li class="drop-down">
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                                    <span class="glyphicon glyphicon-question-sign">
+                                        <span class="caret">
+                                        </span>
+                                    </span>
+                            </a>
+                            <ul class="inverse-dropdown dropdown-menu">
+                                <li><a href=""><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
-
 
             </div>
         </div>
@@ -69,13 +82,20 @@
                 </form:form>
             </div>
 
+
             <div class="col-sm-6">
+
+                <%--<a class='default-link' href='javascript:void(0)' onclick='window.location = "https://www.google.com"'>--%>
+                <%--</a>--%>
                 <div class="row nested-title">
                     Tweets
                 </div>
-                <c:forEach var="listTweets" items="${listTweets}">
 
-                <div class="row tweet-wrapper">
+                <security:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin"/>
+                <c:forEach var="listTweets" items="${listTweets}">
+                <%--<div class="row tweet-wrapper">--%>
+                <div class="row tweet-wrapper" onclick="location.href='<c:url value="/tweetPage/${listTweets.id}/${currentIndex}"
+                />'">
                     <div class="col-sm-2 image">
                         <a href="#">
                             <img class="media-object" src="" alt="user-image">
@@ -84,26 +104,48 @@
                     <div class="col-sm-10">
                         <div class="row tweet-content">
                             <div class="col-sm-8 tweet-user-text">
-                                <%--<p>Tweet ID#${listTweets.id},--%>
-                                <%--posted by--%>
-                                <span class="full-name">${listTweets.user.firstName} ${listTweets.user.lastName}</span>
-                                <span class="user-name"> @${listTweets.user.username}</span>
-                                <%--at ${listTweets.date()}--%>
-                                <p class="content-text">${listTweets.content}</p>
+                                <!--NEEDS STYLING-->
+                                <c:choose>
+                                    <c:when test="${listTweets.tweet != null}">
+                                        <span><b>You Retweeted</b></span>
+                                        <div class="retweet-box">
+                                            <span class="full-name">
+                                                ${listTweets.tweet.user.firstName}
+                                                ${listTweets.tweet.user.lastName}
+                                            </span>
+                                            <span class="user-name"> @${listTweets.tweet.user.username}</span>
+                                            <p class="content-text">${listTweets.tweet.content}</p>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span class="full-name">${listTweets.user.firstName} ${listTweets.user.lastName}</span>
+                                        <span class="user-name"> @${listTweets.user.username}</span>
+                                        <p class="content-text">${listTweets.content}</p>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                             <div class="col-sm-4"></div>
                         </div>
                         <div class="row tweet-actions">
-                            <div class="col-sm-8"></div>
-                            <c:if test="${listTweets.user.id == user.id}">
-                            <div class="col-sm-4">
-                                <a href="<c:url value='/editTweet/${listTweets.id}' />" class="btn btn-success">Edit</a>
-                                <a href="<c:url value='/deleteTweet/${listTweets.id}' />" class="btn btn-danger">Delete</a>
-                            </div>
-                            </c:if>
+                           <div class="col-sm-4"></div>
+                           <div class="col-sm-8">
+                               <button class="btn btn-info" type="submit" name="followedFriend"
+                                       value="${unfollowedUser.id}">Follow
+                               </button>
+
+                               <c:if test="${listTweets.user.id != user.id}">
+                                   <a href="<c:url value='/reTweet/${listTweets.id}' />"><span class="glyphicon glyphicon-retweet"></span> Retweet
+                                   </a>
+                               </c:if>
+
+                               <a href="<c:url value='/tweetPage/${listTweets.id}/${currentIndex}' />">
+                                   Comment&nbsp; <span class="glyphicon glyphicon-comment"></span>
+                               </a>
+                           </div>
                         </div>
                     </div>
                 </div>
+
                 </c:forEach>
 
                 <div class="row pages">
@@ -146,80 +188,80 @@
         </div>
     </div>
 <%--STAS--%>
-<p>Tweets :</p>
-<security:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin"/>
+<%--<p>Tweets :</p>--%>
+<%--<security:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin"/>--%>
 
-<c:forEach var="listTweets" items="${listTweets}">
-    <div>
-        <p><a href="<c:url value='/tweetPage/${listTweets.id}' />">Tweet ID#${listTweets.id},</a>
-        posted by <b>${listTweets.user.username}</b>
-        at ${listTweets.date}</p> </div>
+<%--<c:forEach var="listTweets" items="${listTweets}">--%>
+    <%--<div>--%>
+        <%--<p><a href="<c:url value='/tweetPage/${listTweets.id}' />">Tweet ID#${listTweets.id},</a>--%>
+        <%--posted by <b>${listTweets.user.username}</b>--%>
+        <%--at ${listTweets.date}</p> </div>--%>
 
-    <c:choose>
-        <c:when test="${listTweets.tweet != null}">
-            ReTweeted:<div style="border: 4px double black; width: 400px; margin-left: 50px;"><p>Tweet ID#${listTweets.tweet.id},
-                posted by <b>${listTweets.tweet.user.username}</b>
-                at ${listTweets.tweet.date}</p>
-            <p>${listTweets.tweet.content}</p></div>
-        </c:when>
-        <c:otherwise>
-            <div><p>${listTweets.content}</p></div>
-        </c:otherwise>
-    </c:choose>
+    <%--<c:choose>--%>
+        <%--<c:when test="${listTweets.tweet != null}">--%>
+            <%--ReTweeted:<div style="border: 4px double black; width: 400px; margin-left: 50px;"><p>Tweet ID#${listTweets.tweet.id},--%>
+                <%--posted by <b>${listTweets.tweet.user.username}</b>--%>
+                <%--at ${listTweets.tweet.date}</p>--%>
+            <%--<p>${listTweets.tweet.content}</p></div>--%>
+        <%--</c:when>--%>
+        <%--<c:otherwise>--%>
+            <%--<div><p>${listTweets.content}</p></div>--%>
+        <%--</c:otherwise>--%>
+    <%--</c:choose>--%>
 
-    <%--<div><p>${listTweets.content}</p></div>--%>
-    <%--<div><p>${listTweets.tweet.id}</p></div>--%>
+    <%--&lt;%&ndash;<div><p>${listTweets.content}</p></div>&ndash;%&gt;--%>
+    <%--&lt;%&ndash;<div><p>${listTweets.tweet.id}</p></div>&ndash;%&gt;--%>
 
-    <c:if test="${listTweets.user.id == user.id}">
-        <a href="<c:url value='/editTweet/${listTweets.id}' />">Edit</a>
-    </c:if>
-    <c:if test="${listTweets.user.id == user.id || isAdmin}">
-        <a href="<c:url value='/deleteTweet/${listTweets.id}' />">Delete</a>
-    </c:if>
-    <a href="<c:url value='/tweetPage/${listTweets.id}' />">Commit</a>
-    <c:if test="${listTweets.user.id != user.id}">
-        <a href="<c:url value='/reTweet/${listTweets.id}' />">ReTweet</a>
-    </c:if>
+    <%--<c:if test="${listTweets.user.id == user.id}">--%>
+        <%--<a href="<c:url value='/editTweet/${listTweets.id}' />">Edit</a>--%>
+    <%--</c:if>--%>
+    <%--<c:if test="${listTweets.user.id == user.id || isAdmin}">--%>
+        <%--<a href="<c:url value='/deleteTweet/${listTweets.id}' />">Delete</a>--%>
+    <%--</c:if>--%>
+    <%--<a href="<c:url value='/tweetPage/${listTweets.id}' />">Commit</a>--%>
+    <%--<c:if test="${listTweets.user.id != user.id}">--%>
+        <%--<a href="<c:url value='/reTweet/${listTweets.id}' />">ReTweet</a>--%>
+    <%--</c:if>--%>
 
-    <button style="height: 30px; width: 100px;" type="submit" name="followedFriend" value="${unfollowedUser.id}">Follow</button>
+    <%--<button class="btn btn-info" type="submit" name="followedFriend" value="${unfollowedUser.id}">Follow</button>--%>
 
-</c:forEach>
-<br>
-<div class="pagination">
-    <ul>
-        <c:choose>
-            <c:when test="${currentIndex == 1}">
-                <li class="disabled"><a href="#">&lt;&lt;</a></li>
-                <li class="disabled"><a href="#">&lt;</a></li>
-            </c:when>
-            <c:otherwise>
-                <li><a href="${firstUrl}">&lt;&lt;</a></li>
-                <li><a href="${prevUrl}">&lt;</a></li>
-            </c:otherwise>
-        </c:choose>
-        <c:forEach var="i" begin="${beginIndex}" end="${endIndex}">
-            <c:url var="pageUrl" value="/main/${i}" />
-            <c:choose>
-                <c:when test="${i == currentIndex}">
-                    <li class="active"><a href="${pageUrl}"><c:out value="${i}" /></a></li>
-                </c:when>
-                <c:otherwise>
-                    <li><a href="${pageUrl}"><c:out value="${i}" /></a></li>
-                </c:otherwise>
-            </c:choose>
-        </c:forEach>
-        <c:choose>
-            <c:when test="${currentIndex == deploymentLog}">
-                <li class="disabled"><a href="#">&gt;</a></li>
-                <li class="disabled"><a href="#">&gt;&gt;</a></li>
-            </c:when>
-            <c:otherwise>
-                <li><a href="${nextUrl}">&gt;</a></li>
-                <li><a href="${lastUrl}">&gt;&gt;</a></li>
-            </c:otherwise>
-        </c:choose>
-    </ul>
-</div>
+<%--</c:forEach>--%>
+<%--<br>--%>
+<%--<div class="pagination">--%>
+    <%--<ul>--%>
+        <%--<c:choose>--%>
+            <%--<c:when test="${currentIndex == 1}">--%>
+                <%--<li class="disabled"><a href="#">&lt;&lt;</a></li>--%>
+                <%--<li class="disabled"><a href="#">&lt;</a></li>--%>
+            <%--</c:when>--%>
+            <%--<c:otherwise>--%>
+                <%--<li><a href="${firstUrl}">&lt;&lt;</a></li>--%>
+                <%--<li><a href="${prevUrl}">&lt;</a></li>--%>
+            <%--</c:otherwise>--%>
+        <%--</c:choose>--%>
+        <%--<c:forEach var="i" begin="${beginIndex}" end="${endIndex}">--%>
+            <%--<c:url var="pageUrl" value="/main/${i}" />--%>
+            <%--<c:choose>--%>
+                <%--<c:when test="${i == currentIndex}">--%>
+                    <%--<li class="active"><a href="${pageUrl}"><c:out value="${i}" /></a></li>--%>
+                <%--</c:when>--%>
+                <%--<c:otherwise>--%>
+                    <%--<li><a href="${pageUrl}"><c:out value="${i}" /></a></li>--%>
+                <%--</c:otherwise>--%>
+            <%--</c:choose>--%>
+        <%--</c:forEach>--%>
+        <%--<c:choose>--%>
+            <%--<c:when test="${currentIndex == deploymentLog}">--%>
+                <%--<li class="disabled"><a href="#">&gt;</a></li>--%>
+                <%--<li class="disabled"><a href="#">&gt;&gt;</a></li>--%>
+            <%--</c:when>--%>
+            <%--<c:otherwise>--%>
+                <%--<li><a href="${nextUrl}">&gt;</a></li>--%>
+                <%--<li><a href="${lastUrl}">&gt;&gt;</a></li>--%>
+            <%--</c:otherwise>--%>
+        <%--</c:choose>--%>
+    <%--</ul>--%>
+<%--</div>--%>
 
 </body>
 </html>
