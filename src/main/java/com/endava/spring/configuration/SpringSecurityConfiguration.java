@@ -20,7 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final static Logger logger = Logger.getLogger("connectionsLogger");
+    private final static Logger logger = Logger.getLogger(SpringSecurityConfiguration.class);
 
     @Autowired
     @Qualifier("userDetailsService")
@@ -28,14 +28,17 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configAuthentication(AuthenticationManagerBuilder managerBuilder) throws Exception {
-        managerBuilder
-                .authenticationProvider(authProvider())
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder());
+        logger.info("Configuring authentication manager.");
+            managerBuilder
+                    .authenticationProvider(authProvider())
+                    .userDetailsService(userDetailsService)
+                    .passwordEncoder(passwordEncoder());
+        logger.info("Configuration of authentication manager's successful.");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        logger.info("Configuring HTTP requests.");
         http.authorizeRequests()
                 .antMatchers("/", "/welcome", "/login", "/logout", "/registration").permitAll()
                 .antMatchers("/moderator/**").access("hasRole('ROLE_MODERATOR')")
@@ -51,24 +54,29 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/welcome");
+        logger.info("Configuration of HTTP requests is successful");
     }
 
     @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
+        logger.info("Creating authentication manager bean.");
         return super.authenticationManagerBean();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+        logger.info("Creating password encoder bean.");
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     public DaoAuthenticationProvider authProvider() {
+        logger.info("Creating Dao Authentication provider bean.");
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
+        logger.info("Creation of Dao Authentication provider bean's successful");
         return authProvider;
     }
 }
