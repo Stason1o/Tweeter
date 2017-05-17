@@ -3,7 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html class="full">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -33,7 +33,7 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li><a href="/login"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-                        <li><a href="/registration"><span class="glyphicon glyphicon-enter"></span> Register</a></li>
+                        <li><a href="/registration"><span class="glyphicon glyphicon-pencil"></span> Register</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href=""><span class="glyphicon glyphicon-info-sign"></span> About</a></li>

@@ -50,16 +50,19 @@ public class TweetController {
         return "redirect:/main";
     }
 
-    @RequestMapping(value = "/editTweet/{id}")
-    public String editTweetMessage(@PathVariable("id")int id, ModelMap modelMap){
+    @RequestMapping(value = "/editTweet/{idTw}")
+    public String editTweetMessage(@PathVariable("idTw")int id, ModelMap modelMap){
         modelMap.addAttribute("editTweet", tweetService.getTweetById(id));
+        modelMap.addAttribute("user", userService.findByUsernameInitialized(getPrincipal()));
+        modelMap.addAttribute("idtw", id);
         return "editTweet";
     }
 
-    @RequestMapping(value = "/editTweet/{id}", method = RequestMethod.POST)
-    public String executeEditTweetMessage(@PathVariable("id") int id, @ModelAttribute("editTweet") Tweet tweet, ModelMap modelMap){
+    @RequestMapping(value = "/editTweet/{idTw}", method = RequestMethod.POST)
+    public String executeEditTweetMessage(@PathVariable("idTw") int id,
+                                          @ModelAttribute("editTweet") Tweet tweet, ModelMap modelMap){
         tweetService.updateTweet(tweet, tweetService.getTweetById(id).getUser());
-        return "redirect:/main/1";
+        return "redirect:/tweetPage/{idTw}";
     }
 
     @RequestMapping(value = "/deleteTweet/{id}")
@@ -74,18 +77,20 @@ public class TweetController {
         return "redirect:/main/1";
     }
 
-    @RequestMapping(value = "/tweetPage/{idT}", method = RequestMethod.GET)
-    public String commitTweet(@PathVariable("idT")int id, ModelMap modelMap){
+    @RequestMapping(value = "/tweetPage/{idT}/{page}", method = RequestMethod.GET)
+    public String commitTweet(@PathVariable("page") Integer page, @PathVariable("idT")int id, ModelMap modelMap){
         modelMap.addAttribute("commit", new Tweet());
         modelMap.addAttribute("tweet", tweetService.getTweetById(id));
         modelMap.addAttribute("commitTweets", tweetService.getTweetComment(id));
+        modelMap.addAttribute("page", page);
         return "tweetPage";
     }
 
-    @RequestMapping(value = "/tweetPage/{idT}", method = RequestMethod.POST)
-    public String executeCommitTweetMessage(@PathVariable("idT") int id, @ModelAttribute("commit") Tweet tweet, ModelMap modelMap){
+    @RequestMapping(value = "/tweetPage/{idT}/{page}", method = RequestMethod.POST)
+    public String executeCommitTweetMessage(@PathVariable("page") Integer page, @PathVariable("idT") int id,
+                                            @ModelAttribute("commit") Tweet tweet, ModelMap modelMap){
         tweetService.commit(tweet, userService.findByUsernameInitialized(getPrincipal()), id);
-        return "redirect:/tweetPage/{idT}";
+        return "redirect:/tweetPage/{idT}/{page}";
     }
 
     // Need to do static
