@@ -33,10 +33,4 @@ public interface TweetService {
 
     List<Tweet> getTweetComment(int id);
 
-    Tweet getTweetByUserId(int id);
-
-    Tweet getTweetByUsername(String username);
-
-    Tweet getTweetByUser(User user);
-
 }

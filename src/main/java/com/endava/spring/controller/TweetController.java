@@ -3,6 +3,7 @@ package com.endava.spring.controller;
 import com.endava.spring.model.Tweet;
 import com.endava.spring.service.TweetService;
 import com.endava.spring.service.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,8 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+
 @Controller
 public class TweetController {
+
+    private final static Logger logger = Logger.getLogger(TweetController.class);
 
     @Autowired
     private TweetService tweetService;
@@ -23,13 +27,13 @@ public class TweetController {
     private UserService userService;
 
     @RequestMapping(value = "/main")
-    public String redirectMain(){
+    public String redirectMain() {
         return "redirect:/main/1";
     }
 
     @RequestMapping(value = "/main/{page}", method = RequestMethod.GET)
-    public String addTweet(@PathVariable("page") int page, ModelMap modelMap){
-
+    public String addTweet(@PathVariable("page") int page, ModelMap modelMap) {
+        logger.debug("Request /main/" + page + " page GET");
         modelMap.addAttribute("deploymentLog", tweetService.countPage());
         modelMap.addAttribute("beginIndex", Math.max(1, page - 2));
         modelMap.addAttribute("endIndex", Math.min(Math.max(1, page - 2) + 5, tweetService.countPage()));
@@ -38,58 +42,72 @@ public class TweetController {
         modelMap.addAttribute("tweet", new Tweet());
         modelMap.addAttribute("listTweets", tweetService.listPaginatedTweetsById(0, page));
         modelMap.addAttribute("user", userService.findByUsernameInitialized(getPrincipal()));
-//        modelMap.addAttribute("likeList", tweetService.getLikeList(0, page));
 
-
+        logger.debug("Opening main page");
         return "main";
     }
 
     @RequestMapping(value = "/main/{page}", method = RequestMethod.POST)
-    public String executeAddTweet(@PathVariable("page") Integer page, @ModelAttribute("tweet") Tweet tweet, ModelMap modelMap){
+    public String executeAddTweet(@PathVariable("page") Integer page, @ModelAttribute("tweet") Tweet tweet, ModelMap modelMap) {
+        logger.debug("Request /main POST");
         tweetService.saveTweet(tweet, userService.findByUsernameInitialized(getPrincipal()));
+        logger.debug("Redirecting /main");
         return "redirect:/main";
     }
 
     @RequestMapping(value = "/editTweet/{idTw}")
     public String editTweetMessage(@PathVariable("idTw")int id, ModelMap modelMap){
+        logger.debug("Request /editTweet/" + id + " page");
         modelMap.addAttribute("editTweet", tweetService.getTweetById(id));
         modelMap.addAttribute("user", userService.findByUsernameInitialized(getPrincipal()));
         modelMap.addAttribute("idtw", id);
+        logger.debug("Opening editTweet page");
         return "editTweet";
     }
 
     @RequestMapping(value = "/editTweet/{idTw}", method = RequestMethod.POST)
     public String executeEditTweetMessage(@PathVariable("idTw") int id,
-                                          @ModelAttribute("editTweet") Tweet tweet, ModelMap modelMap){
+                                          @ModelAttribute("editTweet") Tweet tweet, ModelMap modelMap) {
+        logger.debug("Request /editTweet/" + id + " page POST");
         tweetService.updateTweet(tweet, tweetService.getTweetById(id).getUser());
+        logger.debug("Redirecting /tweetPage/" + id);
         return "redirect:/tweetPage/{idTw}";
     }
 
+
     @RequestMapping(value = "/deleteTweet/{id}")
-    public String deleteTweet(@PathVariable("id")int id){
+    public String deleteTweet(@PathVariable("id") int id) {
+        logger.debug("Request /deleteTweet/" + id);
         tweetService.removeTweet(id);
+        logger.debug("Redirecting /main/1");
         return "redirect:/main/1";
     }
 
     @RequestMapping(value = "/reTweet/{id}")
-    public String reTweet(@PathVariable("id")int id, ModelMap modelMap){
+    public String reTweet(@PathVariable("id") int id, ModelMap modelMap) {
+        logger.debug("Request /reTweet/" + id + " page");
         tweetService.reTweet(new Tweet(), userService.findByUsernameInitialized(getPrincipal()), id);
+        logger.debug("Redirecting /main/1");
         return "redirect:/main/1";
     }
 
     @RequestMapping(value = "/tweetPage/{idT}/{page}", method = RequestMethod.GET)
     public String commitTweet(@PathVariable("page") Integer page, @PathVariable("idT")int id, ModelMap modelMap){
+        logger.debug("Request /tweetPage/" + id+"/"+ page + " page");
         modelMap.addAttribute("commit", new Tweet());
         modelMap.addAttribute("tweet", tweetService.getTweetById(id));
         modelMap.addAttribute("commitTweets", tweetService.getTweetComment(id));
         modelMap.addAttribute("page", page);
+        logger.debug("Opening tweetPage");
         return "tweetPage";
     }
 
     @RequestMapping(value = "/tweetPage/{idT}/{page}", method = RequestMethod.POST)
     public String executeCommitTweetMessage(@PathVariable("page") Integer page, @PathVariable("idT") int id,
                                             @ModelAttribute("commit") Tweet tweet, ModelMap modelMap){
+        logger.debug("Request /tweetPage/" + id + " page");
         tweetService.commit(tweet, userService.findByUsernameInitialized(getPrincipal()), id);
+        logger.debug("Redirecting /tweetPage/" + id);
         return "redirect:/tweetPage/{idT}/{page}";
     }
 

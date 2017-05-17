@@ -1,6 +1,7 @@
 package com.endava.spring.controller;
 
 import com.endava.spring.service.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class PageController {
 
-    private static int ROLE_MODERATOR = 3;
-    private static int ROLE_ADMIN = 1;
-    private static int ROLE_USER = 2;
+    private final static int ROLE_MODERATOR = 3;
+    private final static int ROLE_ADMIN = 1;
+    private final static int ROLE_USER = 2;
+
+    private final static Logger logger = Logger.getLogger(PageController.class);
 
     @Autowired
     private UserService userService;
@@ -32,13 +35,11 @@ public class PageController {
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String displayAdminPage(ModelMap modelMap) {
+        logger.debug("Request /admin page GET");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-//
-//
-//        }
         modelMap.addAttribute("username", authentication.getName());
         modelMap.addAttribute("listUsers", userService.listUsers());
+        logger.debug("Returning admin page");
         return "admin";
     }
 
@@ -48,6 +49,7 @@ public class PageController {
                                   @RequestParam(value = "adminRole", required = false) Integer userIdRoleAdmin,
                                   @RequestParam(value = "moderatorRole", required = false) Integer userIdRoleModerator,
                                   @RequestParam(value = "userRole", required = false) Integer userIdRoleUser) {
+        logger.debug("Request /admin POST");
         if (userIdToDelete != null) {
             userService.removeUser(userIdToDelete);
         }
@@ -67,6 +69,8 @@ public class PageController {
         if(userIdRoleUser != null){
             userService.updateUserRole(userIdRoleUser, ROLE_USER);
         }
+
+        logger.debug("Redirecting /admin");
         return "redirect:/admin";
     }
 

@@ -1,6 +1,7 @@
 package com.endava.spring.service.impl;
 
 import com.endava.spring.service.SecurityService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class SecurityServiceImpl implements SecurityService {
 
+    private final static Logger logger = Logger.getLogger(SecurityServiceImpl.class);
+
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -23,20 +26,26 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public String findLoggedInUser() {
+        logger.info("Searching for logged user");
         Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
         if(userDetails instanceof UserDetails) {
-            return ((UserDetails) userDetails).getUsername();
+            String username = ((UserDetails) userDetails).getUsername();
+            logger.info("Found user: " + username);
+            return username;
         }
         return null;
     }
 
     @Override
     public void autoLogin(String username, String password) {
+        logger.info("Auto loggin user: " + username);
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
         authenticationManager.authenticate(authenticationToken);
-        if(authenticationToken.isAuthenticated())
+        if(authenticationToken.isAuthenticated()) {
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            logger.info("User is successfully logged in");
+        }
     }
 }
