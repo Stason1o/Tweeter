@@ -33,7 +33,7 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li><a href="/login"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-                        <li><a href="/registration"><span class="glyphicon glyphicon-enter"></span> Register</a></li>
+                        <li><a href="/registration"><span class="glyphicon glyphicon-pencil"></span> Register</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href=""><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
