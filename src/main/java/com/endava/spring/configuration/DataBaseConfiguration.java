@@ -19,7 +19,7 @@ import java.util.Properties;
  */
 @Configuration
 @EnableTransactionManagement
-@ComponentScan("com.endava.spring.configuration")
+@ComponentScan(basePackages = {"com.endava.spring.dao"})
 @PropertySource(value = {"classpath:application.properties"})
 @Import(WebConfiguration.class)
 public class DataBaseConfiguration {

@@ -122,7 +122,7 @@
                 <form:input type="hidden" id="enabled" value="1" name="enabled" path="enabled"/>
 
                 <div class="padding-top">
-                    <button class="btn btn-lg btn-success btn-block" type="submit">Register</button>
+                    <button id="submitRegisterOperation" class="btn btn-lg btn-success btn-block" type="submit">Register</button>
                 </div>
             </form:form>
         </div>
@@ -135,6 +135,6 @@
     <!--REST OF THE CONTENT GOES HERE. BEFORE <script> tags-->
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="<c:url value="/resources/js/script.js" />"></script>
+    <%--<script src="<c:url value="/resources/js/script.js" />"></script>--%>
 </body>
 </html>

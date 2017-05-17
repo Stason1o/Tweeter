@@ -29,8 +29,10 @@ public class PageController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             modelMap.addAttribute("username", authentication.getName());
+            return "redirect:/profile";
+        } else {
+            return "redirect:/login";
         }
-        return "welcome";
     }
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)

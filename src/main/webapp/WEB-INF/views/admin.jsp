@@ -141,7 +141,7 @@
                                         <tr>
                                             <td>${user.id}</td>
                                             <td>${user.firstName} ${user.lastName}</td>
-                                            <td><a href="<c:url value="/userProfile/${user.username}"/>">${user.username}</a></td>
+                                            <td><a href="<c:url value="/profile/${user.username}"/>">${user.username}</a></td>
                                             <td>${user.email}</td>
                                             <td>
                                                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">

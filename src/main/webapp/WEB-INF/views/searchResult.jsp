@@ -29,7 +29,7 @@
 
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="/login"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                        <li><a id="homePageNavBar" href="/main/1"><span class="glyphicon glyphicon-home"></span> Home</a></li>
                         <li><a href="/profile"><span class="glyphicon glyphicon-picture"></span>
                         ${user.firstName}</a></li>
                     </ul>

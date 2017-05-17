@@ -5,6 +5,8 @@ import com.endava.spring.service.TweetService;
 import com.endava.spring.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -28,11 +30,19 @@ public class TweetController {
 
     @RequestMapping(value = "/main")
     public String redirectMain() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication instanceof AnonymousAuthenticationToken){
+            return "redirect:/login";
+        }
         return "redirect:/main/1";
     }
 
     @RequestMapping(value = "/main/{page}", method = RequestMethod.GET)
     public String addTweet(@PathVariable("page") int page, ModelMap modelMap) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication instanceof AnonymousAuthenticationToken){
+            return "redirect:/login";
+        }
         logger.debug("Request /main/" + page + " page GET");
         modelMap.addAttribute("deploymentLog", tweetService.countPage());
         modelMap.addAttribute("beginIndex", Math.max(1, page - 2));

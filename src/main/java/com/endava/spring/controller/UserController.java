@@ -6,6 +6,7 @@ import com.endava.spring.service.UserService;
 import com.endava.spring.validator.RegistrationInputValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,6 +41,11 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String displayLoginPage(ModelMap modelMap) {
         logger.debug("Request of /login page GET");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(!(authentication instanceof AnonymousAuthenticationToken)){
+            logger.info("User is logged in. Redirecting to user profile page.");
+            return "redirect:/main/1";
+        }
         User user = new User();
         modelMap.addAttribute("user", user);
         logger.debug("Opening login page");
@@ -85,9 +91,13 @@ public class UserController {
     }
 
     @RequestMapping(value = "/delete/{id}")
-    public String deleteUser(@PathVariable("id") int id) {
+    public String deleteUser(@PathVariable("id") int id, HttpServletRequest request, HttpServletResponse response) {
         logger.debug("Request of /delete/"+id + " page");
         userService.removeUser(id);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
         logger.debug("Redirecting /login page");
         return "redirect:/login";
     }
@@ -109,6 +119,11 @@ public class UserController {
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String displayRegistrationPage(ModelMap modelMap) {
         logger.debug("Request /registration page GET");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(!(authentication instanceof AnonymousAuthenticationToken)){
+            logger.info("User is logged in. Redirecting to user profile page.");
+            return "redirect:/profile";
+        }
         modelMap.addAttribute("user", new User());
         logger.debug("Opening registration page");
         return "registration";
@@ -122,9 +137,9 @@ public class UserController {
             return "registration";
         }
         userService.saveUser(user);
-        securityService.autoLogin(user.getUsername(), user.getConfirmPassword());
-        logger.debug("Redirect /welcome page");
-        return "redirect:/welcome";
+        securityService.autoLogin(user.getUsername(), user.getPassword());
+        //logger.debug("Redirect /welcome page");
+        return "redirect:/login";
     }
 
     @RequestMapping(value = "/followFriends", method = RequestMethod.GET)

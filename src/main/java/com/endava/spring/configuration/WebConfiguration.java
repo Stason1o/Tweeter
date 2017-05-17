@@ -15,11 +15,12 @@ import org.springframework.web.servlet.view.JstlView;
 
 
 @Configuration
-@EnableWebMvc
+@EnableWebMvc// TODO
 @ComponentScan(basePackages = "com.endava.spring")
 public class WebConfiguration extends WebMvcConfigurerAdapter{
 
     private final static Logger logger = Logger.getLogger(WebConfiguration.class);
+
     @Bean
     public ViewResolver viewResolver(){
         logger.info("Creating view resolver bean");
