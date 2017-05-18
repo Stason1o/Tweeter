@@ -21,7 +21,7 @@
             <div class="container-fluid">
 
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <button id="dropDownMenu" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -32,12 +32,12 @@
 
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="/login"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                        <li><a id="homePageNavBar" href="/login"><span class="glyphicon glyphicon-home"></span> Home</a></li>
                         <li><a href="#"><span class="glyphicon glyphicon-picture"></span> ${user.firstName}</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="drop-down">
-                            <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                            <a id="navBarDropDownMenu" href="" class="dropdown-toggle" data-toggle="dropdown">
                                 <span class="glyphicon glyphicon-align-justify"></span> &nbsp;Navigate
                             </a>
                             <ul class="inverse-dropdown dropdown-menu">
@@ -61,7 +61,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/globalSearch">
+                                    <a id="globalSearchPage" href="/globalSearch">
                                         <span class="glyphicon glyphicon-search"></span> &nbsp;Search
                                     </a>
                                 </li>
@@ -120,7 +120,7 @@
 
                 <form:input type="hidden" id="enabled" value="1" name="enabled" path="enabled"/>
                     <a href="<c:url value='/edit/${user.id}' />" class="btn btn-info">Edit</a>
-                    <a href="<c:url value='/delete/${user.id}' />" class="btn btn-danger">Delete Profile</a>
+                    <a id="deleteProfile" href="<c:url value='/delete/${user.id}' />" class="btn btn-danger">Delete Profile</a>
                 </form:form>
 
                 <p></p>

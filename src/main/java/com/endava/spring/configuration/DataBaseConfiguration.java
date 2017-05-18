@@ -17,8 +17,8 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@PropertySource(value = {"classpath:application.properties"})
 @ComponentScan(basePackages = {"com.endava.spring.dao"})
+@PropertySource(value = {"classpath:application.properties"})
 public class DataBaseConfiguration {
 
     private final static Logger logger = Logger.getLogger(DataBaseConfiguration.class);

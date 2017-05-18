@@ -138,7 +138,7 @@
                             </a>
                         </c:if>
                         <c:if test="${listTweets.user.id == user.id || isAdmin}">
-                            <a href="<c:url value='/deleteTweet/${tweet.id}' />" class="btn btn-danger"><span
+                            <a id="deleteTweetLink" href="<c:url value='/deleteTweet/${tweet.id}' />" class="btn btn-danger"><span
                                     class="glyphicon glyphicon-remove"></span> Delete</a>
                         </c:if>
                     </c:otherwise>
