@@ -255,6 +255,25 @@ public class UserController {
         return "redirect:/profile";
     }
 
+    @RequestMapping(value = "/avatar/{userId}", method = RequestMethod.GET)
+    public String editAvatar(@PathVariable(value = "userId") Integer userId, ModelMap modelMap){
+        modelMap.addAttribute("user",  userService.findById(userId));
+        return "avatar";
+    }
+
+    @RequestMapping(value = "/avatar/{userId}",method = RequestMethod.POST)
+    public String changeAvatar(@PathVariable(value = "userId") Integer userId,
+                               @RequestParam("image")String image, ModelMap modelMap){
+
+        User user = userService.findById(userId);
+        user.setImage(image);
+        System.out.println(image + "---------------------------------------------------------------");
+        System.out.println(user.getId() + "---------------------------------------------------------------");
+        userService.updateUser(user);
+
+        return "redirect:/edit/{userId}";
+    }
+
     private String getPrincipal() {
         String userName;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

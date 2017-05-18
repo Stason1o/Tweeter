@@ -15,6 +15,9 @@
     </style>
 </head>
 <body>
+
+<%--<p><img src="${pageContext.request.contextPath}${user.image}" alt="Письма мастера дзен"></p>--%>
+
     <!-- Navigation Bar -->
     <nav class="navbar navbar-inverse navbar-static-top">
         <div class="container-nav">
