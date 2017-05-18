@@ -14,14 +14,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-/**
- * Created by sbogdanschi on 25/04/2017.
- */
+
 @Configuration
 @EnableTransactionManagement
-@ComponentScan("com.endava.spring.configuration")
 @PropertySource(value = {"classpath:application.properties"})
-@Import(WebConfiguration.class)
+@ComponentScan(basePackages = {"com.endava.spring.dao"})
 public class DataBaseConfiguration {
 
     private final static Logger logger = Logger.getLogger(DataBaseConfiguration.class);
@@ -71,7 +68,6 @@ public class DataBaseConfiguration {
             properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
             properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
             properties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
-//            properties.put("hibernate.temp.use_jdbc_metadata_defaults", environment.getRequiredProperty("hibernate.temp.use_jdbc_metadata_defaults"));
         }catch (Exception ex){
             logger.log(Level.ERROR, ex);
             ex.printStackTrace();

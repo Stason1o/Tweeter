@@ -68,6 +68,8 @@ execute procedure insert_in_user_roles();
 
 ----------------------------INSERTS IN TABLES-------------------------------
 
+INSERT INTO "public".users (username, password, email, first_name, last_name, enabled, image) VALUES ('asdxcxcxfggh', '$2a$10$phyEoJccwQdjd/fjNF570OJeA1hdeHaOYNkXwcPUXlDhkZYlGMShy', 'jhebfjkb@jkb2.jnj', 'vbnm,./', 'fghjkl', true,'xcxv' );
+
 -----------------------------ROLES--------------------------------
 insert into roles(role_id, role) values(1, 'ROLE_ADMIN'),(2, 'ROLE_USER'),(3, 'ROLE_MODERATOR');
 

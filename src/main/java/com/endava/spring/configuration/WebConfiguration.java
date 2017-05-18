@@ -1,10 +1,13 @@
 package com.endava.spring.configuration;
 
+
 import org.apache.log4j.Logger;
+
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -16,10 +19,11 @@ import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "com.endava.spring")
+@ComponentScan(basePackages = {"com.endava.spring"})
 public class WebConfiguration extends WebMvcConfigurerAdapter{
 
     private final static Logger logger = Logger.getLogger(WebConfiguration.class);
+
     @Bean
     public ViewResolver viewResolver(){
         logger.info("Creating view resolver bean");
@@ -37,6 +41,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
         registry.addResourceHandler("/static/**").addResourceLocations("/static/");
         logger.info("Successfully added..");
+
     }
 
     @Bean
@@ -48,5 +53,4 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
         logger.info("Creation of message source bean is successful");
         return messageSource;
     }
-
 }
