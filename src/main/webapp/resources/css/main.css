@@ -78,7 +78,17 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+
 }
+
+/*body::before {*/
+    /*z-index: -1;*/
+    /*-webkit-filter: blur(20px);*/
+    /*-moz-filter: blur(20px);*/
+    /*-o-filter: blur(20px);*/
+    /*-ms-filter: blur(20px);*/
+    /*filter: blur(20px);*/
+/*}*/
 
 .welcome-align {
     width: 800px;

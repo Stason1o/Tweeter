@@ -110,7 +110,10 @@ body {
     input:-webkit-autofill,
     textarea:-webkit-autofill,
     select:-webkit-autofill {
-        background-color: rgb(250, 255, 189);
+        background-color: rgba(249, 245, 243, 0.5);
     }
 
+    #main-content {
+        margin-left: 270px;
+    }
 }
