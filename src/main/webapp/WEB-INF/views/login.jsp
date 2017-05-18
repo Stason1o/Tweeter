@@ -10,7 +10,7 @@
     <title>Login</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
-        <%@include file="/resources/css/style.css"%>
+        <%@include file="/resources/css/main.css"%>
     </style>
 </head>
 
@@ -27,7 +27,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="">FLASH</a>
+                    <a class="navbar-brand" href="/login">LinK</a>
                 </div>
 
                 <div id="navbar" class="navbar-collapse collapse">
@@ -47,21 +47,22 @@
 
     <!-- Content -->
     <div class="container-fluid background background-image">
-        <div class="col-sm-8">
-            <h3>Welcome to FLASH</h3>
-            <p>Here you will can make friends, collegues, business parteners and so much more.
-                You can you this platform for your business activities, private life or hobbies.
+        <div class="col-lg-8 col-sm-8 welcome-align">
+            <p class="welcome">Welcome to LinK</p>
+            <p class="welcome-msg">
+                Connect with your friends, colleagues and business partners.
+                <br>Share success stories. Enjoy beautiful moments.<br>Make and cherish memories, and so much more.
+                <br>A place that you can use for your business activities, hobbies or day to day life.
             </p>
         </div>
 
-        <div class="col-sm-4">
+        <div class="col-lg-4 col-sm-4 login-align">
 
             <form:form id="loginForm" method="post" action="login" modelAttribute="user" class="form-login">
 
-                <h3 class="form-heading">Login</h3>
-                <hr>
+                <h3 class="form-heading">Login</h3><hr>
 
-                <div class="field input-group input-group-lg">
+                <div class="field input-group input-group-lg login-username">
                     <span class="input-group-addon" id="user-icon">
                         <span class="glyphicon glyphicon-user"></span>
                     </span>
@@ -69,7 +70,7 @@
                             placeholder="lazyuser25" required="" autofocus="" aria-describedby="user-icon"/>
                 </div>
                 <br>
-                <div class="field padding-top input-group input-group-lg">
+                <div class="field input-group input-group-lg">
                         <%--<form:label path="password">Password:</form:label>--%>
                      <span class="input-group-addon" id="password-icon">
                         <span class="glyphicon glyphicon-lock"></span>
@@ -79,10 +80,10 @@
                                    aria-describedby="password-icon"/>
                 </div>
                 <br>
-                <div class="padding-top">
-                    <button type="submit" class="btn btn-lg btn-success">Log in</button>
-                    <input type="button" value="Register" onclick="window.location='/registration'"
-                           class="btn btn-lg btn-warning">
+                <div>
+                    <button type="submit" class="btn btn-lg btn-success pull-right">Log in</button>
+                    <%--<input type="button" value="Register" onclick="window.location='/registration'"--%>
+                           <%--class="btn btn-lg btn-warning">--%>
                 </div>
             </form:form>
         </div>

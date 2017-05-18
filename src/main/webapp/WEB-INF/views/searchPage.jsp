@@ -110,7 +110,7 @@
                             <span class="glyphicon glyphicon-user"></span>
                         </span>
                     <form:input id="username" name="username" path="username" class="form-control"
-                                placeholder="username" required="" autofocus="" aria-describedby="user-icon"/>
+                                placeholder="lazy_username" required="" autofocus="" aria-describedby="user-icon"/>
                 </div>
                 <br>
                 <div class="padding-top">

@@ -114,7 +114,7 @@
                             <span class="glyphicon glyphicon-user"></span>
                         </span>
                         <form:input id="username" name="username" path="username" class="form-control"
-                        placeholder="lazyuser25" required="" autofocus="" aria-describedby="user-icon"/>
+                        placeholder="lazy_username" required="" autofocus="" aria-describedby="user-icon"/>
                     </div>
                     <br>
                     <button class="btn btn-success" type="submit">Search</button>
@@ -124,45 +124,55 @@
         </div>
 
         <div class="col-sm-6">
+            <h3 class="form-heading">Results</h3><hr>
+
             <div class="col-sm-6">
-                <h3 class="form-heading">Results</h3>
-                <hr>
-                <div class="col-sm-4">
-                    <a href="#">
-                        <img class="media-object" src="" alt="user-image">
-                    </a>
-                </div>
-                <div class="col-sm-8 user-content-info">
-                    <c:forEach var="user" items="${listUsers}">
-                        <%--<a href="<c:url value="/userProfile/${user.username}"/>"></a>--%>
-                        <div class="">
-                            <p>Name: ${user.firstName}</p>
-                            <p>Surname: ${user.lastName}</p>
+                <%--@elvariable id="listUsers" type="java.util.List"--%>
+                <c:forEach var="user" items="${listUsers}">
+                    <div class="row user-wrapper" onclick="location.href='<c:url value="/profile"/>'">
+
+                        <div class="col-sm-4">
+                                <a href="#">
+                                    <img class="media-object" src="" alt="user-image">
+                                </a>
                         </div>
-                        <div class="col-sm-6"></div>
-                        <div class="col-sm-6">
-                            <form:form action="${addAction}" commandName="listUsers">
-                                <c:forEach items="${loggedUser.followedUsers}" var="followedUser">
-                                    <c:if test="${user.id == followedUser.id}">
-                                        <c:set value="true" var="contains"/>
-                                    </c:if>
-                                </c:forEach>
-                                <c:choose>
-                                    <c:when test="${contains eq true}">
-                                        <button class="btn btn-warning pull-right" type="submit"
-                                                name="unfollowedFriend" value="${user.id}">UnFollow</button>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <button class="btn btn-success pull-right" type="submit" name="followedFriend"
-                                                value="${user.id}">Follow</button>
-                                    </c:otherwise>
-                                </c:choose>
-                            </form:form>
+
+                        <div class="col-sm-8 user-content-info">
+                            <%--<a href="<c:url value="/userProfile/${user.username}"/>"></a>--%>
+                            <div class="">
+                                <p>Name: ${user.firstName}</p>
+                                <p>Surname: ${user.lastName}</p>
+                            </div>
+
+                            <div class="col-sm-6"></div>
+
+                            <div class="col-sm-6">
+                                <form:form action="${addAction}" commandName="listUsers">
+                                    <c:forEach items="${loggedUser.followedUsers}" var="followedUser">
+                                        <c:if test="${user.id == followedUser.id}">
+                                            <c:set value="true" var="contains"/>
+                                        </c:if>
+                                    </c:forEach>
+                                    <c:choose>
+                                        <c:when test="${contains eq true}">
+                                            <button class="btn btn-warning pull-right" type="submit"
+                                                    name="unfollowedFriend" value="${user.id}">UnFollow</button>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <button class="btn btn-success pull-right" type="submit" name="followedFriend"
+                                                    value="${user.id}">Follow</button>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </form:form>
+                            </div>
                         </div>
-                    </c:forEach>
-                </div>
+
+                    </div>
+                </c:forEach>
             </div>
+
             <div class="col-sm-6"></div>
+
         </div>
     </div>
     <!-- ##Content## -->
