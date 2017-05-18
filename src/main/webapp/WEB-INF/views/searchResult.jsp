@@ -8,7 +8,7 @@
     <title>Search Results</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
-        <%@include file="/resources/css/style.css"%>
+        <%@include file="/resources/css/search_results.css"%>
     </style>
 </head>
 <body>
@@ -100,15 +100,14 @@
         <c:set var="contains" value="false"/>
         <c:url var="findPage" value="/globalSearch"/>
 
-        <div class="col-sm-6">
-            <div class="col-sm-6"></div>
-            <div class="col-sm-6">
+        <div class="col-lg-6 col-sm-6">
+            <div class="col-lg-6 col-sm-6"></div>
+            <div class="col-lg-6 col-sm-6">
                 <form:form commandName="user" action="${findPage}">
 
                     <%--<form:form name="searchUser" action="/followFriend/{searchUser}" method="post">--%>
 
-                    <h3 class="form-heading">Search</h3>
-                    <hr>
+                    <h3 class="form-heading">Search</h3><hr>
                     <div class="field input-group">
                         <span class="input-group-addon" id="user-icon">
                             <span class="glyphicon glyphicon-user"></span>
@@ -123,30 +122,27 @@
             </div>
         </div>
 
-        <div class="col-sm-6">
-            <h3 class="form-heading">Results</h3><hr>
-
-            <div class="col-sm-6">
-                <%--@elvariable id="listUsers" type="java.util.List"--%>
+        <div class="col-lg-6 col-sm-6">
+            <div class="col-lg-6 col-sm-6">
+                <h3 class="form-heading">Results</h3><hr>
                 <c:forEach var="user" items="${listUsers}">
-                    <div class="row user-wrapper" onclick="location.href='<c:url value="/profile"/>'">
+                    <div class="row user-wrapper" onclick="location.href='<c:url value="/userProfile/${user.username}"/>'">
 
-                        <div class="col-sm-4">
+                        <div class="col-lg-4 col-sm-4">
                                 <a href="#">
                                     <img class="media-object" src="" alt="user-image">
                                 </a>
                         </div>
 
-                        <div class="col-sm-8 user-content-info">
-                            <%--<a href="<c:url value="/userProfile/${user.username}"/>"></a>--%>
+                        <div class="col-lg-8 col-sm-8 user-content-info">
                             <div class="">
                                 <p>Name: ${user.firstName}</p>
                                 <p>Surname: ${user.lastName}</p>
                             </div>
 
-                            <div class="col-sm-6"></div>
+                            <div class="col-lg-6 col-sm-6"></div>
 
-                            <div class="col-sm-6">
+                            <div class="col-lg-6 col-sm-6">
                                 <form:form action="${addAction}" commandName="listUsers">
                                     <c:forEach items="${loggedUser.followedUsers}" var="followedUser">
                                         <c:if test="${user.id == followedUser.id}">
@@ -171,7 +167,7 @@
                 </c:forEach>
             </div>
 
-            <div class="col-sm-6"></div>
+            <div class="col-lg-6 col-sm-6"></div>
 
         </div>
     </div>
