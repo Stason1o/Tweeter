@@ -214,43 +214,45 @@
                         <h4>Friends</h4>
                     </div>
                 <%--<form:form action="${addAction}" commandName="listFollowedUsers">--%>
-                <c:forEach var="user" items="${listUsers}">
-                    <div class="row user-wrapper"
-                         onclick="location.href='<c:url value="/userProfile/${user.username}"/>'"style="border: 1px solid #ff0000;">
+                    <div class="col-sm-6">
+                        <c:url var="addAction" value="/profile"/>
+                        <div style="float:left">
+                            <p>${emptyList}</p>
+                            <form:form action="${addAction}" commandName="listFollowedUsers">
 
-                        <div class="col-sm-4">
-                            <a href="#">
-                                <img class="media-object" src="" alt="user-image">
-                            </a>
+                                <c:forEach items="${listFollowedUsers}" var="followedUser">
+                                    <a href="<c:url value="/userProfile/${followedUser.username}"/>">
+                                            ${followedUser.firstName} ${followedUser.lastName} ${followedUser.id}
+                                    </a>
+                                    <button class="btn btn-warning" type="submit" name="unfollowedFriend" value="${followedUser.id}">UnFollow</button>
+                                    <br>
+                                </c:forEach>
+
+                            </form:form>
                         </div>
+                    </div>
+                <%--<c:forEach var="user" items="${listUsers}">--%>
+                    <%--<div class="row user-wrapper"--%>
+                         <%--onclick="location.href='<c:url value="/userProfile/${user.username}"/>'"style="border: 1px solid #ff0000;">--%>
 
-                        <div class="col-sm-8 user-content-info">
-                            <%--<a href="<c:url value="/userProfile/${user.username}"/>"></a>--%>
-                            <div class="">
-                                <p>Name: ${user.firstName}</p>
-                                <p>Surname: ${user.lastName}</p>
-                            </div>
+                        <%--<div class="col-sm-4">--%>
+                            <%--<a href="#">--%>
+                                <%--<img class="media-object" src="" alt="user-image">--%>
+                            <%--</a>--%>
+                        <%--</div>--%>
 
-                            <div class="col-sm-6"></div>
+                        <%--<div class="col-sm-8 user-content-info">--%>
+                            <%--&lt;%&ndash;<a href="<c:url value="/userProfile/${user.username}"/>"></a>&ndash;%&gt;--%>
+                            <%--<div class="">--%>
+                                <%--<p>Name: ${user.firstName}</p>--%>
+                                <%--<p>Surname: ${user.lastName}</p>--%>
+                            <%--</div>--%>
 
-                            <div class="col-sm-6">
-                                <c:url var="addAction" value="/followFriends"/>
-                                <div style="float:left">
-                                    <p>${emptyList}</p>
-                                    <form:form action="${addAction}" commandName="listFollowedUsers">
+                            <%--<div class="col-sm-6"></div>--%>
 
-                                        <c:forEach items="${listFollowedUsers}" var="followedUser">
-                                            <a href="<c:url value="/userProfile/${followedUser.username}"/>">
-                                                    ${followedUser.firstName} ${followedUser.lastName} ${followedUser.id}
-                                            </a>
-                                            <button class="btn btn-warning" type="submit" name="unfollowedFriend" value="${followedUser.id}">UnFollow</button>
-                                            <br>
-                                        </c:forEach>
-
-                                    </form:form>
-                                </div>
-                            </div>
-                        </div>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                <%--</c:forEach>--%>
 
                                 <%--@elvariable id="listFollowedUsers" type="java.util.List"--%>
                                 <%--<c:forEach items="${listFollowedUsers}" var="followedUser">--%>
@@ -317,8 +319,7 @@
                                 <%--</form:form>--%>
 
 
-                    </div>
-                </c:forEach>
+
             </div>
         </div>
     </div>
