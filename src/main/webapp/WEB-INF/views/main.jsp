@@ -4,7 +4,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <c:url var="firstUrl" value="/main/1" />
+<%--@elvariable id="deploymentLog" type="java"--%>
 <c:url var="lastUrl" value="/main/${deploymentLog}" />
+<%--@elvariable id="currentIndex" type="java"--%>
 <c:url var="prevUrl" value="/main/${currentIndex - 1}" />
 <c:url var="nextUrl" value="/main/${currentIndex + 1}" />
 <html>
@@ -108,7 +110,7 @@
             <div class="col-sm-4">
                 <form:form method="post" modelAttribute="tweet">
                 <div class="row nested-title">
-                    New Tweet
+                    <h4>Have something to say?</h4>
                 </div>
                 <div class="row nested-textarea">
                     <form:textarea path="content" />
@@ -124,11 +126,8 @@
 
 
             <div class="col-sm-6">
-
-                <%--<a class='default-link' href='javascript:void(0)' onclick='window.location = "https://www.google.com"'>--%>
-                <%--</a>--%>
                 <div class="row nested-title">
-                    Tweets
+                    <h4>Tweet list</h4>
                 </div>
 
                 <security:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin"/>
@@ -187,121 +186,10 @@
                 </div>
 
                 </c:forEach>
-
-                <div class="row pages">
-                    <ul class="pagination">
-                        <c:choose>
-                            <c:when test="${currentIndex == 1}">
-                                <li class="disabled"><a href="#">&lt;&lt;</a></li>
-                                <li class="disabled"><a href="#">&lt;</a></li>
-                            </c:when>
-                            <c:otherwise>
-                                <li><a href="${firstUrl}">&lt;&lt;</a></li>
-                                <li><a href="${prevUrl}">&lt;</a></li>
-                            </c:otherwise>
-                        </c:choose>
-                        <c:forEach var="i" begin="${beginIndex}" end="${endIndex}">
-                            <c:url var="pageUrl" value="/main/${i}" />
-                            <c:choose>
-                                <c:when test="${i == currentIndex}">
-                                    <li class="active"><a href="${pageUrl}"><c:out value="${i}" /></a></li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li><a href="${pageUrl}"><c:out value="${i}" /></a></li>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-                        <c:choose>
-                            <c:when test="${currentIndex == deploymentLog}">
-                                <li class="disabled"><a href="#">&gt;</a></li>
-                                <li class="disabled"><a href="#">&gt;&gt;</a></li>
-                            </c:when>
-                            <c:otherwise>
-                                <li><a href="${nextUrl}">&gt;</a></li>
-                                <li><a href="${lastUrl}">&gt;&gt;</a></li>
-                            </c:otherwise>
-                        </c:choose>
-                    </ul>
-                </div>
+                <jsp:include page="templates/pagination.jsp" />
             </div>
             <div class="col-sm-1"></div>
         </div>
     </div>
-<%--STAS--%>
-<%--<p>Tweets :</p>--%>
-<%--<security:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin"/>--%>
-
-<%--<c:forEach var="listTweets" items="${listTweets}">--%>
-    <%--<div>--%>
-        <%--<p><a href="<c:url value='/tweetPage/${listTweets.id}' />">Tweet ID#${listTweets.id},</a>--%>
-        <%--posted by <b>${listTweets.user.username}</b>--%>
-        <%--at ${listTweets.date}</p> </div>--%>
-
-    <%--<c:choose>--%>
-        <%--<c:when test="${listTweets.tweet != null}">--%>
-            <%--ReTweeted:<div style="border: 4px double black; width: 400px; margin-left: 50px;"><p>Tweet ID#${listTweets.tweet.id},--%>
-                <%--posted by <b>${listTweets.tweet.user.username}</b>--%>
-                <%--at ${listTweets.tweet.date}</p>--%>
-            <%--<p>${listTweets.tweet.content}</p></div>--%>
-        <%--</c:when>--%>
-        <%--<c:otherwise>--%>
-            <%--<div><p>${listTweets.content}</p></div>--%>
-        <%--</c:otherwise>--%>
-    <%--</c:choose>--%>
-
-    <%--&lt;%&ndash;<div><p>${listTweets.content}</p></div>&ndash;%&gt;--%>
-    <%--&lt;%&ndash;<div><p>${listTweets.tweet.id}</p></div>&ndash;%&gt;--%>
-
-    <%--<c:if test="${listTweets.user.id == user.id}">--%>
-        <%--<a href="<c:url value='/editTweet/${listTweets.id}' />">Edit</a>--%>
-    <%--</c:if>--%>
-    <%--<c:if test="${listTweets.user.id == user.id || isAdmin}">--%>
-        <%--<a href="<c:url value='/deleteTweet/${listTweets.id}' />">Delete</a>--%>
-    <%--</c:if>--%>
-    <%--<a href="<c:url value='/tweetPage/${listTweets.id}' />">Commit</a>--%>
-    <%--<c:if test="${listTweets.user.id != user.id}">--%>
-        <%--<a href="<c:url value='/reTweet/${listTweets.id}' />">ReTweet</a>--%>
-    <%--</c:if>--%>
-
-    <%--<button class="btn btn-info" type="submit" name="followedFriend" value="${unfollowedUser.id}">Follow</button>--%>
-
-<%--</c:forEach>--%>
-<%--<br>--%>
-<%--<div class="pagination">--%>
-    <%--<ul>--%>
-        <%--<c:choose>--%>
-            <%--<c:when test="${currentIndex == 1}">--%>
-                <%--<li class="disabled"><a href="#">&lt;&lt;</a></li>--%>
-                <%--<li class="disabled"><a href="#">&lt;</a></li>--%>
-            <%--</c:when>--%>
-            <%--<c:otherwise>--%>
-                <%--<li><a href="${firstUrl}">&lt;&lt;</a></li>--%>
-                <%--<li><a href="${prevUrl}">&lt;</a></li>--%>
-            <%--</c:otherwise>--%>
-        <%--</c:choose>--%>
-        <%--<c:forEach var="i" begin="${beginIndex}" end="${endIndex}">--%>
-            <%--<c:url var="pageUrl" value="/main/${i}" />--%>
-            <%--<c:choose>--%>
-                <%--<c:when test="${i == currentIndex}">--%>
-                    <%--<li class="active"><a href="${pageUrl}"><c:out value="${i}" /></a></li>--%>
-                <%--</c:when>--%>
-                <%--<c:otherwise>--%>
-                    <%--<li><a href="${pageUrl}"><c:out value="${i}" /></a></li>--%>
-                <%--</c:otherwise>--%>
-            <%--</c:choose>--%>
-        <%--</c:forEach>--%>
-        <%--<c:choose>--%>
-            <%--<c:when test="${currentIndex == deploymentLog}">--%>
-                <%--<li class="disabled"><a href="#">&gt;</a></li>--%>
-                <%--<li class="disabled"><a href="#">&gt;&gt;</a></li>--%>
-            <%--</c:when>--%>
-            <%--<c:otherwise>--%>
-                <%--<li><a href="${nextUrl}">&gt;</a></li>--%>
-                <%--<li><a href="${lastUrl}">&gt;&gt;</a></li>--%>
-            <%--</c:otherwise>--%>
-        <%--</c:choose>--%>
-    <%--</ul>--%>
-<%--</div>--%>
-
 </body>
 </html>

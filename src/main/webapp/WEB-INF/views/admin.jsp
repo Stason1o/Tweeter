@@ -145,7 +145,7 @@
                                             <td>${user.email}</td>
                                             <td>
                                                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                                                        ${user.username} <span class="caret"></span>
+                                                        choose <span class="caret"></span>
                                                 </button>
 
                                                 <ul class="dropdown-menu">

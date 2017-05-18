@@ -171,7 +171,7 @@
         width: 67px;
     }
 
-    .row.tweet-wrapper {
+    .row.tweet-wrapper, .row.user-wrapper {
         cursor: pointer;
         border: 1px solid #000;
         border-radius: 5px;

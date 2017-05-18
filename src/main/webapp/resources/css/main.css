@@ -1,0 +1,183 @@
+/*
+ * Navigation Bar
+ */
+.navbar {
+    margin-bottom: 0;
+}
+
+.inverse-dropdown {
+    background-color: #222;
+    border-color: #080808;
+}
+
+.inverse-dropdown .divider {
+    background-color: #000;
+}
+
+.inverse-dropdown li a {
+    color: #999;
+}
+
+.inverse-dropdown li a:hover, li a:focus, li a:active, li a:visited{
+    color: #fff;
+    background-color: #000;
+}
+
+/*
+ * General Alignment
+ */
+.padding-top {
+    padding-top: 10px;
+}
+
+h3.form-heading {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 20px;
+}
+
+hr {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #FF2A2A;
+}
+
+/*h3 a {
+    text-decoration: none;
+    color: #3D464D;
+}
+
+h3 {
+    color:red;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #7B8994;
+}
+
+a:visited {
+    color: #304040;
+
+}
+
+a:active {
+    color: #B50938;
+}
+
+a:focus {
+    text-decoration: none;
+}*/
+
+body {
+    background: url("http://i.imgur.com/qmToBtj.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.welcome-align {
+    width: 800px;
+    height: 600px;
+    text-align: center;
+    position: relative;
+}
+
+.welcome-align p.welcome {
+    /*border: 1px solid green;*/
+    margin: 0;
+    padding: 0;
+    display: block;
+    position: absolute;
+    top: 25%;
+    left: 35%;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 30px;
+    font-weight: bolder;
+    color: #000000;
+    text-shadow: -1px 0 #FFFFFF, 0 1px #FFFFFF, 1px 0 #FFFFFF, 0 -1px #FFFFFF;
+}
+
+.welcome-align p.welcome-msg {
+    /*border: 1px solid red;*/
+    margin: 0;
+    padding: 0;
+    display: block;
+    position: absolute;
+    top: 40%;
+    left: 0;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000;
+    text-shadow: -1px 0 #FFFFFF, 0 1px #FFFFFF, 1px 0 #FFFFFF, 0 -1px #FFFFFF;
+    /*#ff7f50 coral*/
+
+}
+
+/*TEXT WITH SHADOW {*/
+    /*color: black;*/
+    /*text-shadow: white 0.1em 0.1em 0.2em*/
+/*}*/
+
+
+
+/***************************
+ * ===== RESPONSIVE =====
+ **************************/
+@media (min-width: 1600px) and (max-width: 1920px) {
+    div.col-lg-8.welcome-align {
+        margin-left: 70px;
+        margin-right: 0px;
+    }
+
+    div.col-lg-4.login-align {
+        margin-left: 0px;
+        margin-right: 50px;
+        margin-top: 50px;
+        width: 450px;
+    }
+
+    button {
+        width: 100px;
+    }
+
+    .welcome-align {
+        width: 1280px;
+        height: 720px;
+    }
+
+    p.welcome-msg {
+        width: 1100px;
+    }
+
+    .welcome-align p.welcome {
+        font-size: 40px;
+    }
+
+    .welcome-align p.welcome-msg {
+        font-size: 26px;
+        margin-left: 90px;
+        font-weight: 500;
+    }
+
+    h3.form-heading {
+        font-size: 26px;
+        font-weight: 500;
+    }
+
+    hr {
+        margin-left: 0;
+        margin-right: 0;
+        align: left;
+        width: 25%;
+    }
+
+    .login-username {
+        margin-top: 30px;
+    }
+}

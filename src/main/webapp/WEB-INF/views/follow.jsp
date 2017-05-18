@@ -1,3 +1,4 @@
+<%--@elvariable id="emptyList" type="java"--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
@@ -101,9 +102,9 @@
             <form:form action="${addAction}" commandName="listFollowedUsers">
 
             <c:forEach items="${listFollowedUsers}" var="followedUser">
-                            <a href="<c:url value="/userProfile/${followedUser.username}"/>">
+                <a href="<c:url value="/userProfile/${followedUser.username}"/>">
                                     ${followedUser.firstName} ${followedUser.lastName} ${followedUser.id}
-                            </a>
+                </a>
                 <button class="btn btn-warning" type="submit" name="unfollowedFriend" value="${followedUser.id}">UnFollow</button>
                 <br>
             </c:forEach>

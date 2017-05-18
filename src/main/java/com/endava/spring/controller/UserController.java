@@ -175,6 +175,7 @@ public class UserController {
     public String displaySearchResult(@ModelAttribute("user")User user, ModelMap modelMap){
         logger.debug("Request /globalSearch POST");
         List<User> listUsers;
+
         if(user != null) {
             listUsers = userService.searchByUsername(user.getUsername());
             modelMap.addAttribute("user", new User());
