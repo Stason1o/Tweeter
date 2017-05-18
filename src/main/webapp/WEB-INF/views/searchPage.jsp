@@ -120,6 +120,23 @@
 
         </div>
         <div class="col-sm-4"></div>
+
+        <div style="float: right">
+            <c:url var="addAction" value="/globalSearch"/>
+            <form:form action="${addAction}" commandName="listUnfollowedUsers">
+
+                <c:forEach items="${listUnfollowedUsers}" var="unfollowedUser">
+                    <p>
+                        <a href="<c:url value="/userProfile/${unfollowedUser.username}"/>">
+                                ${unfollowedUser.firstName}   ${unfollowedUser.lastName} ${unfollowedUser.id}
+                        </a>
+                        <button class="btn btn-success" type="submit" name="followedFriend" value="${unfollowedUser.id}">Follow</button>
+                    </p>
+                    <br>
+                </c:forEach>
+
+            </form:form>
+        </div>
     </div>
     <!-- Content -->
 

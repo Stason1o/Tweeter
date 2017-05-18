@@ -234,23 +234,21 @@
                             <div class="col-sm-6"></div>
 
                             <div class="col-sm-6">
-                                <form:form action="${addAction}" commandName="listUsers">
-                                    <c:forEach items="${loggedUser.followedUsers}" var="followedUser">
-                                        <c:if test="${user.id == followedUser.id}">
-                                            <c:set value="true" var="contains"/>
-                                        </c:if>
-                                    </c:forEach>
-                                    <c:choose>
-                                        <c:when test="${contains eq true}">
-                                            <button class="btn btn-warning pull-right" type="submit"
-                                                    name="unfollowedFriend" value="${user.id}">UnFollow</button>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <button class="btn btn-success pull-right" type="submit" name="followedFriend"
-                                                    value="${user.id}">Follow</button>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </form:form>
+                                <c:url var="addAction" value="/followFriends"/>
+                                <div style="float:left">
+                                    <p>${emptyList}</p>
+                                    <form:form action="${addAction}" commandName="listFollowedUsers">
+
+                                        <c:forEach items="${listFollowedUsers}" var="followedUser">
+                                            <a href="<c:url value="/userProfile/${followedUser.username}"/>">
+                                                    ${followedUser.firstName} ${followedUser.lastName} ${followedUser.id}
+                                            </a>
+                                            <button class="btn btn-warning" type="submit" name="unfollowedFriend" value="${followedUser.id}">UnFollow</button>
+                                            <br>
+                                        </c:forEach>
+
+                                    </form:form>
+                                </div>
                             </div>
                         </div>
 

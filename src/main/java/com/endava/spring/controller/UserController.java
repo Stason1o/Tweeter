@@ -72,8 +72,16 @@ public class UserController {
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String displayLoggedUserProfilePage(ModelMap modelMap) {
         logger.debug("Request of /profile GET");
-        modelMap.addAttribute("loggedUser", getPrincipal());
+        User loggedUser = userService.findByUsernameInitialized(getPrincipal());
+        modelMap.addAttribute("loggedUser", loggedUser);
         modelMap.addAttribute("user", userService.findByUsernameInitialized(getPrincipal()));
+
+        List<User> listFollowedUsers = userService.listFollowedUsers(loggedUser.getId());
+        if(listFollowedUsers != null){
+            modelMap.addAttribute("listFollowedUsers", listFollowedUsers);
+        } else {
+            modelMap.addAttribute("emptyList", "You don't have any followed users");
+        }
         logger.debug("Opening profile page");
         return "profile";
     }
@@ -148,17 +156,15 @@ public class UserController {
     public String displayFollowPage(Model modelMap) {
         logger.debug("Request /followFriends page GET");
         User loggedUser = userService.findByUsernameInitialized(getPrincipal());
-        List<User> listFollowedUsers = userService.listFollowedUsers(loggedUser.getId());
-        List<User> listUnfollowedUsers = userService.listUnfollowedUsers(loggedUser.getId());
 
+        List<User> listFollowedUsers = userService.listFollowedUsers(loggedUser.getId());
         if(listFollowedUsers != null){
             modelMap.addAttribute("listFollowedUsers", listFollowedUsers);
         } else {
             modelMap.addAttribute("emptyList", "You don't have any followed users");
         }
-        modelMap.addAttribute("searchUser", new User());
 
-        modelMap.addAttribute("listUnfollowedUsers", listUnfollowedUsers);
+
         logger.debug("Opening follow page");
         return "follow";
     }
@@ -167,20 +173,49 @@ public class UserController {
     public String displaySearchPage(ModelMap modelMap) {
         logger.debug("Request /globalSearch page GET" );
         modelMap.addAttribute("user", new User());
+//        logger.debug("Request /followFriends page GET");
+
+//        List<User> listFollowedUsers = userService.listFollowedUsers(loggedUser.getId());
+//        if(listFollowedUsers != null){
+////            modelMap.addAttribute("listFollowedUsers", listFollowedUsers);
+////        } else {
+////            modelMap.addAttribute("emptyList", "You don't have any followed users");
+////        }
+        User loggedUser = userService.findByUsernameInitialized(getPrincipal());
+        List<User> listUnfollowedUsers = userService.listUnfollowedUsers(loggedUser.getId());
+        modelMap.addAttribute("listUnfollowedUsers", listUnfollowedUsers);
+//        logger.debug("Opening follow page");
         logger.debug("Opening searchPage page");
         return "searchPage";
     }
 
     @RequestMapping(value = "/globalSearch", method = RequestMethod.POST)
-    public String displaySearchResult(@ModelAttribute("user")User user, ModelMap modelMap){
+    public String displaySearchResult(@ModelAttribute("user")User user, ModelMap modelMap,
+                                      @RequestParam(value = "followedFriend", required = false) Integer followedUserId,
+                                      @RequestParam(value = "unfollowedFriend", required = false) Integer unfollowedUserId){
         logger.debug("Request /globalSearch POST");
         List<User> listUsers;
+        User targetUserToFollow = userService.findByUsernameInitialized(getPrincipal());
+
+        if(followedUserId != null) {
+            System.out.println("IN FOLLOW IF");
+            userService.followUser(targetUserToFollow, userService.findByIdInitialized(followedUserId));
+            return "redirect:/globalSearch";
+        } else if(unfollowedUserId != null){
+            System.out.println("IN FOLLOW ELSE IF");
+            userService.unfollowUser(targetUserToFollow, userService.findByIdInitialized(unfollowedUserId));
+            return "redirect:/globalSearch";
+        }
 
         if(user != null) {
             listUsers = userService.searchByUsername(user.getUsername());
             modelMap.addAttribute("user", new User());
             modelMap.addAttribute("listUsers", listUsers);
             modelMap.addAttribute("loggedUser", userService.findByUsernameInitialized(getPrincipal()));
+        } else {
+            User loggedUser = userService.findByUsernameInitialized(getPrincipal());
+            List<User> listUnfollowedUsers = userService.listUnfollowedUsers(loggedUser.getId());
+            modelMap.addAttribute("listUnfollowedUsers", listUnfollowedUsers);
         }
         logger.debug("Opening searchResult page");
         return "searchResult";
