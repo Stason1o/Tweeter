@@ -78,9 +78,9 @@ public class TweetServiceImpl implements TweetService {
     }
 
     @Override
-    public int countPage() {
+    public int countPage(int id, boolean isUser) {
         logger.info("Returning page count");
-        return tweetDao.countPage();
+        return tweetDao.countPage(id, isUser);
     }
 
     @Override

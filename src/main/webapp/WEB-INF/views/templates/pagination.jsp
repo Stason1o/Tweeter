@@ -1,4 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<c:url var="firstUrl" value="/main/1" />
+<%--@elvariable id="deploymentLog" type="java"--%>
+<c:url var="lastUrl" value="/main/${deploymentLog}" />
+<%--@elvariable id="currentIndex" type="java"--%>
+<c:url var="prevUrl" value="/main/${currentIndex - 1}" />
+<c:url var="nextUrl" value="/main/${currentIndex + 1}" />
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">

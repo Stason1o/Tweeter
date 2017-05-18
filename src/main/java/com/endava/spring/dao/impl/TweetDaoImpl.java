@@ -1,7 +1,9 @@
 package com.endava.spring.dao.impl;
 
 import com.endava.spring.dao.TweetDao;
+import com.endava.spring.dao.UserDao;
 import com.endava.spring.model.Tweet;
+import com.endava.spring.model.User;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -22,6 +24,9 @@ public class TweetDaoImpl implements TweetDao {
 
     @Autowired
     private SessionFactory sessionFactory;
+
+    @Autowired
+    private UserDao userDao;
 
     @Override
     public void saveTweet(Tweet tweet) {
@@ -73,19 +78,29 @@ public class TweetDaoImpl implements TweetDao {
     }
 
     @Override
-    public int countPage() {
+    public int countPage(int id, boolean isUser) {
         logger.info("Retrieving information for page count ");
         int lastPageNumber = 0;
         try {
-            Query query = sessionFactory.getCurrentSession().createQuery("select count (t.id) from Tweet t where isComment = false");
+            Query query;
+
+            if(isUser) {
+                query = sessionFactory.getCurrentSession().createQuery("select count (t.id) from Tweet t where isComment = false and t.user.id =" + id);
+            } else{
+                List<User> followedFriends = userDao.listFollowedUsers(id);
+                query = sessionFactory.getCurrentSession().createQuery("select count (t.id) from Tweet t where isComment = false and t.user in :followedFriends");
+                query.setParameterList("followedFriends", followedFriends);
+            }
             Long countResults = (Long) query.uniqueResult();
             int pageSize = 5;
             lastPageNumber = (int) ((countResults / pageSize) + 1);
+
             logger.info("Information is successfully retrieved");
         } catch (Exception e){
             logger.error(e);
             e.printStackTrace();
         }
+
         logger.info("Retrieving is successful");
         return lastPageNumber;
     }
@@ -112,10 +127,15 @@ public class TweetDaoImpl implements TweetDao {
     public List<Tweet> listPaginatedTweetsByUserId(int id, int firstResult, int maxResults) {
         logger.info("Retrieving list paginated tweets by user id");
         List<Tweet> list = new ArrayList<>();
+        List<User> followedFriends = userDao.listFollowedUsers(id);
+        for(User user: followedFriends){
+            System.out.println(user.getId() + "-------------------------------");
+        }
         try {
-            Query query = sessionFactory.getCurrentSession().createQuery("from Tweet where user =" + id + " and isComment = false order by date desc");
+            Query query = sessionFactory.getCurrentSession().createQuery("from Tweet where user in :followedFriends and isComment = false order by date desc");
             query.setFirstResult(firstResult);
             query.setMaxResults(maxResults);
+            query.setParameterList("followedFriends", followedFriends);
 
             list = (List<Tweet>) query.list();
             logger.info("List paginated tweets by user id is successfully retrieved");
@@ -126,6 +146,25 @@ public class TweetDaoImpl implements TweetDao {
 
         return list;
     }
+
+//    @Override
+//    public List<Tweet> listPaginatedFollowedTweetsByUserId(int id, int firstResult, int maxResults) {
+//        logger.info("Retrieving list paginated tweets by user id");
+//        List<Tweet> list = new ArrayList<>();
+//        try {
+//            Query query = sessionFactory.getCurrentSession().createQuery("from Tweet where user =" + id + " and isComment = false order by date desc");
+//            query.setFirstResult(firstResult);
+//            query.setMaxResults(maxResults);
+//
+//            list = (List<Tweet>) query.list();
+//            logger.info("List paginated tweets by user id is successfully retrieved");
+//        }catch (Exception e){
+//            logger.error(e);
+//            e.printStackTrace();
+//        }
+//
+//        return list;
+//    }
 
     @Override
     public List<Tweet> getTweetComment(int id) {
@@ -141,6 +180,18 @@ public class TweetDaoImpl implements TweetDao {
         }
         return list;
     }
+
+//    @Override
+//    public List<User> getFriendTweets(int id) {
+//        List<User> listFriendTweets;
+//        List<User> friends = userDao.listFollowedUsers(id);
+//        listFriendTweets = sessionFactory.getCurrentSession().createQuery("from Tweet where id in :friends")
+//        .setParameterList("friends", friends).list();
+//
+//
+//        logger.info("Getting friends tweets.");
+//        return listFriendTweets;
+//    }
 
     /*@Override
     public List<Tweet> getLikeList(int id, int firstResult, int maxResults) {

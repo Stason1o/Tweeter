@@ -1,6 +1,7 @@
 package com.endava.spring.controller;
 
 import com.endava.spring.model.Tweet;
+import com.endava.spring.model.User;
 import com.endava.spring.service.TweetService;
 import com.endava.spring.service.UserService;
 import org.apache.log4j.Logger;
@@ -43,15 +44,24 @@ public class TweetController {
         if(authentication instanceof AnonymousAuthenticationToken){
             return "redirect:/login";
         }
+
+        User loggedUser = userService.findByUsernameInitialized(getPrincipal());
+
+        System.out.println("deploymentLog" + tweetService.countPage(loggedUser.getId(), false) + "--------------------------------------------------------------------------------------------------------------");
+        System.out.println("beginIndex" + Math.max(1, page - 2) + "--------------------------------------------------------------------------------------------------------------");
+        System.out.println("endIndex" + Math.min(Math.max(1, page - 2) + 5, tweetService.countPage(loggedUser.getId(), false)) + "--------------------------------------------------------------------------------------------------------------");
+        System.out.println("currentIndex" + page + "--------------------------------------------------------------------------------------------------------------");
+
+
         logger.debug("Request /main/" + page + " page GET");
-        modelMap.addAttribute("deploymentLog", tweetService.countPage());
+        modelMap.addAttribute("deploymentLog", tweetService.countPage(loggedUser.getId(), false));
         modelMap.addAttribute("beginIndex", Math.max(1, page - 2));
-        modelMap.addAttribute("endIndex", Math.min(Math.max(1, page - 2) + 5, tweetService.countPage()));
+        modelMap.addAttribute("endIndex", Math.min(Math.max(1, page - 2) + 5, tweetService.countPage(loggedUser.getId(), false)));
         modelMap.addAttribute("currentIndex", page);
 
         modelMap.addAttribute("tweet", new Tweet());
-        modelMap.addAttribute("listTweets", tweetService.listPaginatedTweetsById(0, page));
-        modelMap.addAttribute("user", userService.findByUsernameInitialized(getPrincipal()));
+        modelMap.addAttribute("listTweets", tweetService.listPaginatedTweetsById(loggedUser.getId(), page));
+        modelMap.addAttribute("user", loggedUser);
 
         logger.debug("Opening main page");
         return "main";
