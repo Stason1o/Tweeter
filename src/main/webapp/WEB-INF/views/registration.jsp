@@ -31,7 +31,7 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li><a href="/login"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-                        <li><a href=""><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                        <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">

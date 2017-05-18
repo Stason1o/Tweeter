@@ -54,7 +54,9 @@ public class TweetDaoImpl implements TweetDao {
             Session session = sessionFactory.getCurrentSession();
             Tweet tweet = (Tweet) session.load(Tweet.class, id);
             if (tweet != null) {
+                session.createSQLQuery("DELETE FROM tweets where retweet_id=" + id).executeUpdate();
                 session.delete(tweet);
+
                 logger.info("Tweet is successfully deleted!");
             }
         }catch (Exception e){

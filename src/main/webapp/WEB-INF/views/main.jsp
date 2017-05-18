@@ -2,6 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <spring:htmlEscape defaultHtmlEscape="true" />
@@ -21,24 +22,23 @@
             <div class="container-fluid">
 
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <button id="dropDownMenu" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="/login">LinK</a>
-                </div>
+                </div><!-- end navbar-header -->
 
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a  href="/login"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-                        <li><a id="homePageNavBar" href="/profile"><span class="glyphicon glyphicon-picture"></span>
-                        ${user.firstName}</a></li>
+                        <li><a id="homePageNavBar" href="/login"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                        <li><a href="/profile"><span class="glyphicon glyphicon-picture"></span> ${user.firstName}</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="drop-down">
-                            <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                            <a id="navBarDropDownMenu" href="" class="dropdown-toggle" data-toggle="dropdown">
                                 <span class="glyphicon glyphicon-align-justify"></span> &nbsp;Navigate
                             </a>
                             <ul class="inverse-dropdown dropdown-menu">
@@ -52,7 +52,7 @@
                                     <li class="divider"></li>
                                 </c:if>
                                 <li>
-                                    <a href="#">
+                                    <a href="/main/1">
                                         <span class="glyphicon glyphicon-bell"></span> &nbsp;Feed
                                     </a>
                                 </li>
@@ -62,7 +62,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/globalSearch">
+                                    <a id="globalSearchPage" href="/globalSearch">
                                         <span class="glyphicon glyphicon-search"></span> &nbsp;Search
                                     </a>
                                 </li>
@@ -71,9 +71,9 @@
 
                         <li class="drop-down">
                             <a href="" class="dropdown-toggle" data-toggle="dropdown">
-                                    <span class="glyphicon glyphicon-cog">
-                                        <span class="glyphicon glyphicon-triangle-bottom"></span>
-                                    </span>
+                                <span class="glyphicon glyphicon-cog">
+                                    <span class="glyphicon glyphicon-triangle-bottom"></span>
+                                </span>
                             </a>
                             <ul class="inverse-dropdown dropdown-menu">
                                 <li>
@@ -164,9 +164,9 @@
                         <div class="row tweet-actions">
                            <div class="col-sm-4"></div>
                            <div class="col-sm-8">
-                               <button class="btn btn-info" type="submit" name="followedFriend"
-                                       value="${unfollowedUser.id}">Follow
-                               </button>
+                               <%--<button class="btn btn-info" type="submit" name="followedFriend"--%>
+                                       <%--value="${unfollowedUser.id}">Follow--%>
+                               <%--</button>--%>
 
                                <c:if test="${listTweets.user.id != user.id}">
                                    <a href="<c:url value='/reTweet/${listTweets.id}' />"><span class="glyphicon glyphicon-retweet"></span> Retweet
@@ -187,5 +187,7 @@
             <div class="col-sm-1"></div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>

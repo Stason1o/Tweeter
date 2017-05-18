@@ -4,7 +4,8 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<c:url var="firstUrl" value="/profile/" />
+<spring:htmlEscape defaultHtmlEscape="true" />
+<c:url var="firstUrl" value="/profile" />
 <%--@elvariable id="deploymentLog" type="java"--%>
 <c:url var="lastUrl" value="/profile/${deploymentLog}" />
 <%--@elvariable id="currentIndex" type="java"--%>
@@ -39,7 +40,7 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li><a id="homePageNavBar" href="/login"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-picture"></span> ${user.firstName}</a></li>
+                        <li><a href="/profile"><span class="glyphicon glyphicon-picture"></span> ${user.firstName}</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="drop-down">
@@ -171,7 +172,7 @@
                                                     ${userTweets.user.firstName} ${userTweets.user.lastName}
                                                 </span>
                                                 <span class="user-name"> @${userTweets.user.username}</span>
-                                                <p class="content-text">${userTweets.content}</p>
+                                                <p class="content-text"><c:out value="${userTweets.content}"/></p>
                                             </div>
                                         </c:when>
                                         <c:otherwise>
@@ -179,7 +180,7 @@
                                                 ${userTweets.user.firstName} ${userTweets.user.lastName}
                                             </span>
                                             <span class="user-name"> @${userTweets.user.username}</span>
-                                            <p class="content-text">${userTweets.content}</p>
+                                            <p class="content-text"><c:out value="${userTweets.content}"/></p>
                                         </c:otherwise>
                                     </c:choose>
                                 </div>
@@ -190,11 +191,11 @@
                                 <div class="col-sm-4"></div>
 
                                 <div class="col-sm-8">
-                                    <c:if test="${userTweets.user.id != user.id}">
+                                    <%--<c:if test="${userTweets.user.id != user.id}">--%>
                                         <a href="<c:url value='/reTweet/${userTweets.id}' />">
                                             <span class="glyphicon glyphicon-retweet"></span> Retweet
                                         </a>
-                                    </c:if>
+                                    <%--</c:if>--%>
 
                                     <a href="<c:url value='/tweetPage/${userTweets.id}/${currentIndex}' />">
                                         Comment&nbsp; <span class="glyphicon glyphicon-comment"></span>

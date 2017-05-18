@@ -36,7 +36,7 @@
                     <ul class="nav navbar-nav">
                         <li><a href="/login"><span class="glyphicon glyphicon-home"></span> Home</a></li>
                         <li><a href="/profile"><span class="glyphicon glyphicon-picture"></span>
-                        ${user.firstName}</a></li>
+                        ${loggedUser.firstName}</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="drop-down">
@@ -114,7 +114,7 @@
                     </span>
                     <span class="user-name"> @${tweet.user.username}</span>
                 </div>
-
+                <%--<form:input type="hidden" id="id" value="${tweet.id}" name="id" path="id"/>--%>
                 <c:choose>
                     <c:when test="${tweet.tweet != null}">
                         <span><b>You Retweeted</b></span>
@@ -124,28 +124,29 @@
                                 ${tweet.tweet.user.lastName}
                             </span>
                             <span class="user-name"> @${tweet.tweet.user.username}</span>
-                            <p class="content-text">${tweet.tweet.content}</p>
+                            <p class="content-text"><c:out value=" ${tweet.tweet.content}"/></p>
                         </div>
                     </c:when>
                     <c:otherwise>
-                        <div><p class="content-text">${tweet.content}</p></div>
-                        <c:if test="${listTweets.user.id == user.id}">
+                        <div><p class="content-text"><c:out value="${tweet.content}"/></p></div>
+                        <%--<c:if test="${tweet.user.id == loggedUser.id}">--%>
                             <a href="<c:url value='/main/${page}' />" class="btn btn-info">
                                 <span class="glyphicon glyphicon-arrow-left"></span> Back
                             </a>
-                            <a href="<c:url value='/editTweet/${tweet.id}' />" class="btn btn-success">
+                            <a href="/editTweet/${tweet.id}?page=${page}" class="btn btn-success">
                                 <span class="glyphicon glyphicon-edit"></span> Edit
                             </a>
-                        </c:if>
-                        <c:if test="${listTweets.user.id == user.id || isAdmin}">
+                        <%--</c:if>--%>
+                        <%--<c:if test="${tweet.user.id == loggedUser.id || isAdmin}">--%>
                             <a id="deleteTweetLink" href="<c:url value='/deleteTweet/${tweet.id}' />" class="btn btn-danger"><span
                                     class="glyphicon glyphicon-remove"></span> Delete</a>
-                        </c:if>
+                        <%--</c:if>--%>
                     </c:otherwise>
                 </c:choose>
 
                 <br><br>
                 <form:form method="post" modelAttribute="commit">
+                    <%--<form:input type="hidden" id="id" value="${tweet.id}" name="id" path="id"/>--%>
                     <form:label path="content">Enter tweet comment</form:label>
                     <form:input path="content" /><br>
 
@@ -168,7 +169,7 @@
                     </div>
 
                     <div>
-                        <p>${commitTweets.content}</p>
+                        <p><c:out value=" ${commitTweets.content}"/></p>
                     </div>
                 </c:forEach>
             </div>
@@ -213,5 +214,7 @@
         <div class="col-sm-3"></div>
 
     </div>
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>
