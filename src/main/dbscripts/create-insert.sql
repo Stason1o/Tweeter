@@ -100,23 +100,23 @@ INSERT INTO public.user_roles (id_user, id_role) VALUES ( 1, 1);
 INSERT INTO public.user_roles (id_user, id_role) VALUES ( 2, 3);
 
 -------------------------------TWEETS------------------------------
-INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ('srtjbjklenfsvd', '2017-05-10 00:00:00.000000', 11, 0, false);
-INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ('dfjksnvjkdbasfnv;kldf;', '2017-05-10 00:00:00.000000', 17, 0, false);
-INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ('dukfbvasdhklfbvkjwbadfkjlbv', '2017-05-10 00:00:00.000000', 6, 0, false);
-INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ('rgsdfknv;jelsfbv;ieon', '2017-05-10 00:00:00.000000', 6, 0, false);
-INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ('erfbvejwkfbv', '2017-05-10 00:00:00.000000', 6, 0, false);
-INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ('rthdfbvjkewbfivdul', '2017-05-10 00:00:00.000000', 3, 0, false);
-INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ('new tweet', '2017-05-10 00:00:00.000000', 6, 0, false);
-INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ('sajdnfvjkasbjklbasb', '2017-05-12 00:00:00.000000', 4, 0, false);
-INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ('New tweet', '2017-05-12 00:00:00.000000', 7, 0, false);
-INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ( 'This tweet should be first', '2017-05-12 00:00:00.000000', 6, 0, false);
-INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ( 'dfbhsaddgfn', '2017-05-12 11:02:16.911000', 2, 0, false);
-INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ( 'This should be first tweet NOW', '2017-05-12 11:05:12.891000', 4, 0, false);
-INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ( 'at this time it''s first tweet', '2017-05-12 11:05:32.254000', 8, 0, false);
-INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ( 'bgadfhbsdfgnb', '2017-05-12 12:01:09.337000', 15, 0, false);
-INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ( 'srtnhdfn', '2017-05-12 12:01:21.085000', 6, 0, false);
-INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ( 'sdfnsasf', '2017-05-12 12:01:30.665000', 9, 0, false);
-INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ( 'sfvdgvkajs, v', '2017-05-12 12:04:58.981000', 13, 0, false);
+INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ('srtjbjklenfsvd', '2017-05-10 00:00:00.000000', 11, NULL, false);
+INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ('dfjksnvjkdbasfnv;kldf;', '2017-05-10 00:00:00.000000', 17, NULL, false);
+INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ('dukfbvasdhklfbvkjwbadfkjlbv', '2017-05-10 00:00:00.000000', 6, NULL, false);
+INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ('rgsdfknv;jelsfbv;ieon', '2017-05-10 00:00:00.000000', 6, NULL, false);
+INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ('erfbvejwkfbv', '2017-05-10 00:00:00.000000', 6, NULL, false);
+INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ('rthdfbvjkewbfivdul', '2017-05-10 00:00:00.000000', 3, NULL, false);
+INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ('new tweet', '2017-05-10 00:00:00.000000', 6, NULL, false);
+INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ('sajdnfvjkasbjklbasb', '2017-05-12 00:00:00.000000', 4, NULL, false);
+INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ('New tweet', '2017-05-12 00:00:00.000000', 7, NULL, false);
+INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ( 'This tweet should be first', '2017-05-12 00:00:00.000000', 6, NULL, false);
+INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ( 'dfbhsaddgfn', '2017-05-12 11:02:16.911000', 2, NULL, false);
+INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ( 'This should be first tweet NOW', '2017-05-12 11:05:12.891000', 4, NULL, false);
+INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ( 'at this time it''s first tweet', '2017-05-12 11:05:32.254000', 8, NULL, false);
+INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ( 'bgadfhbsdfgnb', '2017-05-12 12:01:09.337000', 15, NULL, false);
+INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ( 'srtnhdfn', '2017-05-12 12:01:21.085000', 6, NULL, false);
+INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ( 'sdfnsasf', '2017-05-12 12:01:30.665000', 9, NULL, false);
+INSERT INTO public.tweets (tweet_content, tweet_date, id_user, retweet_id, is_comment) VALUES ( 'sfvdgvkajs, v', '2017-05-12 12:04:58.981000', 13, NULL , false);
 
 --------------------------USER FRIENDS-------------------
 INSERT INTO public.user_friends (user_1_id, user_2_id) VALUES (4, 6);

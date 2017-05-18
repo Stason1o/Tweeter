@@ -119,7 +119,45 @@
             </form:form>
 
         </div>
-        <div class="col-sm-4"></div>
+        <%--<div class="col-sm-4"></div>--%>
+
+        <div class="col-sm-4">
+            <div class="row nested-title">
+                <h4>All users</h4>
+            </div>
+
+            <c:url var="addAction" value="/globalSearch"/>
+            <form:form action="${addAction}" commandName="listUnfollowedUsers">
+                <c:forEach items="${listUnfollowedUsers}" var="unfollowedUser">
+
+                    <div class="row user-wrapper" onclick="location.href='<c:url
+                            value="/userProfile/${unfollowedUser.username}"/>'">
+
+                        <div class="col-sm-4">
+                            <a href="#">
+                                <img class="media-object" src="" alt="user-image">
+                            </a>
+                        </div>
+
+                        <div class="col-sm-8 user-content-info">
+                            <div class="">
+                                <p>Name: ${unfollowedUser.firstName}</p>
+                                <p>Surname: ${unfollowedUser.lastName}</p>
+                            </div>
+
+                            <div class="col-lg-6 col-sm-6"></div>
+
+                            <div class="col-lg-6 col-sm-6">
+                                <button class="btn btn-warning pull-right" type="submit"
+                                        name="unfollowedFriend" value="${unfollowedUser.id}">UnFollow</button>
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>
+                <jsp:include page="templates/pagination.jsp" />
+            </form:form>
+        </div>
+
     </div>
     <!-- Content -->
 
