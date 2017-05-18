@@ -266,9 +266,16 @@ public class UserController {
     }
 
     @RequestMapping(value = "/avatar/{userId}",method = RequestMethod.POST)
-    public String changeAvatar(@PathVariable(value = "userId") Integer userId, ModelMap modelMap){
+    public String changeAvatar(@PathVariable(value = "userId") Integer userId,
+                               @RequestParam("image")String image, ModelMap modelMap){
 
-        return "edit/{userId}";
+        User user = userService.findById(userId);
+        user.setImage(image);
+        System.out.println(image + "---------------------------------------------------------------");
+        System.out.println(user.getId() + "---------------------------------------------------------------");
+        userService.updateUser(user);
+
+        return "redirect:/edit/{userId}";
     }
 
     private String getPrincipal() {
