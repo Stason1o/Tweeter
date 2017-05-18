@@ -96,7 +96,7 @@
 
     <!-- Content -->
     <div class="container-fluid">
-        <c:url var="addAction" value="/followFriends"/>
+        <c:url var="addAction" value="/globalSearch"/>
         <c:set var="contains" value="false"/>
         <c:url var="findPage" value="/globalSearch"/>
 
@@ -172,7 +172,7 @@
             </div>
 
             <div style="float: right">
-                <c:url var="addAction" value="/followFriends"/>
+                <c:url var="addAction" value="/globalSearch"/>
                 <form:form action="${addAction}" commandName="listUnfollowedUsers">
 
                     <c:forEach items="${listUnfollowedUsers}" var="unfollowedUser">

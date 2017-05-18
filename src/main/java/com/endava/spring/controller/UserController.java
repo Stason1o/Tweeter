@@ -184,7 +184,6 @@ public class UserController {
         if (followedUserId != null) {
             userService.followUser(targetUserToFollow, userService.findByIdInitialized(followedUserId));
             logger.info("Redirecting /globalSearch");
-            return "redirect:/globalSearch";
         }
 
         if (user != null) {

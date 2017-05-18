@@ -158,6 +158,8 @@ public class UserDaoImpl implements UserDao {
         return list;
     }
 
+
+
 //    @Override
 //    public User searchByUsernameFirstNameLastName(String username, String firstName, String lastName) {
 //        return (User)sessionFactory.getCurrentSession()
