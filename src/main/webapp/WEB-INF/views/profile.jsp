@@ -117,7 +117,7 @@
                     <div class="row user-info">
                         <div class="col-sm-6">
                             <a href="#">
-                                <img class="media-object" src="" alt="user-profile-image">
+                                <img class="media-object" src="${pageContext.request.contextPath}${user.image}" alt="user-profile-image">
                             </a>
                         </div>
                         <div class="col-sm-6">
@@ -155,7 +155,7 @@
                             value="/tweetPage/${userTweets.id}/${currentIndex}"/>'">
                         <div class="col-sm-2 image">
                             <a href="#">
-                                <img class="media-object" src="" alt="user-image">
+                                <img class="media-object" src="${pageContext.request.contextPath}${userTweets.user.image}" alt="user-image">
                             </a>
                         </div>
 

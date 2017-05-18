@@ -105,6 +105,13 @@
                 <form:form action="${addAction}" commandName="user">
 
                 <h2 class="form-profile-heading">Profile</h2>
+                    <p><img src="${pageContext.request.contextPath}${user.image}" width="75%" align="center" vspace="5%" hspace="11%"></p>
+                    <a href="<c:url value='/avatar/${user.id}' />" class="btn btn-success btn-block">Change Avatar</a>
+                <br>
+
+
+
+                <h2 class="form-profile-heading">Profile</h2>
                 <form:label path="firstName">First Name</form:label>
                     <form:input id="firstName" name="firstName" path="firstName" class="form-control"
                                  required="" autofocus=""/>
