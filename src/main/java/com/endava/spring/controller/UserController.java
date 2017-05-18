@@ -124,6 +124,7 @@ public class UserController {
         modelMap.addAttribute("listFollowedUsers", listFollowedUsers);
         modelMap.addAttribute("searchUser", new User());
         modelMap.addAttribute("listUnfollowedUsers", listUnfollowedUsers);
+        modelMap.addAttribute("user", userService.findByUsernameInitialized(getPrincipal()));
         return "follow";
     }
 
@@ -136,6 +137,7 @@ public class UserController {
     @RequestMapping(value = "/globalSearch", method = RequestMethod.POST)
     public String displaySearchResult(@ModelAttribute("user")User user, ModelMap modelMap){
         List<User> listUsers;
+
         if(user != null) {
             listUsers = userService.searchByUsername(user.getUsername());
             modelMap.addAttribute("user", new User());
