@@ -1,7 +1,6 @@
 package com.endava.spring.dao;
 
 import com.endava.spring.model.Tweet;
-import com.endava.spring.model.User;
 
 import java.util.List;
 
@@ -29,11 +28,5 @@ public interface TweetDao {
     /*List<Tweet> getLikeList(int id, int firstResult, int maxResults);*/
 
     List<Tweet> getTweetComment(int id);
-
-    Tweet getTweetByUserId(int id);
-
-    Tweet getTweetByUsername(String username);
-
-    Tweet getTweetByUser(User user);
 
 }

@@ -2,12 +2,13 @@ package com.endava.spring.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "tweets")
-public class Tweet {
+public class Tweet implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

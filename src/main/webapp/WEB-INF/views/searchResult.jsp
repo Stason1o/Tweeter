@@ -29,7 +29,7 @@
 
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="/login"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                        <li><a id="homePageNavBar" href="/main/1"><span class="glyphicon glyphicon-home"></span> Home</a></li>
                         <li><a href="/profile"><span class="glyphicon glyphicon-picture"></span>
                         ${user.firstName}</a></li>
                     </ul>
@@ -167,7 +167,27 @@
                 </c:forEach>
             </div>
 
+
             <div class="col-lg-6 col-sm-6"></div>
+              <div style="float: right">
+                <c:url var="addAction" value="/followFriends"/>
+                <form:form action="${addAction}" commandName="listUnfollowedUsers">
+
+                    <c:forEach items="${listUnfollowedUsers}" var="unfollowedUser">
+                        <p>
+                            <a href="<c:url value="/userProfile/${unfollowedUser.username}"/>">
+                                    ${unfollowedUser.firstName}   ${unfollowedUser.lastName} ${unfollowedUser.id}
+                            </a>
+                            <button class="btn btn-success" type="submit" name="followedFriend" value="${unfollowedUser.id}">Follow</button>
+                        </p>
+                        <br>
+                    </c:forEach>
+
+                </form:form>
+            </div>
+
+            <div class="col-sm-6"></div>
+
 
         </div>
     </div>

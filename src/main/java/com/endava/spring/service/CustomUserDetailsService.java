@@ -23,15 +23,34 @@ import java.util.Set;
  * Created by sbogdanschi on 2/05/2017.
  */
 @Service("userDetailsService")
-@Transactional
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final static Logger logger = Logger.getLogger("connectionsLogger");
+    private final static Logger logger = Logger.getLogger(CustomUserDetailsService.class);
 
     @Autowired
     private UserDao userDao;
 
+//    @Override
+//    @Transactional(readOnly = true)
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        logger.log(Level.INFO,"Loading user by username");
+//        User user = userDao.findByUserName(username);
+//
+//        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+//
+//        for(Role role: user.getRoles()){
+//            grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole()));
+//            logger.log(Level.INFO, "Authority: " + role.getRole());
+//        }
+//
+//        logger.log(Level.INFO, "Building user for authentication: Username = " + user.getUsername());
+//        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+//                user.isEnabled(), true, true, true, grantedAuthorities);
+//    }
+
+
     @Override
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         logger.log(Level.INFO,"Loading user by username");
         User user = userDao.findByUserName(username);

@@ -33,7 +33,7 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li><a href="/login"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-                        <li><a href="/registration"><span class="glyphicon glyphicon-pencil"></span> Register</a></li>
+                        <li><a id="btnRegistrationPage" href="/registration"><span class="glyphicon glyphicon-pencil"></span> Register</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href=""><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
@@ -80,10 +80,8 @@
                                    aria-describedby="password-icon"/>
                 </div>
                 <br>
-                <div>
-                    <button type="submit" class="btn btn-lg btn-success pull-right">Log in</button>
-                    <%--<input type="button" value="Register" onclick="window.location='/registration'"--%>
-                           <%--class="btn btn-lg btn-warning">--%>
+                <div class="padding-top">
+                    <button id="loginButton" type="submit" class="btn btn-lg btn-success pull-right">Log in</button>
                 </div>
             </form:form>
         </div>

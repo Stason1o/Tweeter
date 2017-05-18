@@ -27,7 +27,7 @@
             <div class="container-fluid">
 
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <button id="dropDownMenu" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -38,12 +38,12 @@
 
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="/login"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                        <li><a id="homePageNavBar" href="/login"><span class="glyphicon glyphicon-home"></span> Home</a></li>
                         <li><a href="#"><span class="glyphicon glyphicon-picture"></span> ${user.firstName}</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="drop-down">
-                            <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                            <a id="navBarDropDownMenu" href="" class="dropdown-toggle" data-toggle="dropdown">
                                 <span class="glyphicon glyphicon-align-justify"></span> &nbsp;Navigate
                             </a>
                             <ul class="inverse-dropdown dropdown-menu">
@@ -67,7 +67,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/globalSearch">
+                                    <a id="globalSearchPage" href="/globalSearch">
                                         <span class="glyphicon glyphicon-search"></span> &nbsp;Search
                                     </a>
                                 </li>
@@ -113,6 +113,7 @@
                 <c:url var="addAction" value="/profile"/>
                 <form:form action="${addAction}" commandName="user">
                     <form:input type="hidden" id="id" value="${user.id}" name="id" path="id" />
+
                     <div class="row user-info">
                         <div class="col-sm-6">
                             <a href="#">
@@ -132,13 +133,14 @@
                     <div class="row button-control">
                         <div class="col-sm-6">
                             <form:input type="hidden" id="enabled" value="1" name="enabled" path="enabled"/>
-                            <a href="<c:url value='/delete/${user.id}' />" class="btn btn-danger">Delete Profile</a>
+                            <a id="deleteProfile" href="<c:url value='/delete/${user.id}' />" class="btn btn-danger">Delete Profile</a>
                         </div>
                         <div class="col-sm-6">
                             <form:input type="hidden" id="enabled" value="1" name="enabled" path="enabled"/>
                             <a href="<c:url value='/edit/${user.id}' />" class="btn btn-info">Edit</a>
                         </div>
                     </div>
+
                 </form:form>
             </div>
 
@@ -212,47 +214,63 @@
                         <h4>Friends</h4>
                     </div>
                 <%--<form:form action="${addAction}" commandName="listFollowedUsers">--%>
-                <c:forEach var="user" items="${listUsers}">
-                    <div class="row user-wrapper"
-                         onclick="location.href='<c:url value="/userProfile/${user.username}"/>'"style="border: 1px solid #ff0000;">
+                    <div class="col-sm-6">
+                        <c:url var="addAction" value="/profile"/>
+                        <div style="float:left">
+                            <p>${emptyList}</p>
+                            <form:form action="${addAction}" commandName="listFollowedUsers">
 
-                        <div class="col-sm-4">
-                            <a href="#">
-                                <img class="media-object" src="" alt="user-image">
-                            </a>
-                        </div>
+                                <c:forEach items="${listFollowedUsers}" var="followedUser">
+                                    <a href="<c:url value="/userProfile/${followedUser.username}"/>">
+                                            ${followedUser.firstName} ${followedUser.lastName} ${followedUser.id}
+                                    </a>
+                                    <button class="btn btn-warning" type="submit" name="unfollowedFriend" value="${followedUser.id}">UnFollow</button>
+                                    <br>
+                                </c:forEach>
 
-                        <div class="col-sm-8 user-content-info">
-                            <%--<a href="<c:url value="/userProfile/${user.username}"/>"></a>--%>
-                            <div class="">
-                                <p>Name: ${user.firstName}</p>
-                                <p>Surname: ${user.lastName}</p>
-                            </div>
-
-                            <div class="col-sm-6"></div>
-
-                            <div class="col-sm-6">
-                                <form:form action="${addAction}" commandName="listUsers">
-                                    <c:forEach items="${loggedUser.followedUsers}" var="followedUser">
-                                        <c:if test="${user.id == followedUser.id}">
-                                            <c:set value="true" var="contains"/>
-                                        </c:if>
-                                    </c:forEach>
-                                    <c:choose>
-                                        <c:when test="${contains eq true}">
-                                            <button class="btn btn-warning pull-right" type="submit"
-                                                    name="unfollowedFriend" value="${user.id}">UnFollow</button>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <button class="btn btn-success pull-right" type="submit" name="followedFriend"
-                                                    value="${user.id}">Follow</button>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </form:form>
-                            </div>
+                            </form:form>
                         </div>
                     </div>
-                </c:forEach>
+                <%--&lt;%&ndash;<c:forEach var="user" items="${listUsers}">&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;<div class="row user-wrapper"&ndash;%&gt;--%>
+                         <%--&lt;%&ndash;onclick="location.href='<c:url value="/userProfile/${user.username}"/>'"style="border: 1px solid #ff0000;">&ndash;%&gt;--%>
+
+                        <%--&lt;%&ndash;<div class="col-sm-4">&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;<a href="#">&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;<img class="media-object" src="" alt="user-image">&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;</a>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
+
+                        <%--&lt;%&ndash;<div class="col-sm-8 user-content-info">&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;&lt;%&ndash;<a href="<c:url value="/userProfile/${user.username}"/>"></a>&ndash;%&gt;&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;<div class="">&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;<p>Name: ${user.firstName}</p>&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;<p>Surname: ${user.lastName}</p>&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
+                    <%----%>
+                            <%--<div class="col-sm-6">--%>
+                                <%--<form:form action="${addAction}" commandName="listUsers">--%>
+                                    <%--<c:forEach items="${loggedUser.followedUsers}" var="followedUser">--%>
+                                        <%--<c:if test="${user.id == followedUser.id}">--%>
+                                            <%--<c:set value="true" var="contains"/>--%>
+                                        <%--</c:if>--%>
+                                    <%--</c:forEach>--%>
+                                    <%--<c:choose>--%>
+                                        <%--<c:when test="${contains eq true}">--%>
+                                            <%--<button class="btn btn-warning pull-right" type="submit"--%>
+                                                    <%--name="unfollowedFriend" value="${user.id}">UnFollow</button>--%>
+                                        <%--</c:when>--%>
+                                        <%--<c:otherwise>--%>
+                                            <%--<button class="btn btn-success pull-right" type="submit" name="followedFriend"--%>
+                                                    <%--value="${user.id}">Follow</button>--%>
+                                        <%--</c:otherwise>--%>
+                                    <%--</c:choose>--%>
+                                <%--</form:form>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                <%--</c:forEach>--%>
+
             </div>
         </div>
     </div>

@@ -36,8 +36,8 @@
 
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="/login"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-                        <li><a href="/profile"><span class="glyphicon glyphicon-picture"></span>
+                        <li><a  href="/login"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                        <li><a id="homePageNavBar" href="/profile"><span class="glyphicon glyphicon-picture"></span>
                         ${user.firstName}</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
@@ -118,7 +118,7 @@
                 <div class="row nested-buttons">
                     <div class="col-sm-8"></div>
                     <div class="col-sm-4">
-                        <button type="submit" class="btn btn-success">Tweet</button>
+                        <button id="tweetActionButton" type="submit" class="btn btn-success">Tweet</button>
                     </div>
                 </div>
                 </form:form>
@@ -133,7 +133,7 @@
                 <security:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin"/>
                 <c:forEach var="listTweets" items="${listTweets}">
                 <%--<div class="row tweet-wrapper">--%>
-                <div class="row tweet-wrapper" onclick="location.href='<c:url value="/tweetPage/${listTweets.id}/${currentIndex}"
+                <div id="tweetArea" class="row tweet-wrapper" onclick="location.href='<c:url value="/tweetPage/${listTweets.id}/${currentIndex}"
                 />'">
                     <div class="col-sm-2 image">
                         <a href="#">

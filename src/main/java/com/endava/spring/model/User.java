@@ -3,12 +3,13 @@ package com.endava.spring.model;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 @Entity
 @DynamicUpdate
 @Table(name = "users")
-public class User {
+public class User implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +47,7 @@ public class User {
     private String oldEmail;
 
     public User() {
+        //empty constructor
     }
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH,

@@ -15,6 +15,9 @@ import org.springframework.validation.Validator;
 public class RegistrationInputValidator implements Validator {
 
     private static final String EMAIL_REGEX = "^(?!\\.)(([^\\r\\\\]|\\\\[\\r\\\\])*|([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\\.)\\.)*)(?<!\\.)@[a-z0-9][\\w.-]*[a-z0-9]\\.[a-z][a-z.]*[a-z]$";
+    private static final String EMAIL_FIELD = "email";
+    private static final String PASSWORD_FIELD = "password";
+    private static final String USERNAME_FIELD = "username";
 
     @Autowired
     private UserService userService;
@@ -33,25 +36,25 @@ public class RegistrationInputValidator implements Validator {
         if (user.getId() != 0) {
             initialUser = userService.findById(user.getId());
 
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "Required");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, EMAIL_FIELD, "Required");
             if (userService.findByEmail(user.getEmail()) != null &&
                     !initialUser.getEmail().equals(user.getEmail())) {
-                errors.rejectValue("email", "Duplicate.userForm.email");
+                errors.rejectValue(EMAIL_FIELD, "Duplicate.userForm.email");
             }
 
             if (userService.findByUsername(user.getUsername()) != null &&
                 !initialUser.getUsername().equals(user.getUsername())) {
-                errors.rejectValue("username", "Duplicate.userForm.username");
+                errors.rejectValue(USERNAME_FIELD, "Duplicate.userForm.username");
             }
         } else {
 
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "Required");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, EMAIL_FIELD, "Required");
             if (userService.findByEmail(user.getEmail()) != null) {
-                errors.rejectValue("email", "Duplicate.userForm.email");
+                errors.rejectValue(EMAIL_FIELD, "Duplicate.userForm.email");
             }
 
             if (userService.findByUsername(user.getUsername()) != null) {
-                errors.rejectValue("username", "Duplicate.userForm.username");
+                errors.rejectValue(USERNAME_FIELD, "Duplicate.userForm.username");
             }
         }
 
@@ -66,17 +69,17 @@ public class RegistrationInputValidator implements Validator {
         }
 
         if (!user.getEmail().matches(EMAIL_REGEX)) {
-            errors.rejectValue("email", "Wrong.userForm.email");
+            errors.rejectValue(EMAIL_FIELD, "Wrong.userForm.email");
         }
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "Required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, USERNAME_FIELD, "Required");
         if (user.getUsername().length() < 6 || user.getUsername().length() > 32) {
-            errors.rejectValue("username", "Size.userFrom.username");
+            errors.rejectValue(USERNAME_FIELD, "Size.userFrom.username");
         }
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "Required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, PASSWORD_FIELD, "Required");
         if (user.getPassword().length() < 8 || user.getPassword().length() > 32) {
-            errors.rejectValue("password", "Size.userForm.password");
+            errors.rejectValue(PASSWORD_FIELD, "Size.userForm.password");
         }
 
         if (!user.getConfirmPassword().equals(user.getPassword())) {
