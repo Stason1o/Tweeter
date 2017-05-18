@@ -16,7 +16,7 @@
     <title>Profile</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
-        <%@include file="/resources/css/style.css"%>
+        <%@include file="/resources/css/profile.css"%>
     </style>
 </head>
 
@@ -251,72 +251,6 @@
                                 </form:form>
                             </div>
                         </div>
-
-                                <%--@elvariable id="listFollowedUsers" type="java.util.List"--%>
-                                <%--<c:forEach items="${listFollowedUsers}" var="followedUser">--%>
-                                    <%--<c:if test="${user.id == listFollowedUsers.id}">--%>
-                                        <%--<c:set value="true" var="followedUser"/>--%>
-                                    <%--</c:if>--%>
-                                <%--</c:forEach>--%>
-
-                                <%--<c:choose>--%>
-                                    <%--<c:when test="${followedUser eq true}">--%>
-                                        <%--<form:form action="${addAction}" commandName="listFollowedUsers">--%>
-                                            <%--<c:forEach items="${listFollowedUsers}" var="followedUser">--%>
-                                                <%--<a href="<c:url value="/userProfile/${listFollowedUsers.username}"/>">--%>
-                                                        <%--${listFollowedUsers.firstName} ${listFollowedUsers.lastName}--%>
-                                                        <%--${listFollowedUsers.id}--%>
-                                                <%--</a>--%>
-                                                <%--<button class="btn btn-warning" type="submit" name="unfollowedFriend"--%>
-                                                        <%--value="${listFollowedUsers.id}">UnFollow</button>--%>
-                                                <%--<br>--%>
-                                            <%--</c:forEach>--%>
-                                        <%--</form:form>--%>
-                                    <%--</c:when>--%>
-                                    <%--<c:otherwise>--%>
-                                        <%--<form:form action="${addAction}" commandName="listUnfollowedUsers">--%>
-                                            <%--<c:forEach items="${listUnfollowedUsers}" var="unfollowedUser">--%>
-                                                <%--<p>--%>
-                                                    <%--<a href="<c:url value="/userProfile/${unfollowedUser.username}"/>">--%>
-                                                            <%--${unfollowedUser.firstName}   ${unfollowedUser.lastName}--%>
-                                                             <%--${unfollowedUser.id}--%>
-                                                    <%--</a>--%>
-                                                    <%--<button class="btn btn-success" type="submit" name="followedFriend" value="${unfollowedUser.id}">Follow</button>--%>
-                                                <%--</p>--%>
-                                                <%--<br>--%>
-                                            <%--</c:forEach>--%>
-                                        <%--</form:form>--%>
-                                    <%--</c:otherwise>--%>
-                                <%--</c:choose>--%>
-
-
-
-
-
-
-
-
-
-                                <%--<form:form action="${addAction}" commandName="listUsers">--%>
-                                    <%--&lt;%&ndash;@elvariable id="loggedUser" type="com.endava.spring.model.User"&ndash;%&gt;--%>
-                                    <%--<c:forEach items="${loggedUser.followedUsers}" var="followedUser">--%>
-                                        <%--<c:if test="${user.id == followedUser.id}">--%>
-                                            <%--<c:set value="true" var="contains"/>--%>
-                                        <%--</c:if>--%>
-                                    <%--</c:forEach>--%>
-                                    <%--<c:choose>--%>
-                                        <%--<c:when test="${contains eq true}">--%>
-                                            <%--<button class="btn btn-warning pull-right" type="submit"--%>
-                                                    <%--name="unfollowedFriend" value="${user.id}">UnFollow</button>--%>
-                                        <%--</c:when>--%>
-                                        <%--<c:otherwise>--%>
-                                            <%--<button class="btn btn-success pull-right" type="submit" name="followedFriend"--%>
-                                                    <%--value="${user.id}">Follow</button>--%>
-                                        <%--</c:otherwise>--%>
-                                    <%--</c:choose>--%>
-                                <%--</form:form>--%>
-
-
                     </div>
                 </c:forEach>
             </div>
