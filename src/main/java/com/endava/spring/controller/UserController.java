@@ -110,7 +110,7 @@ public class UserController {
             return "registration";
         }
         userService.saveUser(user);
-        securityService.autoLogin(user.getUsername(), user.getConfirmPassword());
+        securityService.autoLogin(user.getUsername(), user.getPassword());
         return "redirect:/welcome";
     }
 
