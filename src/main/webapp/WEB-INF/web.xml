@@ -12,4 +12,8 @@
         <error-code>403</error-code>
         <location>/WEB-INF/views/HTTP403.jsp</location>
     </error-page>
+    <context-param>
+        <param-name>defaultHtmlEscape</param-name>
+        <param-value>true</param-value>
+    </context-param>
 </web-app>
