@@ -148,7 +148,7 @@
                                                         choose <span class="caret"></span>
                                                 </button>
 
-                                                <ul class="dropdown-menu">
+                                                <ul class="dropdown-menu dropdown-menu-right">g
                                                     <li><a href="#">
                                                         <c:choose>
                                                             <c:when test="${roleAdmin eq false}">
