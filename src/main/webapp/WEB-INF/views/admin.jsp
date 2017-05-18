@@ -9,7 +9,7 @@
     <title>Admin Panel</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
-        <%@include file="/resources/css/style.css"%>
+        <%@include file="/resources/css/admin_panel.css"%>
     </style>
 </head>
 <body>
@@ -148,7 +148,7 @@
                                                         choose <span class="caret"></span>
                                                 </button>
 
-                                                <ul class="dropdown-menu">
+                                                <ul class="dropdown-menu dropdown-menu-right">g
                                                     <li><a href="#">
                                                         <c:choose>
                                                             <c:when test="${roleAdmin eq false}">
