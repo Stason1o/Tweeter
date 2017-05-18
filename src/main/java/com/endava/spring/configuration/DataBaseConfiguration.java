@@ -14,17 +14,15 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-/**
- * Created by sbogdanschi on 25/04/2017.
- */
+
 @Configuration
 @EnableTransactionManagement
-@ComponentScan("com.endava.spring.configuration")
+@ComponentScan(basePackages = {"com.endava.spring.dao"})
 @PropertySource(value = {"classpath:application.properties"})
-@Import(WebConfiguration.class)
 public class DataBaseConfiguration {
 
-    private final static Logger logger = Logger.getLogger("connectionsLogger");
+    private final static Logger logger = Logger.getLogger(DataBaseConfiguration.class);
+
     @Autowired
     private Environment environment;
 

@@ -80,8 +80,8 @@
                 </div>
                 <br>
                 <div class="padding-top">
-                    <button type="submit" class="btn btn-lg btn-success">Log in</button>
-                    <input type="button" value="Register" onclick="window.location='/registration'"
+                    <button id="loginButton" type="submit" class="btn btn-lg btn-success">Log in</button>
+                    <input id="btnRegistrationPage" type="button" value="Register" onclick="window.location='/registration'"
                            class="btn btn-lg btn-warning">
                 </div>
             </form:form>

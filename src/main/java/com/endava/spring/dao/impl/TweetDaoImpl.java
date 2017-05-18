@@ -2,9 +2,10 @@ package com.endava.spring.dao.impl;
 
 import com.endava.spring.dao.TweetDao;
 import com.endava.spring.model.Tweet;
-import com.endava.spring.model.User;
 import org.apache.log4j.Logger;
-import org.hibernate.*;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -24,87 +25,120 @@ public class TweetDaoImpl implements TweetDao {
 
     @Override
     public void saveTweet(Tweet tweet) {
-        sessionFactory.getCurrentSession().persist(tweet);
+        logger.info("Saving new tweet");
+        try {
+            sessionFactory.getCurrentSession().persist(tweet);
+        }catch (Exception ex){
+            logger.error(ex);
+        }
+        logger.info("Tweet is successfully saved!");
     }
 
     @Override
     public List<Tweet> listTweets() {
+        logger.info("Extracting list of tweets from database");
         List<Tweet> list = sessionFactory.getCurrentSession().createQuery("from Tweet").list();
+        logger.info("List is successfully extracted!");
         return list;
     }
 
     @Override
     public void removeTweet(int id) {
-        Session session = sessionFactory.getCurrentSession();
-        Tweet tweet = (Tweet) session.load(Tweet.class, id);
-        if (tweet != null) {
-            session.delete(tweet);
+        logger.info("Deleting tweet..");
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            Tweet tweet = (Tweet) session.load(Tweet.class, id);
+            if (tweet != null) {
+                session.delete(tweet);
+                logger.info("Tweet is successfully deleted!");
+            }
+        }catch (Exception e){
+            logger.error(e);
         }
     }
 
     @Override
     public void updateTweet(Tweet tweet) {
+        logger.info("Updating tweet!");
         sessionFactory.getCurrentSession().update(tweet);
+        logger.info("Tweet is successfully updated");
     }
 
     @Override
     public Tweet getTweetById(int id) {
-        return (Tweet) sessionFactory.getCurrentSession().get(Tweet.class, id);
+        logger.info("Extracting tweet by id");
+        Tweet tweet = (Tweet) sessionFactory.getCurrentSession().get(Tweet.class, id);
+        logger.info("Tweet is successfully extracted");
+        return tweet;
     }
-
-    @Override
-    public Tweet getTweetByUserId(int id) {
-        return null;
-    }
-
-    @Override
-    public Tweet getTweetByUsername(String username) {
-        return null;
-    }
-
-    @Override
-    public Tweet getTweetByUser(User user) {
-        return null;
-    }
-
 
     @Override
     public int countPage() {
-        Query query = sessionFactory.getCurrentSession().createQuery("select count (t.id) from Tweet t where isComment = false");
-        Long countResults = (Long) query.uniqueResult();
-        int pageSize = 5;
-        int lastPageNumber = (int) ((countResults / pageSize) + 1);
+        logger.info("Retrieving information for page count ");
+        int lastPageNumber = 0;
+        try {
+            Query query = sessionFactory.getCurrentSession().createQuery("select count (t.id) from Tweet t where isComment = false");
+            Long countResults = (Long) query.uniqueResult();
+            int pageSize = 5;
+            lastPageNumber = (int) ((countResults / pageSize) + 1);
+            logger.info("Information is successfully retrieved");
+        } catch (Exception e){
+            logger.error(e);
+            e.printStackTrace();
+        }
+        logger.info("Retrieving is successful");
         return lastPageNumber;
     }
 
     @Override
     public List<Tweet> listPaginatedTweets(int firstResult, int maxResults) {
-        Query query = sessionFactory.getCurrentSession().createQuery("from Tweet order where isComment = false order by date desc");
-        query.setFirstResult(firstResult);
-        query.setMaxResults(maxResults);
-
-        List<Tweet> list = (List<Tweet>)query.list();
-
+        logger.info("Retrieving list of paginated tweets");
+        List<Tweet> list = new ArrayList<>();
+        try {
+            Query query = sessionFactory.getCurrentSession().createQuery("from Tweet order where isComment = false order by date desc");
+            query.setFirstResult(firstResult);
+            query.setMaxResults(maxResults);
+            list = (List<Tweet>) query.list();
+            logger.info("List of paginated tweets is successfully retrieved");
+        }catch (Exception e){
+            logger.error(e);
+            e.printStackTrace();
+        }
         return list;
     }
 
 
     @Override
     public List<Tweet> listPaginatedTweetsByUserId(int id, int firstResult, int maxResults) {
-        Query query = sessionFactory.getCurrentSession().createQuery("from Tweet where user =" + id + " and isComment = false order by date desc");
-        query.setFirstResult(firstResult);
-        query.setMaxResults(maxResults);
+        logger.info("Retrieving list paginated tweets by user id");
+        List<Tweet> list = new ArrayList<>();
+        try {
+            Query query = sessionFactory.getCurrentSession().createQuery("from Tweet where user =" + id + " and isComment = false order by date desc");
+            query.setFirstResult(firstResult);
+            query.setMaxResults(maxResults);
 
-        List<Tweet> list = (List<Tweet>)query.list();
+            list = (List<Tweet>) query.list();
+            logger.info("List paginated tweets by user id is successfully retrieved");
+        }catch (Exception e){
+            logger.error(e);
+            e.printStackTrace();
+        }
 
         return list;
     }
 
-
     @Override
     public List<Tweet> getTweetComment(int id) {
-        Query query = sessionFactory.getCurrentSession().createQuery("from Tweet where tweet =" + id + " and isComment = true order by date desc");
-        List<Tweet> list = (List<Tweet>)query.list();
+        logger.info("Retrieving tweet comment");
+        List<Tweet> list = new ArrayList<>();
+        try {
+            Query query = sessionFactory.getCurrentSession().createQuery("from Tweet where tweet =" + id + " and isComment = true order by date desc");
+            list = (List<Tweet>) query.list();
+            logger.info("Tweet comment is successfully retrieved");
+        }catch (Exception e){
+            logger.error(e);
+            e.printStackTrace();
+        }
         return list;
     }
 

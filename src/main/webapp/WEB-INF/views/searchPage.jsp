@@ -114,7 +114,7 @@
                 </div>
                 <br>
                 <div class="padding-top">
-                    <button class="btn btn-lg btn-success btn-block" type="submit">Search</button>
+                    <button id="submitSearchButton" class="btn btn-lg btn-success btn-block" type="submit">Search</button>
                 </div>
             </form:form>
 
