@@ -25,7 +25,8 @@ hs_err_pid*
 
 /target/
 target/generated-sources/
+
 .idea/
 /out/
 /HelloWorldSpring.iml
-
+/src/test/java/seleniumTests/
