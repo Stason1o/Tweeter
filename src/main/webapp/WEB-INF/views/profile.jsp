@@ -160,8 +160,7 @@
                 <c:forEach items="${user.tweets}" var="userTweets" >
                     <c:if test="${!userTweets.comment}">
 
-                        <div class="row tweet-wrapper" onclick="location.href='<c:url
-                                value="/tweetPage/${userTweets.id}/${currentIndex}"/>'">
+                        <div class="row tweet-wrapper" onclick="location.href='<c:url value="/tweetPage/${userTweets.id}/${currentIndex}"/>'">
                             <div class="col-lg-2 col-sm-2 image">
                                 <a href="#">
                                     <img class="media-object" src="" alt="user-image">
@@ -193,7 +192,8 @@
                                             <c:otherwise>
                                                 <p class="tweet-info">
                                                     <span class="full-name">
-                                                        ${userTweets.user.firstName} ${userTweets.user.lastName}
+                                                        ${userTweets.user.firstName}
+                                                        ${userTweets.user.lastName}
                                                     </span>
 
                                                     <span class="user-name"> @${userTweets.user.username}</span>
@@ -213,14 +213,6 @@
                                     <div class="col-lg-4 col-sm-4"></div>
 
                                     <div class="col-lg-8 col-sm-8">
-                                        <%--<c:if test="${userTweets.user.id != user.id}">--%>
-                                            <span>
-                                                <a href="<c:url value='/reTweet/${userTweets.id}' />" class="btn btn-success pull-left">
-                                                    <span class="glyphicon glyphicon-retweet"></span> &nbsp;Retweet
-                                                </a>
-                                            </span>
-                                        <%--</c:if>--%>
-
                                         <span>
                                             <a href="<c:url value='/tweetPage/${userTweets.id}/${currentIndex}' />" class="btn btn-primary pull-right">
                                                 Comment&nbsp; <span class="glyphicon glyphicon-comment"></span>

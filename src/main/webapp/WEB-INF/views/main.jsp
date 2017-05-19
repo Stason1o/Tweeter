@@ -11,7 +11,7 @@
     <title>Feed</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
-        <%@include file="/resources/css/style.css"%>
+        <%@include file="/resources/css/feed.css"%>
     </style>
 </head>
 <body>
@@ -99,92 +99,126 @@
 
     <!-- Content -->
     <div class="container-fluid">
-        <h3>Tweets</h3>
-        <hr>
+        <div class="tweets">
+            <h3 class="form-heading">Tweets</h3><hr>
+        </div>
+
         <div class="row">
-            <div class="col-sm-1"></div>
-            <div class="col-sm-4">
+            <div class="col-lg-1 col-sm-1"></div>
+
+            <div class="col-lg-4 col-sm-4">
                 <form:form method="post" modelAttribute="tweet">
-                <div class="row nested-title">
-                    <h4>Have something to say?</h4>
-                </div>
-                <div class="row nested-textarea">
-                    <form:textarea path="content" />
-                </div>
-                <div class="row nested-buttons">
-                    <div class="col-sm-8"></div>
-                    <div class="col-sm-4">
-                        <button id="tweetActionButton" type="submit" class="btn btn-success">Tweet</button>
+                    <div class="row nested-title">
+                        <h4 class="share-tweet">Have something to say?</h4>
                     </div>
-                </div>
+
+                    <div class="row nested-textarea">
+                        <form:textarea path="content" />
+                    </div>
+
+                    <div class="row nested-buttons">
+                        <div class="col-sm-8"></div>
+                        <div class="col-sm-4">
+                            <button id="tweetActionButton" type="submit" class="btn btn-success pull-right">Tweet
+                            </button>
+                        </div>
+                    </div>
                 </form:form>
             </div>
 
 
-            <div class="col-sm-6">
+            <div class="col-lg-6 col-sm-6 tweet-list">
                 <div class="row nested-title">
                     <h4>Tweet list</h4>
                 </div>
 
                 <security:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin"/>
                 <c:forEach var="listTweets" items="${listTweets}">
+
                 <%--<div class="row tweet-wrapper">--%>
-                <div id="tweetArea" class="row tweet-wrapper" onclick="location.href='<c:url value="/tweetPage/${listTweets.id}/${currentIndex}"
-                />'">
-                    <div class="col-sm-2 image">
+                <div id="tweetArea" class="row tweet-wrapper" onclick="location.href='<c:url value="/tweetPage/${listTweets.id}/${currentIndex}"/>'">
+
+                    <div class="col-lg-2 col-sm-2 image">
                         <a href="#">
                             <img class="media-object" src="" alt="user-image">
                         </a>
                     </div>
-                    <div class="col-sm-10">
+
+                    <div class="col-lg-10 col-sm-10">
                         <div class="row tweet-content">
                             <div class="col-sm-8 tweet-user-text">
                                 <!--NEEDS STYLING-->
                                 <c:choose>
+
                                     <c:when test="${listTweets.tweet != null}">
                                         <span><b>You Retweeted</b></span>
                                         <div class="retweet-box">
-                                            <span class="full-name">
-                                                ${listTweets.tweet.user.firstName}
-                                                ${listTweets.tweet.user.lastName}
-                                            </span>
-                                            <span class="user-name"> @${listTweets.tweet.user.username}</span>
-                                            <p class="content-text">${listTweets.tweet.content}</p>
+                                            <p class="retweet-info">
+                                                <span class="full-name">
+                                                    ${listTweets.tweet.user.firstName}
+                                                    ${listTweets.tweet.user.lastName}
+                                                </span>
+                                                <span class="user-name"> @${listTweets.tweet.user.username}</span>
+                                                <span class="user-date">${listTweets.tweet.date}</span>
+                                            </p>
+                                            <p class="retweet-content-text">${listTweets.tweet.content}</p>
                                         </div>
                                     </c:when>
+
                                     <c:otherwise>
-                                        <span class="full-name">${listTweets.user.firstName} ${listTweets.user.lastName}</span>
-                                        <span class="user-name"> @${listTweets.user.username}</span>
+                                        <p class="tweet-info">
+                                            <span class="full-name">
+                                                ${listTweets.user.firstName}
+                                                ${listTweets.user.lastName}
+                                            </span>
+                                            <span class="user-name"> @${listTweets.user.username}</span>
+                                            <span class="user-date">${listTweets.tweet.date}</span>
+                                        </p>
                                         <p class="content-text">${listTweets.content}</p>
                                     </c:otherwise>
+
                                 </c:choose>
+
                             </div>
-                            <div class="col-sm-4"></div>
+                            <div class="col-lg-4 col-sm-4"></div>
                         </div>
+
                         <div class="row tweet-actions">
-                           <div class="col-sm-4"></div>
-                           <div class="col-sm-8">
-                               <button class="btn btn-info" type="submit" name="followedFriend"
-                                       value="${unfollowedUser.id}">Follow
-                               </button>
+                           <div class="col-lg-4 col-sm-4"></div>
+
+                           <div class="col-lg-8 col-sm-8">
+                               <%--<span>--%>
+                                   <%--<button class="btn btn-info" type="submit" name="followedFriend" value="${unfollowedUser.id}">--%>
+                                       <%--Follow--%>
+                                   <%--</button>--%>
+                               <%--</span>    --%>
 
                                <c:if test="${listTweets.user.id != user.id}">
-                                   <a href="<c:url value='/reTweet/${listTweets.id}' />"><span class="glyphicon glyphicon-retweet"></span> Retweet
-                                   </a>
+                                   <span>
+                                       <a href="<c:url value='/reTweet/${listTweets.id}' />" class="btn btn-success pull-left">
+                                           <span class="glyphicon glyphicon-retweet"></span> &nbsp;Retweet
+                                       </a>
+                                   </span>
                                </c:if>
 
-                               <a href="<c:url value='/tweetPage/${listTweets.id}/${currentIndex}' />">
-                                   Comment&nbsp; <span class="glyphicon glyphicon-comment"></span>
-                               </a>
+                               <span>
+                                   <a href="<c:url value='/tweetPage/${listTweets.id}/${currentIndex}' />" class="btn btn-primary pull-right">
+                                        Comment&nbsp; <span class="glyphicon glyphicon-comment"></span>
+                                   </a>
+                               </span>
                            </div>
+
                         </div>
                     </div>
                 </div>
 
                 </c:forEach>
+
                 <jsp:include page="templates/pagination.jsp" />
             </div>
-            <div class="col-sm-1"></div>
+
+            <div class="col-lg-1 col-sm-1"></div>
+
         </div>
     </div>
 </body>
