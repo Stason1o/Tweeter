@@ -31,7 +31,7 @@
                     <ul class="nav navbar-nav">
                         <li><a href="/login"><span class="glyphicon glyphicon-home"></span> Home</a></li>
                         <li><a href="/profile"><span class="glyphicon glyphicon-picture"></span>
-                        ${user.firstName}</a></li>
+                        ${loggedUser.firstName}</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="drop-down">
@@ -148,8 +148,8 @@
                             <div class="col-lg-6 col-sm-6"></div>
 
                             <div class="col-lg-6 col-sm-6">
-                                <button class="btn btn-warning pull-right" type="submit"
-                                        name="unfollowedFriend" value="${unfollowedUser.id}">UnFollow</button>
+                                <button class="btn btn-success pull-right" type="submit"
+                                        name="followedFriend" value="${unfollowedUser.id}">Follow</button>
                             </div>
                         </div>
                     </div>

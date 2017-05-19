@@ -3,7 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<spring:htmlEscape defaultHtmlEscape="true" />
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -105,14 +105,18 @@
                 <form:form action="${addAction}" commandName="user">
 
                 <h2 class="form-profile-heading">Profile</h2>
+
                     <p><img src="${pageContext.request.contextPath}${user.image}" width="75%" align="center" vspace="5%" hspace="11%"></p>
                     <a href="<c:url value='/avatar/${user.id}' />" class="btn btn-success btn-block">Change Avatar</a>
                 <br>
 
-
-
                 <h2 class="form-profile-heading">Profile</h2>
                 <form:label path="firstName">First Name</form:label>
+
+                <form:input type="hidden" id="id" value="${user.id}" name="id" path="id"/>
+
+                    <form:label path="firstName">First Name</form:label>
+
                     <form:input id="firstName" name="firstName" path="firstName" class="form-control"
                                  required="" autofocus=""/>
                     <form:errors path="firstName"/>
@@ -124,26 +128,30 @@
                     <form:errors path="lastName"/>
                 <br>
 
-                <form:label path="username">Username</form:label>
-                    <form:input id="username" name="username" path="username" class="form-control"
+                <%--<form:label path="username">Username</form:label>--%>
+                    <form:input type="hidden" id="username" name="username" path="username" class="form-control"
                                 required="" autofocus=""/>
-                    <form:errors path="username"/>
-                <br>
+                    <%--<form:errors path="username"/>--%>
+                <%--<br>--%>
 
-                <form:label path="password">Password</form:label>
-                    <form:input type="password" id="password" name="password" path="password" class="form-control"
+                <%--<form:label path="password">Password</form:label>--%>
+                    <form:input type="hidden" id="password" name="password" path="password" class="form-control"
                                 required="" autofocus=""/>
-                    <form:errors path="password"/>
-                <br>
+                    <%--<form:errors path="password"/>--%>
+                <%--<br>--%>
 
                     <form:input type="hidden" id="confirmPassword" value="${user.password}" name="confirmPassword" path="confirmPassword" />
-                <br>
+                <%--<br>--%>
 
-                <form:label path="email">Email</form:label>
-                    <form:input type="email" id="email" name="email" path="email" class="form-control"
+                <%--<form:label path="email">Email</form:label>--%>
+                    <form:input type="hidden" id="email" name="email" path="email" class="form-control"
                                 required="" autofocus=""/>
-                    <form:errors path="email"/>
-                <br>
+                    <%--<form:input type="hidden" id="tweets" name="tweets" path="tweets" class="form-control"--%>
+                                <%--required="" autofocus=""/>--%>
+                    <%--<form:input type="hidden" id="followedUsers" name="followedUsers" path="followedUsers" class="form-control"--%>
+                                <%--required="" autofocus=""/>--%>
+                    <%--<form:errors path="email"/>--%>
+                <%--<br>--%>
 
                 <form:input type="hidden" id="enabled" value="1" name="enabled" path="enabled"/>
 
@@ -164,7 +172,7 @@
                 <!-- HERE GOES USER'S TWEETS -->
                 <div class="tweets">
                     <c:forEach items="${user.tweets}" var="userTweets" >
-                        <p>${userTweets.content} ${userTweets.date} ${userTweets.user.username}</p>
+                        <p><c:out value=" ${userTweets.content} ${userTweets.date} ${userTweets.user.username}"/></p>
                     </c:forEach>
                 </div>
             </div>

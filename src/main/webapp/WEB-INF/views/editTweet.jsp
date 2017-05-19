@@ -99,6 +99,8 @@
     <div class="col-sm-3"></div>
     <div class="col-sm-6">
         <form:form method="post" modelAttribute="editTweet">
+
+            <form:input type="hidden" id="id" value="${editTweet.id}" name="id" path="id"/>
             <div class="row nested-title">
                 <%--need to delete tweet_id--%>
                 Edit tweet { ${editTweet.id} }
@@ -110,13 +112,14 @@
                 <div class="col-sm-8"></div>
                 <div class="col-sm-4">
                     <button type="submit" class="btn btn-success">Tweet</button>
-                    <a href="<c:url value='/tweetPage/${idtw}' />" class="btn btn-danger">Cancel</a>
+                    <a href="<c:url value='/tweetPage/${idtw}/${page}' />" class="btn btn-danger">Cancel</a>
                 </div>
             </div>
         </form:form>
     </div>
     <div class="col-sm-3"></div>
     <!-- ##Content## -->
-
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>

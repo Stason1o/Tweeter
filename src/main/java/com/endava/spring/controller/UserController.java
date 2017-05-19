@@ -3,6 +3,7 @@ package com.endava.spring.controller;
 import com.endava.spring.model.User;
 import com.endava.spring.service.SecurityService;
 import com.endava.spring.service.UserService;
+import com.endava.spring.validator.ProfileEditValidator;
 import com.endava.spring.validator.RegistrationInputValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ public class UserController {
     private SecurityService securityService;
 
     @Autowired
+    private ProfileEditValidator profileEditValidator;
+
+    @Autowired
     private RegistrationInputValidator registrationInputValidator;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -55,7 +59,7 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String executeLogin(@ModelAttribute("user") User user) {
         logger.debug("Request of /login page POST");
-        return "successPage";
+        return "redirect:/main/1";
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
@@ -112,7 +116,8 @@ public class UserController {
 
     @RequestMapping(value = "/profile", method = RequestMethod.POST)
     public String saveUser(@ModelAttribute("user") User user, BindingResult result, Errors errors,
-                           @RequestParam(value = "unfollowedFriend", required = false) Integer unfollowedUserId) {
+                           @RequestParam(value = "unfollowedFriend", required = false) Integer unfollowedUserId,
+                           ModelMap modelMap) {
         logger.debug("Request of /profile page POST");
         User loggedUser = userService.findByUsernameInitialized(getPrincipal());
 
@@ -122,11 +127,23 @@ public class UserController {
             return "redirect:/profile";
         }
 
-        registrationInputValidator.validate(user, errors);
-        if (result.hasErrors()) {
-            return "profile";
-        }
+        modelMap.addAttribute("loggedUser", loggedUser);
+        modelMap.addAttribute("user", userService.findByUsernameInitialized(getPrincipal()));
 
+        List<User> listFollowedUsers = userService.listFollowedUsers(loggedUser.getId());
+        if (listFollowedUsers != null) {
+            modelMap.addAttribute("listFollowedUsers", listFollowedUsers);
+        } else {
+            modelMap.addAttribute("emptyList", "You don't have any followed users");
+        }
+        logger.debug("Opening profile page");
+
+        profileEditValidator.validate(user, errors);
+        if (result.hasErrors()) {
+            System.out.println("-----------------------HAS ERRORS");
+            return "profile_edit";
+        }
+        System.out.println("--------------------------------=======================" + user.getUsername() + "  " + user.getPassword());
         userService.updateUser(user);
         securityService.autoLogin(user.getUsername(), user.getPassword());
         logger.debug("Redirecting /profile page");
@@ -169,6 +186,7 @@ public class UserController {
         User loggedUser = userService.findByUsernameInitialized(getPrincipal());
         List<User> listUnfollowedUsers = userService.listUnfollowedUsers(loggedUser.getId());
         modelMap.addAttribute("listUnfollowedUsers", listUnfollowedUsers);
+        modelMap.addAttribute("loggedUser", loggedUser);
 //        logger.debug("Opening follow page");
         logger.debug("Opening searchPage page");
         return "searchPage";
@@ -181,17 +199,16 @@ public class UserController {
         List<User> listUsers;
         User targetUserToFollow = userService.findByUsernameInitialized(getPrincipal());
 
-        if (followedUserId != null) {
-            userService.followUser(targetUserToFollow, userService.findByIdInitialized(followedUserId));
-            logger.info("Redirecting /globalSearch");
-        }
-
-        if (user != null) {
+        if (user.getUsername() != null) {
             listUsers = userService.searchByUsername(user.getUsername());
             modelMap.addAttribute("user", new User());
             modelMap.addAttribute("listUsers", listUsers);
             modelMap.addAttribute("loggedUser", userService.findByUsernameInitialized(getPrincipal()));
         } else {
+            if (followedUserId != null) {
+                userService.followUser(targetUserToFollow, userService.findByIdInitialized(followedUserId));
+                logger.info("Redirecting /globalSearch");
+            }
             User loggedUser = userService.findByUsernameInitialized(getPrincipal());
             List<User> listUnfollowedUsers = userService.listUnfollowedUsers(loggedUser.getId());
             modelMap.addAttribute("listUnfollowedUsers", listUnfollowedUsers);
@@ -206,10 +223,11 @@ public class UserController {
         if (getPrincipal().equals(username)) {
             return "redirect:/profile";
         }
-        modelMap.addAttribute("listFollowedUsers", userService.findByUsernameInitialized(getPrincipal()).getFollowedUsers());
-        if (username != null) {
-            modelMap.addAttribute("user", userService.findByUsernameInitialized(username));
-        }
+        User targetUser = userService.findByUsernameInitialized(username);
+        User loggedUser = userService.findByUsernameInitialized(getPrincipal());
+        modelMap.addAttribute("listFollowedUsers", targetUser.getFollowedUsers());
+        modelMap.addAttribute("loggedUser", loggedUser);
+        modelMap.addAttribute("user", targetUser);
         logger.debug("Opening userProfile page");
         return "userProfile";
     }
