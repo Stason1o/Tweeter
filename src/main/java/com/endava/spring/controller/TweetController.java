@@ -19,6 +19,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class TweetController {
 
+    private final static String PROFILE_PAGE = "profile";
+    private final static String USER_PROFILE_PAGE = "userProfile";
     private final static Logger logger = Logger.getLogger(TweetController.class);
 
     @Autowired
@@ -97,12 +99,19 @@ public class TweetController {
     }
 
 
-    @RequestMapping(value = "/deleteTweet/{id}")
-    public String deleteTweet(@PathVariable("id") int id) {
+    @RequestMapping(value = "/deleteTweet/{id}/{page}")
+    public String deleteTweet(@PathVariable("id") int id,
+                              @PathVariable("page") String page,
+                              RedirectAttributes redirectAttributes) {
         logger.debug("Request /deleteTweet/" + id);
         tweetService.removeTweet(id);
         logger.debug("Redirecting /main/1");
-        return "redirect:/main/1";
+//        if( page.equals(PROFILE_PAGE)) {
+//
+//        } else if (page.equals(USER_PROFILE_PAGE)){
+//            return "redirect:/"
+//        }
+        return "redirect:/profile";
     }
 
     @RequestMapping(value = "/reTweet/{id}")

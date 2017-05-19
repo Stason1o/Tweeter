@@ -219,10 +219,11 @@ public class UserController {
         if (getPrincipal().equals(username)) {
             return "redirect:/profile";
         }
-        modelMap.addAttribute("listFollowedUsers", userService.findByUsernameInitialized(getPrincipal()).getFollowedUsers());
-        if (username != null) {
-            modelMap.addAttribute("user", userService.findByUsernameInitialized(username));
-        }
+        User targetUser = userService.findByUsernameInitialized(username);
+        User loggedUser = userService.findByUsernameInitialized(getPrincipal());
+        modelMap.addAttribute("listFollowedUsers", targetUser.getFollowedUsers());
+        modelMap.addAttribute("loggedUser", loggedUser);
+        modelMap.addAttribute("user", targetUser);
         logger.debug("Opening userProfile page");
         return "userProfile";
     }

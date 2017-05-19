@@ -125,7 +125,7 @@
                 <div class="row nested-title">
                     <h4>Tweet list</h4>
                 </div>
-
+                <c:set value="false" var="contains"/>
                 <security:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin"/>
                 <c:forEach var="listTweets" items="${listTweets}">
                 <%--<div class="row tweet-wrapper">--%>
@@ -140,6 +140,12 @@
                         <div class="row tweet-content">
                             <div class="col-sm-8 tweet-user-text">
                                 <!--NEEDS STYLING-->
+
+                                <c:forEach var="userTweet" items="${user.tweets}">
+                                    <c:if test="${listTweets.id == userTweet.tweet.id}">
+                                        <c:set var="contains" value="true"/>
+                                    </c:if>
+                                </c:forEach>
                                 <c:choose>
                                     <c:when test="${listTweets.tweet != null}">
                                         <span><b>You Retweeted</b></span>
@@ -168,10 +174,11 @@
                                        <%--value="${unfollowedUser.id}">Follow--%>
                                <%--</button>--%>
 
-                               <c:if test="${listTweets.user.id != user.id}">
+                               <c:if test="${contains eq false}" >
                                    <a href="<c:url value='/reTweet/${listTweets.id}' />"><span class="glyphicon glyphicon-retweet"></span> Retweet
                                    </a>
                                </c:if>
+                                   <c:set value="false" var="contains"/>
 
                                <a href="<c:url value='/tweetPage/${listTweets.id}/${currentIndex}' />">
                                    Comment&nbsp; <span class="glyphicon glyphicon-comment"></span>

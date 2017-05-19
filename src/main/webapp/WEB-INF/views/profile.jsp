@@ -172,7 +172,7 @@
                                                     ${userTweets.user.firstName} ${userTweets.user.lastName}
                                                 </span>
                                                 <span class="user-name"> @${userTweets.user.username}</span>
-                                                <p class="content-text"><c:out value="${userTweets.content}"/></p>
+                                                <p class="content-text"><c:out value="${userTweets.tweet.content}"/></p>
                                             </div>
                                         </c:when>
                                         <c:otherwise>
@@ -180,7 +180,7 @@
                                                 ${userTweets.user.firstName} ${userTweets.user.lastName}
                                             </span>
                                             <span class="user-name"> @${userTweets.user.username}</span>
-                                            <p class="content-text"><c:out value="${userTweets.content}"/></p>
+                                            <p class="content-text"><c:out value="${userTweets.tweet.content}"/></p>
                                         </c:otherwise>
                                     </c:choose>
                                 </div>
@@ -191,15 +191,18 @@
                                 <div class="col-sm-4"></div>
 
                                 <div class="col-sm-8">
-                                    <%--<c:if test="${userTweets.user.id != user.id}">--%>
+                                    <c:if test="${userTweets.user.id != user.id}">
                                         <a href="<c:url value='/reTweet/${userTweets.id}' />">
                                             <span class="glyphicon glyphicon-retweet"></span> Retweet
                                         </a>
-                                    <%--</c:if>--%>
+                                    </c:if>
 
                                     <a href="<c:url value='/tweetPage/${userTweets.id}/${currentIndex}' />">
                                         Comment&nbsp; <span class="glyphicon glyphicon-comment"></span>
                                     </a>
+
+                                    <a id="deleteTweetLink" href="/deleteTweet/${userTweets.id}?page=profile" class="btn btn-danger"><span
+                                            class="glyphicon glyphicon-remove"></span> Delete</a>
                                 </div>
 
                             </div>

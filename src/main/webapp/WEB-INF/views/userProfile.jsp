@@ -33,7 +33,7 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li><a href="/login"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-picture"></span> ${user.firstName}</a></li>
+                        <li><a href="/profile"><span class="glyphicon glyphicon-picture"></span> ${loggedUser.firstName}</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="drop-down">
@@ -127,8 +127,8 @@
                     </div>
                     <div class="row button-control">
                         <div class="col-sm-6">
-                            <c:forEach items="${listFollowedUsers}" var="followedUser">
-                                <c:if test="${followedUser.username eq user.username}">
+                            <c:forEach items="${loggedUser.followedUsers}" var="followedUser">
+                                <c:if test="${followedUser.id == user.id}">
                                     <c:set var="contains" value="true"/>
                                 </c:if>
                             </c:forEach>
@@ -140,6 +140,7 @@
                                     <button class="btn btn-success" type="submit" name="followedFriend" value="${user.id}">Follow</button>
                                 </c:otherwise>
                             </c:choose>
+                            <c:set var="contains" value="false"/>
                             <%--<form:input type="hidden" id="enabled" value="1" name="enabled" path="enabled"/>--%>
                             <%--<a id="deleteProfile" href="<c:url value='/delete/${user.id}' />" class="btn btn-danger">Delete Profile</a>--%>
                         </div>
@@ -233,11 +234,15 @@
                 <div class="row nested-title">
                     <h4>Friends</h4>
                 </div>
-
+                <c:set var="contains" value="false"/>
                 <c:url var="addAction" value="/profile"/>
-                <form:form action="${addAction}" commandName="listFollowedUsers">
-                    <c:forEach items="${listFollowedUsers}" var="followedUser">
-
+                <form:form action="${addAction}" commandName="loggedUser">
+                    <c:forEach items="${user.followedUsers}" var="followedUser">
+                        <c:forEach items="${loggedUser.followedUsers}" var="user">
+                            <c:if test="${user.id == followedUser.id}">
+                                <c:set var="contains" value="true"/>
+                            </c:if>
+                        </c:forEach>
                         <div class="row user-wrapper" onclick="location.href='<c:url
                                 value="/userProfile/${followedUser.username}"/>'">
 
@@ -256,8 +261,17 @@
                                 <div class="col-lg-6 col-sm-6"></div>
 
                                 <div class="col-lg-6 col-sm-6">
-                                    <button class="btn btn-warning pull-right" type="submit"
-                                            name="unfollowedFriend" value="${followedUser.id}">UnFollow</button>
+                                    <c:choose>
+                                        <c:when test="${contains eq true}">
+                                            <button class="btn btn-warning pull-right" type="submit"
+                                                    name="unfollowedFriend" value="${followedUser.id}">UnFollow</button>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <button class="btn btn-success pull-right" type="submit"
+                                                    name="followedFriend" value="${followedUser.id}">Follow</button>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <c:set var="contains" value="true"/>
                                 </div>
                             </div>
                         </div>
