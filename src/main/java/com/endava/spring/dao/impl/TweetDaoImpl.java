@@ -85,13 +85,14 @@ public class TweetDaoImpl implements TweetDao {
             Query query;
 
             if(isUser) {
-                query = sessionFactory.getCurrentSession().createQuery("select count (t.id) from Tweet t where isComment = false and t.user.id =" + id);
+                query = sessionFactory.getCurrentSession().createQuery("select count (t.id) from Tweet t where t.isComment = false and t.user.id =" + id);
             } else{
                 List<User> followedFriends = userDao.listFollowedUsers(id);
-                query = sessionFactory.getCurrentSession().createQuery("select count (t.id) from Tweet t where isComment = false and t.user in :followedFriends");
+                query = sessionFactory.getCurrentSession().createQuery("select count (t.id) from Tweet t where t.user in :followedFriends or t.user.id=" + id + " and t.isComment = false" );
                 query.setParameterList("followedFriends", followedFriends);
             }
             Long countResults = (Long) query.uniqueResult();
+            //System.out.println(countResults + "-----------------------------------**********************--------------------");
             int pageSize = 5;
             lastPageNumber = (int) ((countResults / pageSize) + 1);
 
@@ -124,20 +125,39 @@ public class TweetDaoImpl implements TweetDao {
 
 
     @Override
-    public List<Tweet> listPaginatedTweetsByUserId(int id, int firstResult, int maxResults) {
+    public List<Tweet> listPaginatedTweetsByUserId(int id, int firstResult, int maxResults, boolean isUser) {
         logger.info("Retrieving list paginated tweets by user id");
         List<Tweet> list = new ArrayList<>();
         List<User> followedFriends = userDao.listFollowedUsers(id);
-        for(User user: followedFriends){
+        /*for(User user: followedFriends){
             System.out.println(user.getId() + "-------------------------------");
-        }
+        }*/
+
+        /*System.out.println(firstResult + " firstResult -------------------------------");
+        System.out.println(maxResults + " maxResults -------------------------------");
+        System.out.println(id + " id -------------------------------");
+        System.out.println(isUser + " isUser -------------------------------");*/
         try {
-            Query query = sessionFactory.getCurrentSession().createQuery("from Tweet where user in :followedFriends and isComment = false order by date desc");
+
+            Query query;
+            if (isUser){
+                query = sessionFactory.getCurrentSession().createQuery("from Tweet where user =" + id + " and  isComment = false order by date desc");
+            }else {
+                query = sessionFactory.getCurrentSession().createQuery("from Tweet where user in :followedFriends or user =" + id + " and  isComment = false order by date desc");
+                query.setParameterList("followedFriends", followedFriends);
+            }
+
             query.setFirstResult(firstResult);
             query.setMaxResults(maxResults);
-            query.setParameterList("followedFriends", followedFriends);
+
 
             list = (List<Tweet>) query.list();
+            /*for(Tweet tweet: list){
+                System.out.println(tweet.getId() + "  TweetID----------------------------------------------------------------");
+            }*/
+
+
+
             logger.info("List paginated tweets by user id is successfully retrieved");
         }catch (Exception e){
             logger.error(e);

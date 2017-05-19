@@ -51,7 +51,7 @@ public class TweetServiceImpl implements TweetService {
     }
 
     @Override
-    public List<Tweet> listPaginatedTweetsById(int id, int page) {
+    public List<Tweet> listPaginatedTweetsById(int id, int page, boolean isUser) {
         logger.info("Getting list of paginated tweets by id");
         int maxResults = 5 * page;
         int firstResult = maxResults - 5;
@@ -62,12 +62,7 @@ public class TweetServiceImpl implements TweetService {
             maxResults = 5;
         }
 
-        List<Tweet> list;
-        if (id == 0){
-            list = tweetDao.listPaginatedTweets(firstResult, maxResults);
-        }else {
-            list = tweetDao.listPaginatedTweetsByUserId(id, firstResult, maxResults);
-        }
+        List<Tweet> list = tweetDao.listPaginatedTweetsByUserId(id, firstResult, maxResults, isUser);
 
         for (Tweet tweet : list) {
             tweet = initializeTweet(tweet);

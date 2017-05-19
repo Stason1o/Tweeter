@@ -1,7 +1,9 @@
 package com.endava.spring.controller;
 
+import com.endava.spring.model.Tweet;
 import com.endava.spring.model.User;
 import com.endava.spring.service.SecurityService;
+import com.endava.spring.service.TweetService;
 import com.endava.spring.service.UserService;
 import com.endava.spring.validator.RegistrationInputValidator;
 import org.apache.log4j.Logger;
@@ -31,6 +33,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TweetService tweetService;
 
     @Autowired
     private SecurityService securityService;
@@ -69,19 +74,40 @@ public class UserController {
         return "redirect:/login";
     }
 
-    @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public String displayLoggedUserProfilePage(ModelMap modelMap) {
-        logger.debug("Request of /profile GET");
+    @RequestMapping(value = "/profile/{pageTweet}/{pageFriend}", method = RequestMethod.GET)
+    public String displayLoggedUserProfilePage(@PathVariable("pageTweet")Integer pageTweet, @PathVariable("pageFriend")Integer pageFriend,
+                                               ModelMap modelMap) {
+
         User loggedUser = userService.findByUsernameInitialized(getPrincipal());
+
+        modelMap.addAttribute("deploymentLog", tweetService.countPage(loggedUser.getId(), false));
+        modelMap.addAttribute("beginIndex", Math.max(1, pageTweet - 2));
+        modelMap.addAttribute("endIndex", Math.min(Math.max(1, pageTweet - 2) + 5, tweetService.countPage(loggedUser.getId(), true)));
+        modelMap.addAttribute("currentIndex", pageTweet);
+
+        modelMap.addAttribute("tweet", new Tweet());
+        modelMap.addAttribute("listTweets", tweetService.listPaginatedTweetsById(loggedUser.getId(), pageTweet, true));
+        modelMap.addAttribute("user", loggedUser);
+
+
+        logger.debug("Request of /profile GET");
+
         modelMap.addAttribute("loggedUser", loggedUser);
         modelMap.addAttribute("user", userService.findByUsernameInitialized(getPrincipal()));
 
-        List<User> listFollowedUsers = userService.listFollowedUsers(loggedUser.getId());
+
+        modelMap.addAttribute("deploymentLogFollow", userService.countPage(loggedUser.getId(), 2));
+        modelMap.addAttribute("beginIndexFollow", Math.max(1, pageFriend - 2));
+        modelMap.addAttribute("endIndexFollow", Math.min(Math.max(1, pageFriend - 2) + 5, userService.countPage(loggedUser.getId(), 2)));
+        modelMap.addAttribute("currentIndexFollow", pageFriend);
+        modelMap.addAttribute("listFollowers", userService.listPaginatedUsersByUserId(loggedUser.getId(), pageFriend, 2));
+
+        /*List<User> listFollowedUsers = userService.listFollowedUsers(loggedUser.getId());
         if (listFollowedUsers != null) {
             modelMap.addAttribute("listFollowedUsers", listFollowedUsers);
         } else {
             modelMap.addAttribute("emptyList", "You don't have any followed users");
-        }
+        }*/
         logger.debug("Opening profile page");
         return "profile";
     }
