@@ -9,7 +9,7 @@
     <title>Edit Tweet</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
-        <%@include file="/resources/css/style.css"%>
+        <%@include file="/resources/css/tweets_edit.css"%>
     </style>
 </head>
 <body>
@@ -96,28 +96,37 @@
     <!-- ##Navigation Bar## -->
 
     <!-- Content -->
-    <div class="col-sm-3"></div>
-    <div class="col-sm-6">
+    <div class="col-lg-4 col-sm-4"></div>
+    <div class="col-lg-4 col-sm-4 body-edit">
         <form:form method="post" modelAttribute="editTweet">
 
+
             <form:input type="hidden" id="id" value="${editTweet.id}" name="id" path="id"/>
+
             <div class="row nested-title">
-                <%--need to delete tweet_id--%>
-                Edit tweet { ${editTweet.id} }
+                <h4 class="edit-tweet">Tweets edit</h4>
             </div>
+
             <div class="row nested-textarea">
                 <form:textarea path="content" />
             </div>
+
             <div class="row nested-buttons">
-                <div class="col-sm-8"></div>
-                <div class="col-sm-4">
-                    <button type="submit" class="btn btn-success">Tweet</button>
-                    <a href="<c:url value='/tweetPage/${idtw}/${page}' />" class="btn btn-danger">Cancel</a>
-                </div>
+                <span class="tweet-submit">
+                    <button type="submit" class="btn btn-success sumbit-tweet-btn pull-left">
+                        Tweet
+                    </button>
+                </span>
+                <span class="tweet-cancel">
+                    <a href="<c:url value='/tweetPage/${idtw}/${page}' />" class="btn btn-danger cancel-tweet-btn pull-right">
+                        Cancel
+                    </a>
+                </span>
             </div>
+
         </form:form>
     </div>
-    <div class="col-sm-3"></div>
+    <div class="col-lg-4 col-sm-4"></div>
     <!-- ##Content## -->
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

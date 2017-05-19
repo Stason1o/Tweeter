@@ -118,7 +118,7 @@ body {
         width: 150px;
     }
 
-    .tweets {
+    .profile {
         margin-left: 48px;
     }
 
@@ -128,7 +128,7 @@ body {
         margin-top: 10px;
     }
 
-    .tweets hr {
+    .row hr {
         margin-left: 0;
         margin-right: 0;
         align: left;
@@ -293,36 +293,31 @@ body {
     }
 
 
-    /*
-     * Text Area Form
-     */
-    .nested-textarea textarea, .nested-title .edit-tweet{
-        /*margin-left: 200px;*/
-    }
-
-    .nested-buttons .btn {
-        margin-right: 41px;
-    }
-
-
-    .nested-buttons .tweet-cancel a {
-        margin-right: 260px;
-    }
-
-    .col-lg-4.body-edit {
-        margin-left: 130px;
-    }
-
 
     /*
-     * Text Area Form
+     * Friend List
      */
-    .nested-textarea textarea, .nested-title .share-tweet{
-        margin-left: 200px;
+    .user-wrapper {
+        width: 300px;
+        cursor: pointer;
+        border: 2px solid #FF7F50;
+        border-radius: 5px;
+        box-shadow: 5px 5px 2px #888888;
     }
 
-    .nested-buttons .btn {
-        margin-right: 41px;
+    .user-wrapper img {
+        margin-top: 15px;
+        margin-left: 15px;
+        width: 64px;
+        height: 64px;
+    }
+
+    .user-wrapper .col-sm-6 .btn{
+        margin-bottom: 15px;
+    }
+    .friend-name {
+        margin-top: 15px;
+        /*margin-left: -30px;*/
     }
 
 
@@ -332,6 +327,7 @@ body {
      */
     .col-sm-3.general-info {
         margin-left: 48px;
+        width: 420px;
     }
 
     .col-sm-6.tweet-list {
@@ -341,6 +337,8 @@ body {
 
     .col-sm-3.friend-list {
         margin-right: 20px;
+        width: 400px;
+
     }
 
 }

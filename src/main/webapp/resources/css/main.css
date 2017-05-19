@@ -72,6 +72,10 @@ a:focus {
     text-decoration: none;
 }*/
 
+
+/*
+ * Content
+ */
 body {
     background: url("http://i.imgur.com/qmToBtj.jpg") no-repeat center center fixed;
     -webkit-background-size: cover;
