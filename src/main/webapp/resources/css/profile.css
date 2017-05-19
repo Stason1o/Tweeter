@@ -245,7 +245,7 @@ body {
     }
 
     .tweet-wrapper .tweet-actions .col-sm-8 {
-        width: 234px;
+        /*width: 234px;*/
     }
 
     .tweet-wrapper .tweet-actions .col-sm-4 .btn-success {
@@ -327,6 +327,7 @@ body {
      */
     .col-sm-3.general-info {
         margin-left: 48px;
+        width: 420px;
     }
 
     .col-sm-6.tweet-list {
@@ -336,6 +337,8 @@ body {
 
     .col-sm-3.friend-list {
         margin-right: 20px;
+        width: 400px;
+
     }
 
 }
