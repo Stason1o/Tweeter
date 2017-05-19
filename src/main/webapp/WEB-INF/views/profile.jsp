@@ -150,7 +150,7 @@
                     <h4>Tweet list</h4>
                 </div>
 
-                <c:forEach items="${user.tweets}" var="userTweets" >
+                <c:forEach items="${listTweets}" var="userTweets" >
                     <c:if test="${!userTweets.comment}">
                     <div class="row tweet-wrapper" onclick="location.href='<c:url
                             value="/tweetPage/${userTweets.id}/${currentIndex}"/>'">
@@ -210,7 +210,7 @@
                     </div>
                     </c:if>
                 </c:forEach>
-                <jsp:include page="templates/pagination.jsp" />
+                <jsp:include page="templates/paginationUserTweet.jsp" />
             </div>
 
             <div class="col-sm-3">
@@ -220,7 +220,7 @@
 
                 <c:url var="addAction" value="/profile"/>
                 <form:form action="${addAction}" commandName="listFollowedUsers">
-                    <c:forEach items="${listFollowedUsers}" var="followedUser">
+                    <c:forEach items="${listFollowers}" var="followedUser">
 
                         <div class="row user-wrapper" onclick="location.href='<c:url
                                 value="/userProfile/${followedUser.username}"/>'">
@@ -246,7 +246,7 @@
                             </div>
                         </div>
                     </c:forEach>
-                    <jsp:include page="templates/pagination.jsp" />
+                    <jsp:include page="templates/paginationUserFollowers.jsp" />
                 </form:form>
             </div>
         </div>

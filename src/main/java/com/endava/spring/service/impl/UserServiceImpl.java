@@ -210,8 +210,28 @@ public class UserServiceImpl implements UserService {
         return userDao.searchByUsername(username);
     }
 
+    @Override
+    public List<User> listPaginatedUsersByUserId(int id, int page, int typeOfList) {
+        logger.info("Getting list of paginated tweets by id");
+        int maxResults = 5 * page;
+        int firstResult = maxResults - 5;
 
-//    @Override
+        if (page == 1){
+            firstResult = 0;
+        } else {
+            maxResults = 5;
+        }
+
+        logger.info("Returning list of paginated tweets by id");
+        return userDao.listPaginatedUsersByUserId(id, firstResult, maxResults, typeOfList);
+    }
+
+    @Override
+    public int countPage(int id, int typeOfList) {
+        return userDao.countPage(id, typeOfList);
+    }
+
+    //    @Override
 //    public List<User> searchByUser(User user) {
 //        boolean isUsernameNotNull = contains(user.getUsername());
 //        boolean isFirstNameNotNull = contains(user.getFirstName());

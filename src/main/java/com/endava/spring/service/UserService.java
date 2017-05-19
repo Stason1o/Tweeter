@@ -44,4 +44,8 @@ public interface UserService {
     void updateUserState(int id);
 
     List<User> searchByUsername(String username);
+
+    List<User> listPaginatedUsersByUserId(int id, int page, int typeOfList);
+
+    int countPage(int id, int typeOfList);
 }

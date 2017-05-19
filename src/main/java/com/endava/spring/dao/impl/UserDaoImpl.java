@@ -4,6 +4,7 @@ import com.endava.spring.dao.UserDao;
 import com.endava.spring.model.User;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class UserDaoImpl implements UserDao {
         logger.log(Level.INFO, "Creating list of all users");
         List<User> list = new ArrayList<>();
         try {
-            list = sessionFactory.getCurrentSession().createQuery("from User").list();
+            list = (List<User>) listUsersQuery().list();
         }catch (Exception ex){
             ex.printStackTrace();
             logger.log(Level.ERROR, ex);
@@ -36,18 +37,23 @@ public class UserDaoImpl implements UserDao {
         return list;
     }
 
+    private Query listUsersQuery(){
+        Query query = sessionFactory.getCurrentSession().createQuery("from User");
+        return query;
+    }
+
     public List<User> listFollowedUsers(int id){
         logger.log(Level.INFO, "Initializing search of list by followed user");
         List<User> followedUsers = getFollowers(id);
         List<User> list = new ArrayList<>();
+        Query query;
 
         try {
             if (followedUsers.size() == 0){
                 logger.log(Level.WARN, "Empty list of followed users");
                 return null;
             } else{
-                list = sessionFactory.getCurrentSession().createQuery("from User where id in :idlist and id !=" + id)
-                        .setParameterList("idlist", followedUsers).list();
+                list = listFollowedUsersQuery(id, followedUsers).list();
                 logger.log(Level.INFO, "Returning list of followed users");
             }
         } catch (Exception ex){
@@ -56,6 +62,12 @@ public class UserDaoImpl implements UserDao {
         }
 
         return list;
+    }
+
+    private Query listFollowedUsersQuery(int id, List<User> followedUsers){
+        Query query = sessionFactory.getCurrentSession().createQuery("from User where id in :idlist and id !=" + id)
+                .setParameterList("idlist", followedUsers);
+        return query;
     }
 
     @Override
@@ -68,8 +80,7 @@ public class UserDaoImpl implements UserDao {
                 list = sessionFactory.getCurrentSession().createQuery("from User where id !=" + id).list();
                 logger.log(Level.INFO, "Returning list of all users except current User");
             } else {
-                list = sessionFactory.getCurrentSession().createQuery("from User where id not in :idlist and id !=" + id)
-                        .setParameterList("idlist", followedUsers).list();
+                list = listUnfolowedUsersQuery(id, followedUsers).list();
                 logger.log(Level.INFO, "Returning list of unfollowed users excluding followers");
             }
         } catch (Exception ex){
@@ -77,6 +88,12 @@ public class UserDaoImpl implements UserDao {
             ex.printStackTrace();
         }
         return list;
+    }
+
+    private Query listUnfolowedUsersQuery(int id, List<User> followedUsers){
+        Query query = sessionFactory.getCurrentSession().createQuery("from User where id not in :idlist and id !=" + id)
+                .setParameterList("idlist", followedUsers);
+        return query;
     }
 
     private List<User> getFollowers(int id){
@@ -158,9 +175,70 @@ public class UserDaoImpl implements UserDao {
         return list;
     }
 
+    @Override
+    public int countPage(int id, int typeOfList) {
+        logger.info("Retrieving information for page count ");
+        int lastPageNumber = 0;
+        try {
+            int countResults;
+
+            if(typeOfList == 1) {
+                countResults = listUsers().size();
+            } else if(typeOfList == 2){
+                countResults = listFollowedUsers(id).size();
+            } else {
+                countResults = listUnfollowedUsers(id).size();
+            }
+
+            int pageSize = 5;
+            lastPageNumber = ((countResults / pageSize) + 1);
+
+            logger.info("Information is successfully retrieved");
+        } catch (Exception e){
+            logger.error(e);
+            e.printStackTrace();
+        }
+
+        logger.info("Retrieving is successful");
+        return lastPageNumber;
+    }
 
 
-//    @Override
+
+    @Override
+    public List<User> listPaginatedUsersByUserId(int id, int firstResult, int maxResults, int typeOfList) {
+
+        List<User> list = new ArrayList<>();
+        List<User> userList = new ArrayList<>();
+
+        try {
+
+            Query query;
+            if (typeOfList == 1){
+                query = listUsersQuery();
+            }else if (typeOfList == 2){
+                userList = getFollowers(id);
+                query = listFollowedUsersQuery(id, userList);
+            } else {
+                userList = getFollowers(id);
+                query = listUnfolowedUsersQuery(id, userList);
+            }
+
+            query.setFirstResult(firstResult);
+            query.setMaxResults(maxResults);
+
+            list = (List<User>) query.list();
+
+            logger.info("List paginated tweets by user id is successfully retrieved");
+        }catch (Exception e){
+            logger.error(e);
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    //    @Override
 //    public User searchByUsernameFirstNameLastName(String username, String firstName, String lastName) {
 //        return (User)sessionFactory.getCurrentSession()
 //                .createQuery("from User where username = :username " +

@@ -29,6 +29,10 @@ public interface UserDao {
 
     List<User> searchByUsername(String username);
 
+    List<User> listPaginatedUsersByUserId(int id, int firstResult, int maxResults, int typeOfList);
+
+    int countPage(int id, int typeOfList);
+
 //    User searchByUsernameFirstNameLastName(String username, String firstName, String lastName);
 //
 //    User searchByUsernameFirstName(String username, String firstName);

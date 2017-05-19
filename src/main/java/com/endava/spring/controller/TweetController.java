@@ -66,7 +66,7 @@ public class TweetController {
         modelMap.addAttribute("currentIndex", page);
 
         modelMap.addAttribute("tweet", new Tweet());
-        modelMap.addAttribute("listTweets", tweetService.listPaginatedTweetsById(loggedUser.getId(), page));
+        modelMap.addAttribute("listTweets", tweetService.listPaginatedTweetsById(loggedUser.getId(), page, false));
         modelMap.addAttribute("user", loggedUser);
 
         logger.debug("Opening main page");

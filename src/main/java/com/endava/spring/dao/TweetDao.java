@@ -15,7 +15,7 @@ public interface TweetDao {
 
     List<Tweet> listPaginatedTweets(int firstResult, int maxResults);
 
-    List<Tweet> listPaginatedTweetsByUserId(int id, int firstResult, int maxResults);
+    List<Tweet> listPaginatedTweetsByUserId(int id, int firstResult, int maxResults, boolean isUser);
 
     int countPage(int id, boolean isUser);
 
