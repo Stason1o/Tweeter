@@ -3,6 +3,7 @@ package com.endava.spring.controller;
 import com.endava.spring.model.User;
 import com.endava.spring.service.SecurityService;
 import com.endava.spring.service.UserService;
+import com.endava.spring.validator.ProfileEditValidator;
 import com.endava.spring.validator.RegistrationInputValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ public class UserController {
     private SecurityService securityService;
 
     @Autowired
+    private ProfileEditValidator profileEditValidator;
+
+    @Autowired
     private RegistrationInputValidator registrationInputValidator;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -55,7 +59,7 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String executeLogin(@ModelAttribute("user") User user) {
         logger.debug("Request of /login page POST");
-        return "successPage";
+        return "redirect:/main/1";
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
@@ -134,7 +138,7 @@ public class UserController {
         }
         logger.debug("Opening profile page");
 
-        registrationInputValidator.validate(user, errors);
+        profileEditValidator.validate(user, errors);
         if (result.hasErrors()) {
             System.out.println("-----------------------HAS ERRORS");
             return "profile_edit";

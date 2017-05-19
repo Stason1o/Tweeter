@@ -4,6 +4,7 @@ import com.endava.spring.model.Tweet;
 import com.endava.spring.model.User;
 import com.endava.spring.service.TweetService;
 import com.endava.spring.service.UserService;
+import com.endava.spring.validator.TweetContentValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -12,6 +13,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -28,6 +31,9 @@ public class TweetController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TweetContentValidator tweetContentValidator;
 
     @RequestMapping(value = "/main")
     public String redirectMain() {
@@ -68,8 +74,16 @@ public class TweetController {
     }
 
     @RequestMapping(value = "/main/{page}", method = RequestMethod.POST)
-    public String executeAddTweet(@PathVariable("page") Integer page, @ModelAttribute("tweet") Tweet tweet, ModelMap modelMap) {
+    public String executeAddTweet(@PathVariable("page") Integer page,
+                                  BindingResult result, Errors errors,
+                                  @ModelAttribute("tweet") Tweet tweet,
+                                  RedirectAttributes redirectAttributes) {
         logger.debug("Request /main POST");
+        tweetContentValidator.validate(tweet, errors);
+        if(result.hasErrors()){
+            redirectAttributes.addAttribute("page", page);
+            return "main";
+        }
         tweetService.saveTweet(tweet, userService.findByUsernameInitialized(getPrincipal()));
         logger.debug("Redirecting /main");
         return "redirect:/main";

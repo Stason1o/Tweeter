@@ -119,26 +119,30 @@
                     <form:errors path="lastName"/>
                 <br>
 
-                <form:label path="username">Username</form:label>
-                    <form:input id="username" name="username" path="username" class="form-control"
+                <%--<form:label path="username">Username</form:label>--%>
+                    <form:input type="hidden" id="username" name="username" path="username" class="form-control"
                                 required="" autofocus=""/>
-                    <form:errors path="username"/>
-                <br>
+                    <%--<form:errors path="username"/>--%>
+                <%--<br>--%>
 
-                <form:label path="password">Password</form:label>
-                    <form:input type="password" id="password" name="password" path="password" class="form-control"
+                <%--<form:label path="password">Password</form:label>--%>
+                    <form:input type="hidden" id="password" name="password" path="password" class="form-control"
                                 required="" autofocus=""/>
-                    <form:errors path="password"/>
-                <br>
+                    <%--<form:errors path="password"/>--%>
+                <%--<br>--%>
 
                     <form:input type="hidden" id="confirmPassword" value="${user.password}" name="confirmPassword" path="confirmPassword" />
-                <br>
+                <%--<br>--%>
 
-                <form:label path="email">Email</form:label>
-                    <form:input type="email" id="email" name="email" path="email" class="form-control"
+                <%--<form:label path="email">Email</form:label>--%>
+                    <form:input type="hidden" id="email" name="email" path="email" class="form-control"
                                 required="" autofocus=""/>
-                    <form:errors path="email"/>
-                <br>
+                    <%--<form:input type="hidden" id="tweets" name="tweets" path="tweets" class="form-control"--%>
+                                <%--required="" autofocus=""/>--%>
+                    <%--<form:input type="hidden" id="followedUsers" name="followedUsers" path="followedUsers" class="form-control"--%>
+                                <%--required="" autofocus=""/>--%>
+                    <%--<form:errors path="email"/>--%>
+                <%--<br>--%>
 
                 <form:input type="hidden" id="enabled" value="1" name="enabled" path="enabled"/>
 
